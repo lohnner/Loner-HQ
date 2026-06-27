@@ -4,11 +4,11 @@ const articles = [
   {
     id: "star-wars-1",
     title: "Star Wars #1",
-    category: "Edicao",
+    category: "Edição",
     year: "1977",
-    tags: ["Marvel Comics", "adaptacao", "sci-fi"],
+    tags: ["Marvel Comics", "adaptação", "sci-fi"],
     summary:
-      "Primeira edicao da adaptacao em quadrinhos de Star Wars publicada pela Marvel Comics. Na Loner HQ, este verbete reune capa, dados editoriais, personagens centrais e relacoes com a cronologia da saga."
+      "Primeira edição da adaptação em quadrinhos de Star Wars publicada pela Marvel Comics. Na Loner HQ, este verbete reúne capa, dados editoriais, personagens centrais e relações com a cronologia da saga."
   },
   {
     id: "universo-star-wars",
@@ -17,34 +17,34 @@ const articles = [
     year: "1977",
     tags: ["space opera", "cinema", "quadrinhos"],
     summary:
-      "Conjunto de historias, personagens, planetas e eras narrativas ligados a Star Wars. O portal organiza edicoes por linha temporal, editora, fase editorial e midia de origem."
+      "Conjunto de histórias, personagens, planetas e eras narrativas ligados a Star Wars. O portal organiza edições por linha temporal, editora, fase editorial e mídia de origem."
   },
   {
     id: "linha-do-tempo",
     title: "Linha do tempo editorial",
     category: "Guia",
     year: "Em Construção",
-    tags: ["cronologia", "checklist", "colecao"],
+    tags: ["cronologia", "checklist", "coleção"],
     summary:
-      "Guia para organizar publicacoes por ano, editora, fase e evento. A estrutura foi pensada para facilitar checklists de leitura e catalogacao de colecoes fisicas ou digitais."
+      "Guia para organizar publicações por ano, editora, fase e evento. A estrutura foi pensada para facilitar checklists de leitura e catalogação de coleções físicas ou digitais."
   },
   {
     id: "luke-skywalker",
     title: "Luke Skywalker",
     category: "Personagem",
     year: "1977",
-    tags: ["jedi", "heroi", "rebeldes"],
+    tags: ["jedi", "herói", "rebeldes"],
     summary:
-      "Personagem central da trilogia classica de Star Wars e presenca recorrente nas adaptacoes em quadrinhos. O verbete acompanha aparicoes, aliados, antagonistas e fases da jornada."
+      "Personagem central da trilogia clássica de Star Wars e presença recorrente nas adaptações em quadrinhos. O verbete acompanha aparições, aliados, antagonistas e fases da jornada."
   },
   {
     id: "colecao-loner",
-    title: "Colecao Loner HQ",
+    title: "Coleção Loner HQ",
     category: "Acervo",
     year: "2026",
-    tags: ["catalogo", "capas", "biblioteca"],
+    tags: ["catálogo", "capas", "biblioteca"],
     summary:
-      "Indice geral da colecao local da Loner HQ, com espaco para capas, edicoes, notas de conservacao, leituras feitas e futuras aquisicoes."
+      "Índice geral da coleção local da Loner HQ, com espaço para capas, edições, notas de conservação, leituras feitas e futuras aquisições."
   }
 ];
 
@@ -146,6 +146,14 @@ function escapeHtml(value) {
     .replaceAll(">", "&gt;")
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&#039;");
+}
+
+function normalizeSearchText(value) {
+  return String(value ?? "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .trim();
 }
 
 function timestampToMillis(value) {
@@ -255,7 +263,7 @@ function setFirebaseUnavailable() {
     authBadge.style.color = "var(--danger)";
   }
 
-  setMessage("Cole a configuracao do Web App em firebase-config.js para ativar login e perfis.", "error");
+  setMessage("Cole a configuração do Web App em firebase-config.js para ativar login e perfis.", "error");
   updateVolumeActionsUi();
   renderProfilePageUnavailable();
 }
@@ -360,9 +368,9 @@ function openNickDialog(user, profile) {
     overlay.innerHTML = `
       <section class="modal-dialog nick-dialog" role="dialog" aria-modal="true" aria-labelledby="nickTitle">
         <h2 id="nickTitle">Escolha seu Nick</h2>
-        <p>Esse nome vai aparecer para os outros usuarios da Loner HQ.</p>
+        <p>Esse nome vai aparecer para os outros usuários da Loner HQ.</p>
         <form id="nickForm" class="auth-form">
-          <label for="nickInput">Nick publico</label>
+          <label for="nickInput">Nick público</label>
           <input id="nickInput" name="nick" minlength="3" maxlength="24" required value="${escapeHtml(suggestedNick)}" />
           <button class="button primary" type="submit">Salvar Nick</button>
           <p class="auth-message" id="nickMessage" aria-live="polite"></p>
@@ -412,7 +420,7 @@ async function ensureNick(user, profile) {
 }
 
 function temporaryProfileFromAuth(user) {
-  const fallbackNick = user.displayName || user.email?.split("@")[0] || "Usuario";
+  const fallbackNick = user.displayName || user.email?.split("@")[0] || "Usuário";
 
   return {
     uid: user.uid,
@@ -505,7 +513,7 @@ function renderSearchResults(query) {
     return;
   }
 
-  const normalized = query.trim().toLowerCase();
+  const normalized = normalizeSearchText(query);
 
   if (!normalized) {
     searchResults.hidden = true;
@@ -514,9 +522,8 @@ function renderSearchResults(query) {
   }
 
   const matches = articles.filter((article) => {
-    const searchable = [article.title, article.category, article.year, article.summary, ...article.tags]
-      .join(" ")
-      .toLowerCase();
+    const searchableText = [article.title, article.category, article.year, article.summary, ...article.tags].join(" ");
+    const searchable = normalizeSearchText(searchableText);
     return searchable.includes(normalized);
   });
 
@@ -559,7 +566,7 @@ function createVolumeActions() {
   volumeActions = document.createElement("div");
   volumeActions.className = "interaction-toolbar";
   volumeActions.id = "volumeActions";
-  volumeActions.setAttribute("aria-label", "Acoes do volume");
+  volumeActions.setAttribute("aria-label", "Ações do volume");
   volumeActions.innerHTML = `
     <button class="button" type="button" data-comic-action="owned">Eu Tenho</button>
     <button class="button" type="button" data-comic-action="read">Eu Li</button>
@@ -754,7 +761,7 @@ async function openReadersModal() {
     .slice(0, 25);
 
   if (!readers.length) {
-    list.innerHTML = "<p>Nenhum usuario marcou leitura ainda.</p>";
+    list.innerHTML = "<p>Nenhum usuário marcou leitura ainda.</p>";
     return;
   }
 
@@ -763,9 +770,9 @@ async function openReadersModal() {
       const profile = xpProgress(reader);
       return `
         <button class="reader-row" type="button" data-profile-uid="${escapeHtml(reader.uid)}">
-          <img src="${assetPath(reader.avatarPath || defaultAvatarPath)}" alt="Avatar de ${escapeHtml(reader.nick || "Usuario")}" />
+          <img src="${assetPath(reader.avatarPath || defaultAvatarPath)}" alt="Avatar de ${escapeHtml(reader.nick || "Usuário")}" />
           <span>
-            <strong>${escapeHtml(reader.nick || "Usuario")}</strong>
+            <strong>${escapeHtml(reader.nick || "Usuário")}</strong>
             <small>Level ${profile.level}</small>
           </span>
         </button>
@@ -780,8 +787,8 @@ async function getPublicProfile(uid) {
 }
 
 function renderProfilePageUnavailable(
-  title = "Perfil indisponivel",
-  text = "Para usar perfis, cole a configuracao do Web App em firebase-config.js e publique as regras do Firestore."
+  title = "Perfil indisponível",
+  text = "Para usar perfis, cole a configuração do Web App em firebase-config.js e publique as regras do Firestore."
 ) {
   if (!profilePage) {
     return;
@@ -840,7 +847,7 @@ async function renderProfilePage() {
     profilePage.innerHTML = `
       <section class="content-band">
         <h2>Perfil</h2>
-        <p>Esse usuario ainda nao escolheu um Nick publico.</p>
+        <p>Esse usuário ainda não escolheu um Nick público.</p>
       </section>
     `;
     return;
@@ -870,18 +877,18 @@ async function renderProfilePage() {
           <div class="xp-meter wide" aria-label="Barra de XP">
             <span style="width: ${progress.percent}%"></span>
           </div>
-          <small>${progress.current} / ${progress.next} XP para o proximo level</small>
+          <small>${progress.current} / ${progress.next} XP para o próximo level</small>
         </div>
       </div>
 
       <div class="profile-sections">
         <section>
-          <h3>Ultimos HQ lidos</h3>
-          ${profileComicList(reads, "Ainda nao marcou nenhuma leitura.")}
+          <h3>Últimas HQs lidas</h3>
+          ${profileComicList(reads, "Ainda não marcou nenhuma leitura.")}
         </section>
         <section>
           <h3>HQ favoritos</h3>
-          ${profileComicList(favorites, "Ainda nao favoritou nenhuma HQ.")}
+          ${profileComicList(favorites, "Ainda não favoritou nenhuma HQ.")}
         </section>
       </div>
     </section>
@@ -940,7 +947,7 @@ function setupEvents() {
     const confirmation = String(formData.get("confirmarSenha"));
 
     if (password !== confirmation) {
-      setMessage("As senhas nao conferem.", "error");
+      setMessage("As senhas não conferem.", "error");
       return;
     }
 
@@ -987,7 +994,7 @@ function setupEvents() {
 
     if (logoutButton && firebaseServices) {
       await firebaseServices.signOut(firebaseServices.auth);
-      setMessage("Voce saiu da conta.");
+      setMessage("Você saiu da conta.");
     }
 
     if (googleButton && firebaseServices) {
@@ -1066,11 +1073,11 @@ function authErrorMessage(error) {
   }
 
   if (code.includes("auth/user-not-found")) {
-    return "Usuario nao encontrado.";
+    return "Usuário não encontrado.";
   }
 
   if (code.includes("auth/email-already-in-use")) {
-    return "Esse e-mail ja esta cadastrado.";
+    return "Esse e-mail já está cadastrado.";
   }
 
   if (code.includes("auth/popup-closed-by-user") || code.includes("auth/redirect-cancelled-by-user")) {
@@ -1078,7 +1085,7 @@ function authErrorMessage(error) {
   }
 
   if (code.includes("auth/cancelled-popup-request")) {
-    return "Ja existe uma janela de login do Google aberta.";
+    return "Já existe uma janela de login do Google aberta.";
   }
 
   if (code.includes("auth/popup-blocked")) {
@@ -1086,26 +1093,26 @@ function authErrorMessage(error) {
   }
 
   if (code.includes("auth/unauthorized-domain")) {
-    return "Dominio nao autorizado. Abra por localhost ou adicione este dominio no Firebase Auth.";
+    return "Domínio não autorizado. Abra por localhost ou adicione este domínio no Firebase Auth.";
   }
 
   if (code.includes("auth/operation-not-allowed")) {
-    return "Ative e salve o provedor Google em Authentication > Sign-in method, com nome publico do projeto e e-mail de suporte.";
+    return "Ative e salve o provedor Google em Authentication > Sign-in method, com nome público do projeto e e-mail de suporte.";
   }
 
   if (code.includes("auth/configuration-not-found")) {
-    return "O Firebase Auth ainda nao esta configurado nesse projeto.";
+    return "O Firebase Auth ainda não está configurado nesse projeto.";
   }
 
   if (code.includes("auth/api-key-not-valid")) {
-    return "A apiKey do Firebase esta incorreta.";
+    return "A apiKey do Firebase está incorreta.";
   }
 
   if (code.includes("auth/account-exists-with-different-credential")) {
-    return "Esse e-mail ja existe com outro metodo de login.";
+    return "Esse e-mail já existe com outro método de login.";
   }
 
-  return "Nao foi possivel concluir o login agora.";
+  return "Não foi possível concluir o login agora.";
 }
 
 function dataErrorMessage(error) {
@@ -1116,10 +1123,10 @@ function dataErrorMessage(error) {
   }
 
   if (code.includes("unavailable")) {
-    return "Login feito, mas o Firestore nao respondeu agora. Tente de novo em instantes.";
+    return "Login feito, mas o Firestore não respondeu agora. Tente de novo em instantes.";
   }
 
-  return "Login feito, mas nao foi possivel carregar seu perfil.";
+  return "Login feito, mas não foi possível carregar seu perfil.";
 }
 
 async function startAuth() {
@@ -1127,7 +1134,7 @@ async function startAuth() {
     await loadFirebase();
   } catch (error) {
     console.error(error);
-    setMessage("Nao foi possivel carregar o Firebase.", "error");
+    setMessage("Não foi possível carregar o Firebase.", "error");
     return;
   }
 
