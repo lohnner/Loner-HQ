@@ -116,6 +116,18 @@ function assetPath(path) {
   return `${rootPath()}${path}`;
 }
 
+function loginOriginWarning() {
+  if (window.location.protocol === "file:") {
+    return "Para login, abra pelo arquivo abrir-loner-hq-local.cmd ou use http://localhost:8765/index.html.";
+  }
+
+  if (window.location.hostname === "127.0.0.1") {
+    return "Para login Google, use localhost no lugar de 127.0.0.1.";
+  }
+
+  return "";
+}
+
 function pagePath(path, params = {}) {
   const url = new URL(`${rootPath()}${path}`, window.location.href);
   Object.entries(params).forEach(([key, value]) => {
@@ -271,9 +283,10 @@ async function loadFirebase() {
     auth,
     db,
     GoogleAuthProvider: authModule.GoogleAuthProvider,
-    signInWithPopup: authModule.signInWithPopup,
+    getRedirectResult: authModule.getRedirectResult,
     createUserWithEmailAndPassword: authModule.createUserWithEmailAndPassword,
     signInWithEmailAndPassword: authModule.signInWithEmailAndPassword,
+    signInWithRedirect: authModule.signInWithRedirect,
     signOut: authModule.signOut,
     onAuthStateChanged: authModule.onAuthStateChanged,
     collection: firestoreModule.collection,
@@ -394,6 +407,19 @@ async function ensureNick(user, profile) {
   return openNickDialog(user, profile);
 }
 
+function temporaryProfileFromAuth(user) {
+  const fallbackNick = user.displayName || user.email?.split("@")[0] || "Usuario";
+
+  return {
+    uid: user.uid,
+    nick: fallbackNick,
+    avatarPath: defaultAvatarPath,
+    xp: 0,
+    level: 1,
+    firestoreBlocked: true
+  };
+}
+
 function renderSignedOut() {
   if (!loginForm || !registerForm || !accountPanel || !authBadge) {
     return;
@@ -405,7 +431,7 @@ function renderSignedOut() {
   accountPanel.innerHTML = "";
   authBadge.textContent = "Visitante";
   authBadge.style.color = "var(--muted)";
-  setMessage("Entre com e-mail ou Google para salvar perfil e leituras.");
+  setMessage(loginOriginWarning() || "Entre com e-mail ou Google para salvar perfil e leituras.", loginOriginWarning() ? "error" : "");
 }
 
 function renderSignedIn(profile) {
@@ -539,7 +565,7 @@ function updateVolumeActionsUi() {
     return;
   }
 
-  const loggedIn = Boolean(currentUser && currentProfile?.nick && firebaseServices);
+  const loggedIn = Boolean(currentUser && currentProfile?.nick && firebaseServices && !currentProfile.firestoreBlocked);
   volumeActions.querySelectorAll("[data-comic-action]").forEach((button) => {
     const action = button.dataset.comicAction;
     const active = Boolean(currentInteraction[action === "owned" ? "owned" : action]);
@@ -573,7 +599,7 @@ async function awardReadXp() {
 }
 
 async function toggleComicAction(action) {
-  if (!firebaseServices || !currentUser || !currentProfile?.nick) {
+  if (!firebaseServices || !currentUser || !currentProfile?.nick || currentProfile.firestoreBlocked) {
     setMessage("Entre na conta para salvar este volume.", "error");
     return;
   }
@@ -742,15 +768,18 @@ async function getPublicProfile(uid) {
   return snapshot.exists() ? snapshot.data() : null;
 }
 
-function renderProfilePageUnavailable() {
+function renderProfilePageUnavailable(
+  title = "Perfil indisponivel",
+  text = "Para usar perfis, cole a configuracao do Web App em firebase-config.js e publique as regras do Firestore."
+) {
   if (!profilePage) {
     return;
   }
 
   profilePage.innerHTML = `
     <section class="content-band">
-      <h2>Perfil indisponivel</h2>
-      <p>Para usar perfis, cole a configuracao do Web App em firebase-config.js e publique as regras do Firestore.</p>
+      <h2>${escapeHtml(title)}</h2>
+      <p>${escapeHtml(text)}</p>
     </section>
   `;
 }
@@ -952,8 +981,16 @@ function setupEvents() {
 
     if (googleButton && firebaseServices) {
       try {
+        const originWarning = loginOriginWarning();
+
+        if (originWarning) {
+          setMessage(originWarning, "error");
+          return;
+        }
+
         const provider = new firebaseServices.GoogleAuthProvider();
-        await firebaseServices.signInWithPopup(firebaseServices.auth, provider);
+        setMessage("Redirecionando para o Google...", "success");
+        await firebaseServices.signInWithRedirect(firebaseServices.auth, provider);
       } catch (error) {
         setMessage(authErrorMessage(error), "error");
       }
@@ -1005,15 +1042,41 @@ function authErrorMessage(error) {
     return "Esse e-mail ja esta cadastrado.";
   }
 
-  if (code.includes("auth/popup")) {
+  if (code.includes("auth/popup") || code.includes("auth/redirect-cancelled-by-user")) {
     return "O login do Google foi fechado antes de terminar.";
   }
 
   if (code.includes("auth/unauthorized-domain")) {
-    return "Dominio nao autorizado no Firebase Auth.";
+    return "Dominio nao autorizado. Abra por localhost ou adicione este dominio no Firebase Auth.";
+  }
+
+  if (code.includes("auth/operation-not-allowed")) {
+    return "Ative o provedor Google em Authentication > Sign-in method.";
+  }
+
+  if (code.includes("auth/configuration-not-found")) {
+    return "O Firebase Auth ainda nao esta configurado nesse projeto.";
+  }
+
+  if (code.includes("auth/api-key-not-valid")) {
+    return "A apiKey do Firebase esta incorreta.";
   }
 
   return "Nao foi possivel concluir o login agora.";
+}
+
+function dataErrorMessage(error) {
+  const code = error?.code || "";
+
+  if (code.includes("permission-denied")) {
+    return "Login feito, mas o Firestore bloqueou o perfil. Publique as regras do arquivo firestore.rules no Firebase.";
+  }
+
+  if (code.includes("unavailable")) {
+    return "Login feito, mas o Firestore nao respondeu agora. Tente de novo em instantes.";
+  }
+
+  return "Login feito, mas nao foi possivel carregar seu perfil.";
 }
 
 async function startAuth() {
@@ -1027,6 +1090,12 @@ async function startAuth() {
 
   if (!firebaseServices) {
     return;
+  }
+
+  try {
+    await firebaseServices.getRedirectResult(firebaseServices.auth);
+  } catch (error) {
+    setMessage(authErrorMessage(error), "error");
   }
 
   firebaseServices.onAuthStateChanged(firebaseServices.auth, async (user) => {
@@ -1052,7 +1121,12 @@ async function startAuth() {
       updateVolumeActionsUi();
     } catch (error) {
       console.error(error);
-      setMessage("Nao foi possivel carregar seu perfil.", "error");
+      currentProfile = temporaryProfileFromAuth(user);
+      renderSignedIn(currentProfile);
+      watchVolumeData();
+      renderProfilePageUnavailable("Perfil bloqueado", dataErrorMessage(error));
+      updateVolumeActionsUi();
+      setMessage(dataErrorMessage(error), "error");
     }
   });
 }
