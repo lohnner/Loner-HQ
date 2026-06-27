@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Universos - Loner HQ</title>
     <link rel="stylesheet" href="../styles.css" />
-    <script src="../script.js" defer></script>
+    <script type="module" src="../script.js"></script>
   </head>
   <body>
     <div class="site-shell">
@@ -25,8 +25,8 @@
           </div>
 
           <form class="auth-form" id="loginForm">
-            <label for="loginUser">Usuario</label>
-            <input id="loginUser" name="usuario" autocomplete="username" required />
+            <label for="loginUser">E-mail</label>
+            <input id="loginUser" name="usuario" type="email" autocomplete="email" required />
 
             <label for="loginPassword">Senha</label>
             <input id="loginPassword" name="senha" type="password" autocomplete="current-password" required />
@@ -36,8 +36,8 @@
           </form>
 
           <form class="auth-form" id="registerForm" hidden>
-            <label for="registerUser">Novo usuario</label>
-            <input id="registerUser" name="novoUsuario" autocomplete="username" minlength="3" required />
+            <label for="registerUser">Novo e-mail</label>
+            <input id="registerUser" name="novoUsuario" type="email" autocomplete="email" required />
 
             <label for="registerPassword">Criar senha</label>
             <input id="registerPassword" name="novaSenha" type="password" autocomplete="new-password" minlength="6" required />

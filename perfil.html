@@ -3,14 +3,14 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Saga Principal - Star Wars - Loner HQ</title>
-    <link rel="stylesheet" href="../../../styles.css" />
-    <script type="module" src="../../../script.js"></script>
+    <title>Perfil - Loner HQ</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script type="module" src="script.js"></script>
   </head>
   <body>
     <div class="site-shell">
       <aside class="sidebar" aria-label="Barra lateral">
-        <a class="brand" href="../../../index.html" aria-label="Loner HQ pagina inicial">
+        <a class="brand" href="index.html" aria-label="Loner HQ pagina inicial">
           <span class="brand-mark">LH</span>
           <span>
             <strong>Loner HQ</strong>
@@ -58,11 +58,11 @@
         </section>
 
         <nav class="wiki-nav" aria-label="Navegacao principal">
-          <a href="../../../index.html" class="nav-link" data-section="inicio">HOME</a>
-          <a href="../../universos.html" class="nav-link active" data-section="universos">Universos</a>
-          <a href="../../../index.html#personagens" class="nav-link" data-section="personagens">Personagens</a>
-          <a href="../../../index.html#edicoes" class="nav-link" data-section="edicoes">Edicoes</a>
-          <a href="../../../index.html#cronologia" class="nav-link" data-section="cronologia">Cronologia</a>
+          <a href="index.html" class="nav-link" data-section="inicio">HOME</a>
+          <a href="Universos/universos.html" class="nav-link" data-section="universos">Universos</a>
+          <a href="index.html#personagens" class="nav-link" data-section="personagens">Personagens</a>
+          <a href="index.html#edicoes" class="nav-link" data-section="edicoes">Edicoes</a>
+          <a href="index.html#cronologia" class="nav-link" data-section="cronologia">Cronologia</a>
         </nav>
 
         <section class="side-list" aria-labelledby="sideStats">
@@ -95,76 +95,19 @@
         <main class="wiki-page universe-layout">
           <article class="article">
             <nav class="breadcrumbs" aria-label="Caminho">
-              <a href="../../../index.html">Inicio</a>
+              <a href="index.html">Inicio</a>
               <span>/</span>
-              <a href="../../universos.html">Universos</a>
-              <span>/</span>
-              <a href="../starwars.html">Star Wars</a>
-              <span>/</span>
-              <span>Saga Principal</span>
+              <span>Perfil</span>
             </nav>
 
             <header class="article-header">
-              <p class="namespace">Saga</p>
-              <h1>Saga Principal</h1>
-              <p class="lead">
-                Primeiro conjunto de HQs de Star Wars catalogado na Loner HQ, comecando pela adaptacao Marvel de 1977.
-              </p>
+              <p class="namespace">Usuário</p>
+              <h1>Perfil</h1>
+              <p class="lead">Leituras, favoritos, avatar e progresso do usuario na Loner HQ.</p>
             </header>
 
-            <section class="content-band" aria-labelledby="sagaInfoTitle">
-              <h2 id="sagaInfoTitle">Informacoes da saga</h2>
-              <p>
-                A Saga Principal funciona como o eixo inicial do acervo Star Wars. Por enquanto, ela guarda a primeira
-                edicao da adaptacao classica da Marvel, publicada antes da estreia do filme nos cinemas e depois
-                integrada a historia editorial da franquia nos quadrinhos.
-              </p>
-              <p>
-                Quando novas edicoes forem adicionadas, esta pagina pode reunir a ordem de leitura, arcos completos,
-                editoras, anos, equipes criativas e notas de continuidade.
-              </p>
-
-              <table class="data-table">
-                <tbody>
-                  <tr>
-                    <th scope="row">Universo</th>
-                    <td>Star Wars</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Tipo de agrupamento</th>
-                    <td>Saga / arco principal do catalogo</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Editora inicial</th>
-                    <td>Marvel Comics</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Primeira edicao cadastrada</th>
-                    <td>Star Wars #1, 1977</td>
-                  </tr>
-                </tbody>
-              </table>
-            </section>
-
-            <section class="content-band" aria-labelledby="volumesTitle">
-              <h2 id="volumesTitle">Volumes e edicoes</h2>
-              <div class="entry-grid">
-                <article class="entry-card cover-entry">
-                  <img src="Star%20Wars%20%231.png" alt="Capa de Star Wars numero 1" />
-                  <div>
-                    <h3>Volume 1: Star Wars #1</h3>
-                    <p>
-                      Primeira edicao cadastrada da saga. Publicada pela Marvel Comics em 1977, abre a adaptacao em
-                      quadrinhos do primeiro filme.
-                    </p>
-                    <div class="universe-meta"><span>1977</span><span>Marvel Comics</span><span>Edicao 1</span></div>
-                    <a class="text-link universe-open" href="star-wars-1-1977.html">Abrir volume</a>
-                  </div>
-                </article>
-              </div>
-            </section>
+            <div id="profilePage" class="public-profile"></div>
           </article>
-
         </main>
 
         <footer class="site-footer">
