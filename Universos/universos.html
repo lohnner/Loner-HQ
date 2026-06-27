@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Universos - Loner HQ</title>
+    <link rel="stylesheet" href="../styles.css" />
+    <script src="../script.js" defer></script>
+  </head>
+  <body>
+    <div class="site-shell">
+      <aside class="sidebar" aria-label="Barra lateral">
+        <a class="brand" href="../index.html" aria-label="Loner HQ pagina inicial">
+          <span class="brand-mark">LH</span>
+          <span>
+            <strong>Loner HQ</strong>
+            <small>Arquivo de quadrinhos</small>
+          </span>
+        </a>
+
+        <section class="auth-panel" aria-labelledby="authTitle">
+          <div class="auth-heading">
+            <h2 id="authTitle">Conta</h2>
+            <span id="authBadge">Visitante</span>
+          </div>
+
+          <form class="auth-form" id="loginForm">
+            <label for="loginUser">Usuario</label>
+            <input id="loginUser" name="usuario" autocomplete="username" required />
+
+            <label for="loginPassword">Senha</label>
+            <input id="loginPassword" name="senha" type="password" autocomplete="current-password" required />
+
+            <button class="button primary" type="submit">Entrar</button>
+            <button class="button ghost" type="button" id="showRegister">Cadastro</button>
+          </form>
+
+          <form class="auth-form" id="registerForm" hidden>
+            <label for="registerUser">Novo usuario</label>
+            <input id="registerUser" name="novoUsuario" autocomplete="username" minlength="3" required />
+
+            <label for="registerPassword">Criar senha</label>
+            <input id="registerPassword" name="novaSenha" type="password" autocomplete="new-password" minlength="6" required />
+
+            <label for="registerConfirm">Confirmar senha</label>
+            <input id="registerConfirm" name="confirmarSenha" type="password" autocomplete="new-password" minlength="6" required />
+
+            <button class="button primary" type="submit">Criar conta</button>
+            <button class="button ghost" type="button" id="showLogin">Voltar</button>
+          </form>
+
+          <div class="account-panel" id="accountPanel" hidden>
+            <p>Conectado como <strong id="accountName"></strong></p>
+            <button class="button ghost" type="button" id="logoutButton">Sair</button>
+          </div>
+
+          <p class="auth-message" id="authMessage" aria-live="polite"></p>
+        </section>
+
+        <nav class="wiki-nav" aria-label="Navegacao principal">
+          <a href="../index.html" class="nav-link" data-section="inicio">HOME</a>
+          <a href="universos.html" class="nav-link active" data-section="universos">Universos</a>
+          <a href="../index.html#personagens" class="nav-link" data-section="personagens">Personagens</a>
+          <a href="../index.html#edicoes" class="nav-link" data-section="edicoes">Edicoes</a>
+          <a href="../index.html#cronologia" class="nav-link" data-section="cronologia">Cronologia</a>
+        </nav>
+
+        <section class="side-list" aria-labelledby="sideStats">
+          <h2 id="sideStats">Acervo</h2>
+          <dl>
+            <div>
+              <dt>Universos</dt>
+              <dd>1</dd>
+            </div>
+            <div>
+              <dt>Volumes</dt>
+              <dd>1</dd>
+            </div>
+          </dl>
+        </section>
+      </aside>
+
+      <div class="content-shell">
+        <header class="topbar">
+          <form class="search-box" id="searchForm" role="search">
+            <label for="siteSearch">Buscar na Loner HQ</label>
+            <div class="search-row">
+              <input id="siteSearch" type="search" placeholder="Buscar artigos, sagas e autores" autocomplete="off" />
+              <button type="submit">Buscar</button>
+            </div>
+            <div class="search-results" id="searchResults" hidden></div>
+          </form>
+        </header>
+
+        <main class="wiki-page universe-layout" id="universos">
+          <article class="article">
+            <header class="article-header">
+              <p class="namespace">Indice de universos</p>
+              <h1>Universos de HQ</h1>
+              <p class="lead">
+                Lista principal dos mundos, linhas editoriais e franquias que podem ganhar paginas proprias dentro da Loner HQ.
+              </p>
+            </header>
+
+            <section class="welcome-panel" aria-labelledby="universeWelcome">
+              <div>
+                <h2 id="universeWelcome">Catalogo de mundos</h2>
+                <p>
+                  Use este indice como porta de entrada para organizar personagens, sagas, editoras, cronologias e edicoes
+                  de cada universo de quadrinhos.
+                </p>
+              </div>
+            </section>
+
+            <div class="universe-grid" aria-label="Lista de universos de quadrinhos">
+              <section class="universe-card universe-card-placeholder" aria-label="Marvel">
+                <div class="universe-placeholder-panel"><h2>Marvel</h2><span>Em Construção</span></div>
+              </section>
+
+              <section class="universe-card universe-card-placeholder" aria-label="DC">
+                <div class="universe-placeholder-panel"><h2>DC</h2><span>Em Construção</span></div>
+              </section>
+
+              <section class="universe-card universe-card-featured">
+                <h2><a href="Star%20Wars/starwars.html">Star Wars</a></h2>
+                <a class="universe-image-link" href="Star%20Wars/starwars.html" aria-label="Star Wars">
+                  <img class="universe-cover" src="Star%20Wars/starwars.png" alt="Logo de Star Wars em fundo estrelado" />
+                </a>
+                <div class="universe-meta"><span>Sci-fi</span></div>
+              </section>
+
+              <section class="universe-card universe-card-placeholder" aria-label="Image Comics">
+                <div class="universe-placeholder-panel"><h2>Image Comics</h2><span>Em Construção</span></div>
+              </section>
+
+              <section class="universe-card universe-card-placeholder" aria-label="Dark Horse">
+                <div class="universe-placeholder-panel"><h2>Dark Horse</h2><span>Em Construção</span></div>
+              </section>
+
+              <section class="universe-card universe-card-placeholder" aria-label="Hellboy">
+                <div class="universe-placeholder-panel"><h2>Hellboy</h2><span>Em Construção</span></div>
+              </section>
+
+              <section class="universe-card universe-card-placeholder" aria-label="Spawn">
+                <div class="universe-placeholder-panel"><h2>Spawn</h2><span>Em Construção</span></div>
+              </section>
+
+              <section class="universe-card universe-card-placeholder" aria-label="Invincible">
+                <div class="universe-placeholder-panel"><h2>Invincible</h2><span>Em Construção</span></div>
+              </section>
+
+              <section class="universe-card universe-card-placeholder" aria-label="The Boys">
+                <div class="universe-placeholder-panel"><h2>The Boys</h2><span>Em Construção</span></div>
+              </section>
+
+              <section class="universe-card universe-card-placeholder" aria-label="TMNT">
+                <div class="universe-placeholder-panel"><h2>TMNT</h2><span>Em Construção</span></div>
+              </section>
+
+              <section class="universe-card universe-card-placeholder" aria-label="Valiant">
+                <div class="universe-placeholder-panel"><h2>Valiant</h2><span>Em Construção</span></div>
+              </section>
+
+              <section class="universe-card universe-card-placeholder" aria-label="Judge Dredd">
+                <div class="universe-placeholder-panel"><h2>Judge Dredd</h2><span>Em Construção</span></div>
+              </section>
+
+              <section class="universe-card universe-card-placeholder" aria-label="Watchmen">
+                <div class="universe-placeholder-panel"><h2>Watchmen</h2><span>Em Construção</span></div>
+              </section>
+
+              <section class="universe-card universe-card-placeholder" aria-label="Sandman">
+                <div class="universe-placeholder-panel"><h2>Sandman</h2><span>Em Construção</span></div>
+              </section>
+
+              <section class="universe-card universe-card-placeholder" aria-label="Transformers">
+                <div class="universe-placeholder-panel"><h2>Transformers</h2><span>Em Construção</span></div>
+              </section>
+
+              <section class="universe-card universe-card-placeholder" aria-label="Power Rangers">
+                <div class="universe-placeholder-panel"><h2>Power Rangers</h2><span>Em Construção</span></div>
+              </section>
+            </div>
+          </article>
+        </main>
+
+        <footer class="site-footer">
+          <p>Loner HQ e um projeto local de catalogacao de quadrinhos.</p>
+        </footer>
+      </div>
+    </div>
+  </body>
+</html>

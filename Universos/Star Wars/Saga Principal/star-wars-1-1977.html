@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Star Wars #1 (1977) - Loner HQ</title>
+    <link rel="stylesheet" href="../../../styles.css" />
+    <script src="../../../script.js" defer></script>
+  </head>
+  <body>
+    <div class="site-shell">
+      <aside class="sidebar" aria-label="Barra lateral">
+        <a class="brand" href="../../../index.html" aria-label="Loner HQ pagina inicial">
+          <span class="brand-mark">LH</span>
+          <span>
+            <strong>Loner HQ</strong>
+            <small>Arquivo de quadrinhos</small>
+          </span>
+        </a>
+
+        <section class="auth-panel" aria-labelledby="authTitle">
+          <div class="auth-heading">
+            <h2 id="authTitle">Conta</h2>
+            <span id="authBadge">Visitante</span>
+          </div>
+
+          <form class="auth-form" id="loginForm">
+            <label for="loginUser">Usuario</label>
+            <input id="loginUser" name="usuario" autocomplete="username" required />
+
+            <label for="loginPassword">Senha</label>
+            <input id="loginPassword" name="senha" type="password" autocomplete="current-password" required />
+
+            <button class="button primary" type="submit">Entrar</button>
+            <button class="button ghost" type="button" id="showRegister">Cadastro</button>
+          </form>
+
+          <form class="auth-form" id="registerForm" hidden>
+            <label for="registerUser">Novo usuario</label>
+            <input id="registerUser" name="novoUsuario" autocomplete="username" minlength="3" required />
+
+            <label for="registerPassword">Criar senha</label>
+            <input id="registerPassword" name="novaSenha" type="password" autocomplete="new-password" minlength="6" required />
+
+            <label for="registerConfirm">Confirmar senha</label>
+            <input id="registerConfirm" name="confirmarSenha" type="password" autocomplete="new-password" minlength="6" required />
+
+            <button class="button primary" type="submit">Criar conta</button>
+            <button class="button ghost" type="button" id="showLogin">Voltar</button>
+          </form>
+
+          <div class="account-panel" id="accountPanel" hidden>
+            <p>Conectado como <strong id="accountName"></strong></p>
+            <button class="button ghost" type="button" id="logoutButton">Sair</button>
+          </div>
+
+          <p class="auth-message" id="authMessage" aria-live="polite"></p>
+        </section>
+
+        <nav class="wiki-nav" aria-label="Navegacao principal">
+          <a href="../../../index.html" class="nav-link" data-section="inicio">HOME</a>
+          <a href="../../universos.html" class="nav-link active" data-section="universos">Universos</a>
+          <a href="../../../index.html#personagens" class="nav-link" data-section="personagens">Personagens</a>
+          <a href="../../../index.html#edicoes" class="nav-link" data-section="edicoes">Edicoes</a>
+          <a href="../../../index.html#cronologia" class="nav-link" data-section="cronologia">Cronologia</a>
+        </nav>
+
+        <section class="side-list" aria-labelledby="sideStats">
+          <h2 id="sideStats">Acervo</h2>
+          <dl>
+            <div>
+              <dt>Universos</dt>
+              <dd>1</dd>
+            </div>
+            <div>
+              <dt>Volumes</dt>
+              <dd>1</dd>
+            </div>
+          </dl>
+        </section>
+      </aside>
+
+      <div class="content-shell">
+        <header class="topbar">
+          <form class="search-box" id="searchForm" role="search">
+            <label for="siteSearch">Buscar na Loner HQ</label>
+            <div class="search-row">
+              <input id="siteSearch" type="search" placeholder="Buscar artigos, sagas e autores" autocomplete="off" />
+              <button type="submit">Buscar</button>
+            </div>
+            <div class="search-results" id="searchResults" hidden></div>
+          </form>
+        </header>
+
+        <main class="wiki-page">
+          <article class="article">
+            <nav class="breadcrumbs" aria-label="Caminho">
+              <a href="../../../index.html">Inicio</a>
+              <span>/</span>
+              <a href="../../universos.html">Universos</a>
+              <span>/</span>
+              <a href="../starwars.html">Star Wars</a>
+              <span>/</span>
+              <a href="saga-principal.html">Saga Principal</a>
+              <span>/</span>
+              <span>Star Wars #1</span>
+            </nav>
+
+            <header class="article-header">
+              <p class="namespace">Volume / edicao</p>
+              <h1>Star Wars #1 (1977)</h1>
+              <p class="lead">
+                Primeira edicao da serie Star Wars publicada pela Marvel Comics em 1977, abrindo a adaptacao em
+                quadrinhos do filme original.
+              </p>
+            </header>
+
+            <section class="content-band" aria-labelledby="aboutTitle">
+              <h2 id="aboutTitle">Resumo</h2>
+              <p>
+                Star Wars #1 apresenta ao leitor o inicio da aventura espacial que popularizou Luke Skywalker,
+                Princesa Leia, Darth Vader, C-3PO e R2-D2. A edicao adapta o comeco da historia do filme original,
+                preparando o conflito entre o Imperio Galactico e a Rebeliao.
+              </p>
+              <p>
+                Dentro da Loner HQ, este volume e o primeiro registro oficial do acervo Star Wars. Ele fica
+                associado a Saga Principal e serve como ponto de partida para organizar futuras edicoes, republicacoes
+                e arcos relacionados.
+              </p>
+            </section>
+
+            <section class="content-band" aria-labelledby="dataTitle">
+              <h2 id="dataTitle">Dados do volume</h2>
+              <table class="data-table">
+                <tbody>
+                  <tr>
+                    <th scope="row">Titulo</th>
+                    <td>Star Wars #1</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Ano</th>
+                    <td>1977</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Publicacao original</th>
+                    <td>12 de abril de 1977</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Editora</th>
+                    <td>Marvel Comics</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Roteiro</th>
+                    <td>Roy Thomas</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Arte</th>
+                    <td>Howard Chaykin</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Capa</th>
+                    <td>Howard Chaykin</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Saga</th>
+                    <td>Saga Principal</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Tipo no acervo</th>
+                    <td>Volume 1 / edicao individual</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Status</th>
+                    <td>Cadastrado com capa</td>
+                  </tr>
+                </tbody>
+              </table>
+            </section>
+
+            <section class="content-band" aria-labelledby="charactersTitle">
+              <h2 id="charactersTitle">Personagens destacados</h2>
+              <div class="universe-meta">
+                <span>Luke Skywalker</span>
+                <span>Princesa Leia</span>
+                <span>Darth Vader</span>
+                <span>C-3PO</span>
+                <span>R2-D2</span>
+              </div>
+            </section>
+
+            <section class="content-band" aria-labelledby="sourcesTitle">
+              <h2 id="sourcesTitle">Referencias</h2>
+              <p>
+                Dados editoriais conferidos em
+                <a href="https://www.marvel.com/articles/comics/celebrating-star-wars-1">Marvel.com</a>
+                e no resumo historico da serie
+                <a href="https://en.wikipedia.org/wiki/Star_Wars_(1977_comic_book)">Star Wars (1977 comic book)</a>.
+              </p>
+            </section>
+          </article>
+
+          <aside class="infobox" aria-labelledby="infoTitle">
+            <h2 id="infoTitle">Star Wars #1</h2>
+            <img src="Star%20Wars%20%231.png" alt="Capa de Star Wars numero 1" />
+            <table>
+              <tbody>
+                <tr>
+                  <th scope="row">Universo</th>
+                  <td>Star Wars</td>
+                </tr>
+                <tr>
+                  <th scope="row">Saga</th>
+                  <td>Saga Principal</td>
+                </tr>
+                <tr>
+                  <th scope="row">Editora</th>
+                  <td>Marvel Comics</td>
+                </tr>
+                <tr>
+                  <th scope="row">Publicacao</th>
+                  <td>1977</td>
+                </tr>
+                <tr>
+                  <th scope="row">Catalogo</th>
+                  <td>Volume 1</td>
+                </tr>
+              </tbody>
+            </table>
+          </aside>
+        </main>
+
+        <footer class="site-footer">
+          <p>Loner HQ e um projeto local de catalogacao de quadrinhos.</p>
+        </footer>
+      </div>
+    </div>
+  </body>
+</html>
