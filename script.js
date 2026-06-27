@@ -11,6 +11,15 @@ const articles = [
       "Primeira edição da adaptação em quadrinhos de Star Wars publicada pela Marvel Comics. Na Loner HQ, este verbete reúne capa, dados editoriais, personagens centrais e relações com a cronologia da saga."
   },
   {
+    id: "star-wars-2",
+    title: "Star Wars #2",
+    category: "Edição",
+    year: "1977",
+    tags: ["Marvel Comics", "adaptação", "sci-fi"],
+    summary:
+      "Segunda edição da adaptação Marvel de Star Wars, com a história Six Against the Galaxy. Na Loner HQ, este volume soma 19 páginas e concede 19 XP ao ser marcado como lido."
+  },
+  {
     id: "universo-star-wars",
     title: "Universo Star Wars",
     category: "Universo",
@@ -56,12 +65,26 @@ const comics = {
     universe: "Star Wars",
     saga: "Saga Principal",
     href: "Universos/Star Wars/Saga Principal/star-wars-1-1977.html",
-    cover: "Universos/Star Wars/Saga Principal/Star Wars #1.png"
+    cover: "Universos/Star Wars/Saga Principal/Star Wars #1.png",
+    pageCount: 20,
+    xpReward: 20,
+    fileName: "star-wars-1-1977.html"
+  },
+  "star-wars-2-1977": {
+    id: "star-wars-2-1977",
+    title: "Star Wars #2 (1977)",
+    shortTitle: "Star Wars #2",
+    universe: "Star Wars",
+    saga: "Saga Principal",
+    href: "Universos/Star Wars/Saga Principal/star-wars-2-1977.html",
+    cover: "Universos/Star Wars/Saga Principal/Star Wars #2.png",
+    pageCount: 19,
+    xpReward: 19,
+    fileName: "star-wars-2-1977.html"
   }
 };
 
 const defaultAvatarPath = "Avatar/homemaranha.png";
-const readXpReward = 20;
 
 const loginForm = document.querySelector("#loginForm");
 const registerForm = document.querySelector("#registerForm");
@@ -170,6 +193,11 @@ function timestampToMillis(value) {
   }
 
   return Date.parse(value) || 0;
+}
+
+function currentComic() {
+  const path = decodeURIComponent(window.location.pathname).replace(/\\/g, "/");
+  return Object.values(comics).find((comic) => path.endsWith(`/${comic.fileName}`)) || null;
 }
 
 function xpNeededForLevel(level) {
@@ -548,7 +576,7 @@ function renderSearchResults(query) {
 }
 
 function isVolumePage() {
-  return decodeURIComponent(window.location.pathname).includes("star-wars-1-1977.html");
+  return Boolean(currentComic());
 }
 
 function createVolumeActions() {
@@ -598,7 +626,9 @@ async function awardReadXp() {
     return;
   }
 
-  const nextXp = Number(currentProfile.xp || 0) + readXpReward;
+  const comic = currentComic();
+  const xpReward = Number(comic?.xpReward || comic?.pageCount || 0);
+  const nextXp = Number(currentProfile.xp || 0) + xpReward;
   const nextLevel = levelFromXp(nextXp);
 
   await firebaseServices.setDoc(
@@ -622,12 +652,18 @@ async function toggleComicAction(action) {
     return;
   }
 
-  const comic = comics["star-wars-1-1977"];
+  const comic = currentComic();
+
+  if (!comic) {
+    return;
+  }
+
+  const xpReward = Number(comic.xpReward || comic.pageCount || 0);
   const firestoreField = action === "owned" ? "owned" : action;
   const nextValue = !currentInteraction[firestoreField];
   const now = firebaseServices.serverTimestamp();
   const shouldAwardXp = action === "read" && nextValue && !currentInteraction.readXpGranted;
-  const profileXp = Number(currentProfile.xp || 0) + (shouldAwardXp ? readXpReward : 0);
+  const profileXp = Number(currentProfile.xp || 0) + (shouldAwardXp ? xpReward : 0);
   const basePayload = {
     uid: currentUser.uid,
     nick: currentProfile.nick,
@@ -641,6 +677,8 @@ async function toggleComicAction(action) {
     saga: comic.saga,
     href: comic.href,
     cover: comic.cover,
+    pageCount: comic.pageCount,
+    xpReward,
     updatedAt: now,
     [firestoreField]: nextValue
   };
@@ -650,6 +688,7 @@ async function toggleComicAction(action) {
 
     if (shouldAwardXp) {
       basePayload.readXpGranted = true;
+      basePayload.readXpAwarded = xpReward;
     }
   }
 
@@ -687,7 +726,9 @@ function stopInteractionWatchers() {
 }
 
 function watchVolumeData() {
-  if (!firebaseServices || !isVolumePage()) {
+  const comic = currentComic();
+
+  if (!firebaseServices || !comic) {
     return;
   }
 
@@ -696,7 +737,7 @@ function watchVolumeData() {
   }
 
   readersUnsubscribe = firebaseServices.onSnapshot(
-    firebaseServices.collection(firebaseServices.db, "comics", "star-wars-1-1977", "interactions"),
+    firebaseServices.collection(firebaseServices.db, "comics", comic.id, "interactions"),
     (snapshot) => {
       const total = snapshot.docs.filter((item) => item.data().read).length;
       if (readersButton) {
@@ -717,7 +758,7 @@ function watchVolumeData() {
   }
 
   interactionUnsubscribe = firebaseServices.onSnapshot(
-    comicInteractionRef("star-wars-1-1977", currentUser.uid),
+    comicInteractionRef(comic.id, currentUser.uid),
     (snapshot) => {
       currentInteraction = snapshot.exists() ? snapshot.data() : {};
       updateVolumeActionsUi();
@@ -731,6 +772,12 @@ async function openReadersModal() {
     return;
   }
 
+  const comic = currentComic();
+
+  if (!comic) {
+    return;
+  }
+
   const existing = document.querySelector("#readersModal");
   existing?.remove();
 
@@ -740,7 +787,7 @@ async function openReadersModal() {
   overlay.innerHTML = `
     <section class="modal-dialog readers-dialog" role="dialog" aria-modal="true" aria-labelledby="readersTitle">
       <div class="modal-header">
-        <h2 id="readersTitle">Já Leram Star Wars #1</h2>
+        <h2 id="readersTitle">Já Leram ${escapeHtml(comic.shortTitle)}</h2>
         <button class="button ghost" type="button" data-modal-close>Fechar</button>
       </div>
       <div class="reader-list" id="readerList" role="list">
@@ -752,7 +799,7 @@ async function openReadersModal() {
 
   const list = overlay.querySelector("#readerList");
   const snapshot = await firebaseServices.getDocs(
-    firebaseServices.collection(firebaseServices.db, "comics", "star-wars-1-1977", "interactions")
+    firebaseServices.collection(firebaseServices.db, "comics", comic.id, "interactions")
   );
   const readers = snapshot.docs
     .map((item) => item.data())

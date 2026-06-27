@@ -537,8 +537,8 @@ img {
 
 .welcome-panel img {
   width: 120px;
-  aspect-ratio: 2 / 3;
-  object-fit: cover;
+  height: auto;
+  object-fit: contain;
   justify-self: end;
   border: 1px solid var(--line);
   background: #ffffff;
@@ -958,10 +958,38 @@ img {
 
 .entry-card img {
   width: 92px;
-  aspect-ratio: 2 / 3;
-  object-fit: cover;
+  height: auto;
+  object-fit: contain;
   border: 1px solid var(--line);
   background: #ffffff;
+}
+
+.volume-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 190px));
+  gap: 14px;
+  align-items: start;
+}
+
+.volume-card {
+  display: grid;
+  gap: 8px;
+  color: var(--text);
+  font-weight: 700;
+  text-align: center;
+}
+
+.volume-card:hover,
+.volume-card:focus-visible {
+  color: var(--link-hover);
+}
+
+.volume-card img {
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--line);
+  background: #ffffff;
+  box-shadow: var(--shadow);
 }
 
 .data-table {
@@ -1003,7 +1031,7 @@ img {
 
 .infobox img {
   width: calc(100% - 28px);
-  max-height: 390px;
+  height: auto;
   margin: 14px;
   object-fit: contain;
   border: 1px solid var(--line);
@@ -1234,7 +1262,6 @@ img {
   .infobox img {
     width: calc(100% - 20px);
     margin: 10px;
-    max-height: 285px;
   }
 
   .catalog-grid {
