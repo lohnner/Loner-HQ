@@ -1,6 +1,6 @@
 export const firebaseConfig = {
   apiKey: "AIzaSyCfHLrtPMnLtfU-PvsVf5QCOXKmuZya51I",
-  authDomain: "loner-hq.firebaseapp.com",
+  authDomain: "loner-hq.web.app",
   projectId: "loner-hq",
   storageBucket: "loner-hq.firebasestorage.app",
   messagingSenderId: "290842361996",

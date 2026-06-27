@@ -1,4 +1,4 @@
-import { firebaseConfig, firebaseReady } from "./firebase-config.js";
+import { firebaseConfig, firebaseReady } from "./firebase-config.js?v=authdomain-20260627";
 
 const articles = [
   {
@@ -61,7 +61,7 @@ const comics = {
 };
 
 const defaultAvatarPath = "Avatar/homemaranha.png";
-const readXpReward = 50;
+const readXpReward = 20;
 
 const loginForm = document.querySelector("#loginForm");
 const registerForm = document.querySelector("#registerForm");
@@ -85,6 +85,7 @@ let interactionUnsubscribe = null;
 let readersUnsubscribe = null;
 let volumeActions = null;
 let readersButton = null;
+let pendingAuthError = "";
 
 function rootPath() {
   const path = decodeURIComponent(window.location.pathname).replace(/\\/g, "/");
@@ -279,11 +280,14 @@ async function loadFirebase() {
   const auth = authModule.getAuth(app);
   const db = firestoreModule.getFirestore(app);
 
+  await authModule.setPersistence(auth, authModule.browserLocalPersistence).catch(() => {});
+
   firebaseServices = {
     auth,
     db,
     GoogleAuthProvider: authModule.GoogleAuthProvider,
     getRedirectResult: authModule.getRedirectResult,
+    signInWithPopup: authModule.signInWithPopup,
     createUserWithEmailAndPassword: authModule.createUserWithEmailAndPassword,
     signInWithEmailAndPassword: authModule.signInWithEmailAndPassword,
     signInWithRedirect: authModule.signInWithRedirect,
@@ -431,7 +435,14 @@ function renderSignedOut() {
   accountPanel.innerHTML = "";
   authBadge.textContent = "Visitante";
   authBadge.style.color = "var(--muted)";
-  setMessage(loginOriginWarning() || "Entre com e-mail ou Google para salvar perfil e leituras.", loginOriginWarning() ? "error" : "");
+
+  const originWarning = loginOriginWarning();
+
+  if (pendingAuthError) {
+    setMessage(pendingAuthError, "error");
+  } else {
+    setMessage(originWarning || "Entre com e-mail ou Google para salvar perfil e leituras.", originWarning ? "error" : "");
+  }
 }
 
 function renderSignedIn(profile) {
@@ -988,11 +999,31 @@ function setupEvents() {
           return;
         }
 
+        pendingAuthError = "";
         const provider = new firebaseServices.GoogleAuthProvider();
-        setMessage("Redirecionando para o Google...", "success");
-        await firebaseServices.signInWithRedirect(firebaseServices.auth, provider);
+        provider.addScope("email");
+        provider.addScope("profile");
+        setMessage("Abrindo login do Google...", "success");
+        await firebaseServices.signInWithPopup(firebaseServices.auth, provider);
       } catch (error) {
-        setMessage(authErrorMessage(error), "error");
+        const code = error?.code || "";
+
+        if (code.includes("auth/popup-blocked") || code.includes("auth/operation-not-supported-in-this-environment")) {
+          try {
+            const provider = new firebaseServices.GoogleAuthProvider();
+            provider.addScope("email");
+            provider.addScope("profile");
+            setMessage("Redirecionando para o Google...", "success");
+            await firebaseServices.signInWithRedirect(firebaseServices.auth, provider);
+          } catch (redirectError) {
+            pendingAuthError = authErrorMessage(redirectError);
+            setMessage(pendingAuthError, "error");
+          }
+          return;
+        }
+
+        pendingAuthError = authErrorMessage(error);
+        setMessage(pendingAuthError, "error");
       }
     }
 
@@ -1042,8 +1073,16 @@ function authErrorMessage(error) {
     return "Esse e-mail ja esta cadastrado.";
   }
 
-  if (code.includes("auth/popup") || code.includes("auth/redirect-cancelled-by-user")) {
+  if (code.includes("auth/popup-closed-by-user") || code.includes("auth/redirect-cancelled-by-user")) {
     return "O login do Google foi fechado antes de terminar.";
+  }
+
+  if (code.includes("auth/cancelled-popup-request")) {
+    return "Ja existe uma janela de login do Google aberta.";
+  }
+
+  if (code.includes("auth/popup-blocked")) {
+    return "O navegador bloqueou a janela do Google. Libere popup para localhost ou tente de novo.";
   }
 
   if (code.includes("auth/unauthorized-domain")) {
@@ -1051,7 +1090,7 @@ function authErrorMessage(error) {
   }
 
   if (code.includes("auth/operation-not-allowed")) {
-    return "Ative o provedor Google em Authentication > Sign-in method.";
+    return "Ative e salve o provedor Google em Authentication > Sign-in method, com nome publico do projeto e e-mail de suporte.";
   }
 
   if (code.includes("auth/configuration-not-found")) {
@@ -1060,6 +1099,10 @@ function authErrorMessage(error) {
 
   if (code.includes("auth/api-key-not-valid")) {
     return "A apiKey do Firebase esta incorreta.";
+  }
+
+  if (code.includes("auth/account-exists-with-different-credential")) {
+    return "Esse e-mail ja existe com outro metodo de login.";
   }
 
   return "Nao foi possivel concluir o login agora.";
@@ -1095,7 +1138,8 @@ async function startAuth() {
   try {
     await firebaseServices.getRedirectResult(firebaseServices.auth);
   } catch (error) {
-    setMessage(authErrorMessage(error), "error");
+    pendingAuthError = authErrorMessage(error);
+    setMessage(pendingAuthError, "error");
   }
 
   firebaseServices.onAuthStateChanged(firebaseServices.auth, async (user) => {
@@ -1113,6 +1157,7 @@ async function startAuth() {
     }
 
     try {
+      pendingAuthError = "";
       const baseProfile = await ensureProfile(user);
       currentProfile = await ensureNick(user, baseProfile);
       renderSignedIn(currentProfile);
