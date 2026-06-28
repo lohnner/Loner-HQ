@@ -97,6 +97,7 @@ const comics = {
 };
 
 const defaultAvatarPath = "Avatar/homemaranha.png";
+const profileCacheKey = "loner-hq:lastProfile";
 
 renderSharedSidebar();
 
@@ -123,6 +124,8 @@ let readersUnsubscribe = null;
 let volumeActions = null;
 let readersButton = null;
 let pendingAuthError = "";
+
+renderCachedProfile();
 
 function rootPath() {
   const path = decodeURIComponent(window.location.pathname).replace(/\\/g, "/");
@@ -203,10 +206,10 @@ function renderSharedSidebar() {
         <section class="auth-panel" aria-labelledby="authTitle">
           <div class="auth-heading">
             <h2 id="authTitle">Conta</h2>
-            <span id="authBadge">Visitante</span>
+            <span id="authBadge">...</span>
           </div>
 
-          <form class="auth-form" id="loginForm">
+          <form class="auth-form" id="loginForm" hidden>
             <label for="loginUser">E-mail</label>
             <input id="loginUser" name="usuario" type="email" autocomplete="email" required />
 
@@ -591,6 +594,58 @@ function temporaryProfileFromAuth(user) {
   };
 }
 
+function cachedProfilePayload(profile) {
+  if (!profile?.nick) {
+    return null;
+  }
+
+  return {
+    uid: profile.uid || "",
+    nick: profile.nick,
+    avatarPath: profile.avatarPath || defaultAvatarPath,
+    xp: Number(profile.xp || 0),
+    level: levelFromXp(Number(profile.xp || 0))
+  };
+}
+
+function readCachedProfile() {
+  try {
+    const profile = cachedProfilePayload(JSON.parse(localStorage.getItem(profileCacheKey) || "null"));
+    return profile?.nick ? profile : null;
+  } catch {
+    return null;
+  }
+}
+
+function writeCachedProfile(profile) {
+  const payload = cachedProfilePayload(profile);
+
+  if (!payload || profile.firestoreBlocked) {
+    return;
+  }
+
+  try {
+    localStorage.setItem(profileCacheKey, JSON.stringify(payload));
+  } catch {}
+}
+
+function clearCachedProfile() {
+  try {
+    localStorage.removeItem(profileCacheKey);
+  } catch {}
+}
+
+function renderCachedProfile() {
+  const cachedProfile = readCachedProfile();
+
+  if (!cachedProfile) {
+    return;
+  }
+
+  currentProfile = cachedProfile;
+  renderSignedIn(cachedProfile, { skipCache: true });
+}
+
 function renderSignedOut() {
   if (!loginForm || !registerForm || !accountPanel || !authBadge) {
     return;
@@ -612,7 +667,7 @@ function renderSignedOut() {
   }
 }
 
-function renderSignedIn(profile) {
+function renderSignedIn(profile, options = {}) {
   if (!loginForm || !registerForm || !accountPanel || !authBadge) {
     return;
   }
@@ -643,6 +698,10 @@ function renderSignedIn(profile) {
     </div>
   `;
   setMessage("Perfil conectado na Loner HQ.", "success");
+
+  if (!options.skipCache) {
+    writeCachedProfile(profile);
+  }
 }
 
 function renderArticle(articleId) {
@@ -1171,6 +1230,7 @@ function setupEvents() {
     }
 
     if (logoutButton && firebaseServices) {
+      clearCachedProfile();
       await firebaseServices.signOut(firebaseServices.auth);
       setMessage("Você saiu da conta.");
     }
@@ -1333,6 +1393,7 @@ async function startAuth() {
     if (!user) {
       currentProfile = null;
       currentInteraction = {};
+      clearCachedProfile();
       stopInteractionWatchers();
       renderSignedOut();
       watchVolumeData();
