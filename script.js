@@ -160,6 +160,10 @@ function rootPath() {
     return "../../";
   }
 
+  if (path.includes("/Universos/DC Universe/")) {
+    return "../../";
+  }
+
   if (path.includes("/Universos/")) {
     return "../";
   }
@@ -265,7 +269,7 @@ function renderSharedSidebar() {
           <dl>
             <div>
               <dt>Universos</dt>
-              <dd>2</dd>
+              <dd>3</dd>
             </div>
             <div>
               <dt>Séries</dt>
