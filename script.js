@@ -46,6 +46,10 @@ function rootPath() {
     return "../../../";
   }
 
+  if (path.includes("/Universos/Star Wars/a-batalha-de-jakku/")) {
+    return "../../../";
+  }
+
   if (path.includes("/Universos/Star Wars/")) {
     return "../../";
   }

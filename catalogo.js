@@ -93,13 +93,23 @@ export const acervo = [
     tipo: "serie",
     id: "star-wars-serie-principal",
     title: "Série Principal",
+    year: "1997",
     universe: "Star Wars",
     href: "Universos/Star Wars/Saga Principal/saga-principal.html"
   },
   {
     tipo: "serie",
+    id: "star-wars-a-batalha-de-jakku",
+    title: "A Batalha de Jakku",
+    year: "2024",
+    universe: "Star Wars",
+    href: "Universos/Star Wars/a-batalha-de-jakku/a-batalha-de-jakku.html"
+  },
+  {
+    tipo: "serie",
     id: "daredevil-1964",
-    title: "1964 - Daredevil",
+    title: "Daredevil",
+    year: "1964",
     universe: "Marvel",
     character: "Demolidor",
     href: "Universos/Marvel/Demolidor/daredevil-1964.html"
@@ -107,7 +117,8 @@ export const acervo = [
   {
     tipo: "serie",
     id: "batman-2025",
-    title: "2025 - Batman (2025–)",
+    title: "Batman (2025–)",
+    year: "2025",
     universe: "DC Universe",
     character: "Batman",
     href: "Universos/DC Universe/Batman/batman-2025.html"
