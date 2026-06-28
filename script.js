@@ -160,6 +160,10 @@ function rootPath() {
     return "../../";
   }
 
+  if (path.includes("/Universos/DC Universe/Batman/")) {
+    return "../../../";
+  }
+
   if (path.includes("/Universos/DC Universe/")) {
     return "../../";
   }
