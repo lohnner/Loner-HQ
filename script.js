@@ -123,6 +123,8 @@ const showLogin = document.querySelector("#showLogin");
 const searchForm = document.querySelector("#searchForm");
 const searchInput = document.querySelector("#siteSearch");
 const searchResults = document.querySelector("#searchResults");
+const universeSearchInput = document.querySelector("#universeSearch");
+const universeSearchStatus = document.querySelector("#universeSearchStatus");
 const articleContent = document.querySelector("#articleContent");
 const navLinks = document.querySelectorAll("[data-section]");
 const profilePage = document.querySelector("#profilePage");
@@ -777,6 +779,32 @@ function renderSearchResults(query) {
     .join("");
 }
 
+function filterUniverseCards(query) {
+  const cards = Array.from(document.querySelectorAll(".universe-card"));
+
+  if (!cards.length) {
+    return;
+  }
+
+  const normalized = normalizeSearchText(query);
+  let visibleCount = 0;
+
+  cards.forEach((card) => {
+    const searchable = normalizeSearchText(`${card.getAttribute("aria-label") || ""} ${card.textContent || ""}`);
+    const isVisible = !normalized || searchable.includes(normalized);
+    card.hidden = !isVisible;
+
+    if (isVisible) {
+      visibleCount += 1;
+    }
+  });
+
+  if (universeSearchStatus) {
+    universeSearchStatus.textContent =
+      visibleCount === 1 ? "1 universo" : `${visibleCount} universos`;
+  }
+}
+
 function isVolumePage() {
   return Boolean(currentComic());
 }
@@ -1145,7 +1173,7 @@ async function renderProfilePage() {
 }
 
 function openProfile(uid) {
-  window.open(pagePath("perfil.html", { uid }), "_blank", "noopener");
+  window.location.assign(pagePath("perfil.html", { uid }));
 }
 
 function setupEvents() {
@@ -1216,6 +1244,10 @@ function setupEvents() {
   searchForm?.addEventListener("submit", (event) => {
     event.preventDefault();
     renderSearchResults(searchInput.value);
+  });
+
+  universeSearchInput?.addEventListener("input", (event) => {
+    filterUniverseCards(event.target.value);
   });
 
   document.addEventListener("click", async (event) => {

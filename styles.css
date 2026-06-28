@@ -388,6 +388,7 @@ img {
 .topbar {
   display: flex;
   justify-content: flex-end;
+  min-height: 82px;
   padding: 14px 24px 10px;
   border-bottom: 1px solid var(--line);
   background: #ffffff;
@@ -767,6 +768,45 @@ img {
   margin-top: 16px;
 }
 
+.universe-search-panel {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px 12px;
+  align-items: end;
+  margin: 16px 0;
+  padding: 13px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: #ffffff;
+}
+
+.universe-search-panel label {
+  grid-column: 1 / -1;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.universe-search-panel input {
+  min-height: 36px;
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  padding: 7px 9px;
+  background: #ffffff;
+  color: var(--text);
+}
+
+.universe-search-panel input:focus {
+  border-color: var(--link-hover);
+  outline: 2px solid rgba(51, 102, 204, 0.18);
+}
+
+.universe-search-status {
+  margin: 0;
+  color: var(--muted);
+  font-size: 12px;
+  white-space: nowrap;
+}
+
 .universe-card {
   min-height: 0;
   padding: 13px;
@@ -923,6 +963,12 @@ img {
   margin: 0 0 10px;
 }
 
+.standard-note {
+  margin-top: 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+
 .entry-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -986,9 +1032,11 @@ img {
 
 .volume-card img {
   width: 100%;
+  aspect-ratio: 65 / 100;
   height: auto;
   border: 1px solid var(--line);
   background: #ffffff;
+  object-fit: contain;
   box-shadow: var(--shadow);
 }
 
@@ -1041,6 +1089,13 @@ img {
   object-fit: contain;
   border: 1px solid var(--line);
   background: #ffffff;
+}
+
+.cover-standard-note {
+  margin: -4px 14px 12px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.35;
 }
 
 .infobox table {

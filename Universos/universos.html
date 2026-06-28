@@ -4,8 +4,8 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Universos - Loner HQ</title>
-    <link rel="stylesheet" href="../styles.css" />
-    <script type="module" src="../script.js?v=daredevil-2-20260628"></script>
+    <link rel="stylesheet" href="../styles.css?v=profile-cover-standard-20260628" />
+    <script type="module" src="../script.js?v=profile-cover-standard-20260628"></script>
   </head>
   <body>
     <div class="site-shell">
@@ -82,16 +82,7 @@
       </aside>
 
       <div class="content-shell">
-        <header class="topbar">
-          <form class="search-box" id="searchForm" role="search">
-            <label for="siteSearch">Buscar na Loner HQ</label>
-            <div class="search-row">
-              <input id="siteSearch" type="search" placeholder="Buscar artigos, séries e autores" autocomplete="off" />
-              <button type="submit">Buscar</button>
-            </div>
-            <div class="search-results" id="searchResults" hidden></div>
-          </form>
-        </header>
+        <header class="topbar" aria-hidden="true"></header>
 
         <main class="wiki-page universe-layout" id="universos">
           <article class="article">
@@ -103,14 +94,10 @@
               </p>
             </header>
 
-            <section class="welcome-panel" aria-labelledby="universeWelcome">
-              <div>
-                <h2 id="universeWelcome">Catálogo de mundos</h2>
-                <p>
-                  Use este índice como porta de entrada para organizar personagens, séries, editoras, cronologias e edições
-                  de cada universo de quadrinhos.
-                </p>
-              </div>
+            <section class="universe-search-panel" role="search" aria-labelledby="universeSearchTitle">
+              <label id="universeSearchTitle" for="universeSearch">Buscar universo</label>
+              <input id="universeSearch" type="search" placeholder="Digite o nome do universo" autocomplete="off" />
+              <p class="universe-search-status" id="universeSearchStatus" aria-live="polite">16 universos</p>
             </section>
 
             <div class="universe-grid" aria-label="Lista de universos de quadrinhos">
