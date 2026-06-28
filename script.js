@@ -88,8 +88,8 @@ const comics = {
     shortTitle: "Daredevil #1",
     universe: "Marvel",
     series: "Daredevil (1964)",
-    href: "Universos/Marvel/daredevil-1-1964.html",
-    cover: "Universos/Marvel/1964 - Daredevil%231.jpg",
+    href: "Universos/Marvel/Demolidor/daredevil-1-1964.html",
+    cover: "Universos/Marvel/Demolidor/1964 - Daredevil%231.jpg",
     pageCount: 23,
     xpReward: 23,
     fileName: "daredevil-1-1964.html"
@@ -100,8 +100,8 @@ const comics = {
     shortTitle: "Daredevil #2",
     universe: "Marvel",
     series: "Daredevil (1964)",
-    href: "Universos/Marvel/daredevil-2-1964.html",
-    cover: "Universos/Marvel/1964 - Daredevil%232.jpg",
+    href: "Universos/Marvel/Demolidor/daredevil-2-1964.html",
+    cover: "Universos/Marvel/Demolidor/1964 - Daredevil%232.jpg",
     pageCount: 23,
     xpReward: 23,
     fileName: "daredevil-2-1964.html"
@@ -150,6 +150,10 @@ function rootPath() {
 
   if (path.includes("/Universos/Star Wars/")) {
     return "../../";
+  }
+
+  if (path.includes("/Universos/Marvel/Demolidor/")) {
+    return "../../../";
   }
 
   if (path.includes("/Universos/Marvel/")) {
