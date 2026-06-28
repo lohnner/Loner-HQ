@@ -203,6 +203,19 @@ export const acervo = [
     xpReward: 22,
     fileName: "batman-3-2025.html"
   }
+  {
+    tipo: "hq",
+    id: "batman-4-2025",
+    title: "Batman #4 (2025)",
+    shortTitle: "Batman #4",
+    universe: "DC Universe",
+    series: "Batman (2025–)",
+    href: "Universos/DC Universe/Batman/batman-3-2025.html",
+    cover: "Universos/DC Universe/Batman/Batman%20(2025%E2%80%93)%20%233.jpg",
+    pageCount: 22,
+    xpReward: 22,
+    fileName: "batman-4-2025.html"
+  }
 ];
 
 const hqsCatalogadas = acervo.filter((item) => item.tipo === "hq");
