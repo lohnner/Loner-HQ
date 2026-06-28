@@ -166,8 +166,8 @@ export const acervo = [
     series: "Insurgência Crescente",
     href: "Universos/Star Wars/a-batalha-de-jakku/insurg%C3%AAncia-crescente/a-batalha-de-jakku-insurg%C3%AAncia-crescente-1-2024.html",
     cover: "Universos/Star Wars/a-batalha-de-jakku/insurg%C3%AAncia-crescente/a-batalha-de-jakku-insurg%C3%AAncia-crescente%231.png",
-    pageCount: 0,
-    xpReward: 0,
+    pageCount: 33,
+    xpReward: 33,
     fileName: "a-batalha-de-jakku-insurgência-crescente-1-2024.html"
   },
   {
