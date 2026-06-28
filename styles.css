@@ -664,6 +664,63 @@ img {
   font-size: 12px;
 }
 
+.recent-hq-list {
+  display: grid;
+  gap: 10px;
+}
+
+.recent-hq-card {
+  display: grid;
+  grid-template-columns: 58px minmax(0, 1fr);
+  gap: 10px;
+  align-items: center;
+  min-height: 94px;
+  padding: 8px;
+  border: 1px solid var(--line-soft);
+  border-radius: 4px;
+  background: linear-gradient(180deg, #ffffff 0%, #f8f9fa 100%);
+  color: var(--text);
+  text-decoration: none;
+}
+
+.recent-hq-card:hover,
+.recent-hq-card:focus-visible {
+  border-color: var(--line);
+  color: var(--link-hover);
+  text-decoration: none;
+  box-shadow: var(--shadow);
+}
+
+.recent-hq-cover {
+  display: block;
+  width: 58px;
+}
+
+.recent-hq-cover img {
+  width: 100%;
+  aspect-ratio: var(--cover-ratio);
+  height: auto;
+  border: 1px solid var(--line);
+  background: #ffffff;
+  object-fit: cover;
+}
+
+.recent-hq-body {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+}
+
+.recent-hq-body strong {
+  font-size: 15px;
+  line-height: 1.25;
+}
+
+.recent-hq-body small {
+  color: var(--muted);
+  font-size: 12px;
+}
+
 .portal-list {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));

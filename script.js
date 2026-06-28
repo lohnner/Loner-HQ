@@ -20,6 +20,7 @@ const searchResults = document.querySelector("#searchResults");
 const universeSearchInput = document.querySelector("#universeSearch");
 const universeSearchStatus = document.querySelector("#universeSearchStatus");
 const articleContent = document.querySelector("#articleContent");
+const homeRecentHqs = document.querySelector("#homeRecentHqs");
 const navLinks = document.querySelectorAll("[data-section]");
 const profilePage = document.querySelector("#profilePage");
 
@@ -200,6 +201,30 @@ function assetPath(path) {
   }
 
   return `${rootPath()}${path}`;
+}
+
+function renderHomeRecentHqs() {
+  if (!homeRecentHqs) {
+    return;
+  }
+
+  const recentHqs = catalogo.hqs.slice(-3).reverse();
+
+  homeRecentHqs.innerHTML = recentHqs
+    .map(
+      (hq) => `
+        <a class="recent-hq-card" href="${assetPath(hq.href)}">
+          <span class="recent-hq-cover">
+            <img src="${assetPath(hq.cover)}" alt="Capa de ${escapeHtml(hq.shortTitle || hq.title)}" />
+          </span>
+          <span class="recent-hq-body">
+            <strong>${escapeHtml(hq.shortTitle || hq.title)}</strong>
+            <small>${escapeHtml(hq.series || hq.universe || "HQ")}</small>
+          </span>
+        </a>
+      `
+    )
+    .join("");
 }
 
 function loginOriginWarning() {
@@ -1381,6 +1406,7 @@ async function startAuth() {
 }
 
 normalizeAuthForms();
+renderHomeRecentHqs();
 setupEvents();
 createVolumeActions();
 startAuth();
