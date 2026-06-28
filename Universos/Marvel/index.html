@@ -3,14 +3,14 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Perfil - Loner HQ</title>
-    <link rel="stylesheet" href="styles.css" />
-    <script type="module" src="script.js?v=starwars2-20260627"></script>
+    <title>Marvel - Loner HQ</title>
+    <link rel="stylesheet" href="../../styles.css" />
+    <script type="module" src="../../script.js?v=starwars2-20260627"></script>
   </head>
   <body>
     <div class="site-shell">
       <aside class="sidebar" aria-label="Barra lateral">
-        <a class="brand" href="index.html" aria-label="Loner HQ página inicial">
+        <a class="brand" href="../../index.html" aria-label="Loner HQ página inicial">
           <span class="brand-mark">LH</span>
           <span>
             <strong>Loner HQ</strong>
@@ -55,11 +55,11 @@
         </section>
 
         <nav class="wiki-nav" aria-label="Navegação principal">
-          <a href="index.html" class="nav-link" data-section="inicio">HOME</a>
-          <a href="Universos/universos.html" class="nav-link" data-section="universos">Universos</a>
-          <a href="index.html#personagens" class="nav-link" data-section="personagens">Personagens</a>
-          <a href="index.html#edicoes" class="nav-link" data-section="edicoes">Edições</a>
-          <a href="index.html#cronologia" class="nav-link" data-section="cronologia">Cronologia</a>
+          <a href="../../index.html" class="nav-link" data-section="inicio">HOME</a>
+          <a href="../../Universos/universos.html" class="nav-link active" data-section="universos" aria-current="page">Universos</a>
+          <a href="../../index.html#personagens" class="nav-link" data-section="personagens">Personagens</a>
+          <a href="../../index.html#edicoes" class="nav-link" data-section="edicoes">Edições</a>
+          <a href="../../index.html#cronologia" class="nav-link" data-section="cronologia">Cronologia</a>
         </nav>
 
         <section class="side-list" aria-labelledby="sideStats">
@@ -96,18 +96,33 @@
         <main class="wiki-page universe-layout">
           <article class="article">
             <nav class="breadcrumbs" aria-label="Caminho">
-              <a href="index.html">Início</a>
+              <a href="../../index.html">Início</a>
               <span>/</span>
-              <span>Perfil</span>
+              <a href="../universos.html">Universos</a>
+              <span>/</span>
+              <span>Marvel</span>
             </nav>
 
             <header class="article-header">
-              <p class="namespace">Usuário</p>
-              <h1>Perfil</h1>
-              <p class="lead">Leituras, favoritos, avatar e progresso do usuário na Loner HQ.</p>
+              <p class="namespace">Universo</p>
+              <h1>Marvel</h1>
+              <p class="lead">
+                Universo editorial de super-heróis, vigilantes, equipes e sagas urbanas, cósmicas e mutantes catalogadas na Loner HQ.
+              </p>
             </header>
 
-            <div id="profilePage" class="public-profile"></div>
+            <section class="content-band" aria-labelledby="summaryTitle">
+              <h2 id="summaryTitle">Resumo do universo</h2>
+              <p>
+                A Marvel reúne personagens e linhas de histórias que podem ser organizadas por herói, equipe, fase editorial,
+                saga ou coleção. Esta página funciona como entrada inicial para as HQs Marvel cadastradas no acervo.
+              </p>
+            </section>
+
+            <section class="content-band" aria-labelledby="hqsTitle">
+              <h2 id="hqsTitle">HQs Catalogadas</h2>
+              <p>&bull; Demolidor</p>
+            </section>
           </article>
         </main>
 
