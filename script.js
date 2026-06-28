@@ -277,7 +277,7 @@ function renderSharedSidebar() {
             </div>
             <div>
               <dt>Séries</dt>
-              <dd>2</dd>
+              <dd>3</dd>
             </div>
             <div>
               <dt>Volumes</dt>
