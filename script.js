@@ -19,6 +19,9 @@ const searchInput = document.querySelector("#siteSearch");
 const searchResults = document.querySelector("#searchResults");
 const universeSearchInput = document.querySelector("#universeSearch");
 const universeSearchStatus = document.querySelector("#universeSearchStatus");
+const characterSearchInput = document.querySelector("#characterSearch");
+const characterSearchStatus = document.querySelector("#characterSearchStatus");
+const characterList = document.querySelector("#characterList");
 const articleContent = document.querySelector("#articleContent");
 const homeRecentHqs = document.querySelector("#homeRecentHqs");
 const navLinks = document.querySelectorAll("[data-section]");
@@ -67,6 +70,10 @@ function rootPath() {
     return "../";
   }
 
+  if (path.includes("/Personagens/")) {
+    return "../";
+  }
+
   return "";
 }
 
@@ -82,6 +89,10 @@ function sidebarSection() {
 
   if (path.includes("/Universos/")) {
     return "universos";
+  }
+
+  if (path.includes("/Personagens/")) {
+    return "personagens";
   }
 
   if (path.endsWith("/perfil.html")) {
@@ -107,7 +118,7 @@ function renderSharedSidebar() {
   const navItems = [
     { label: "HOME", section: "inicio", href: `${root}index.html` },
     { label: "Universos", section: "universos", href: `${root}Universos/universos.html` },
-    { label: "Personagens", section: "personagens", href: `${root}index.html#personagens` },
+    { label: "Personagens", section: "personagens", href: `${root}Personagens/personagens.html` },
     { label: "Edições", section: "edicoes", href: `${root}index.html#edicoes` },
     { label: "Cronologia", section: "cronologia", href: `${root}index.html#cronologia` }
   ];
@@ -225,6 +236,40 @@ function renderHomeRecentHqs() {
       `
     )
     .join("");
+}
+
+function sortedCharacters() {
+  const collator = new Intl.Collator("pt-BR", { sensitivity: "base" });
+  return [...catalogo.personagens].sort((first, second) => collator.compare(first.title, second.title));
+}
+
+function updateCharacterSearchStatus(count) {
+  if (!characterSearchStatus) {
+    return;
+  }
+
+  characterSearchStatus.textContent = count === 1 ? "1 personagem" : `${count} personagens`;
+}
+
+function renderCharacterIndex() {
+  if (!characterList) {
+    return;
+  }
+
+  const characters = sortedCharacters();
+
+  characterList.innerHTML = characters
+    .map(
+      (character) => `
+        <a class="character-card" href="${assetPath(character.href)}" aria-label="${escapeHtml(character.title)}">
+          <strong>${escapeHtml(character.title)}</strong>
+          <small>${escapeHtml(character.universe || "Universo não informado")}</small>
+        </a>
+      `
+    )
+    .join("");
+
+  updateCharacterSearchStatus(characters.length);
 }
 
 function loginOriginWarning() {
@@ -744,6 +789,29 @@ function filterUniverseCards(query) {
   }
 }
 
+function filterCharacterCards(query) {
+  const cards = Array.from(document.querySelectorAll(".character-card"));
+
+  if (!cards.length) {
+    return;
+  }
+
+  const normalized = normalizeSearchText(query);
+  let visibleCount = 0;
+
+  cards.forEach((card) => {
+    const searchable = normalizeSearchText(`${card.getAttribute("aria-label") || ""} ${card.textContent || ""}`);
+    const isVisible = !normalized || searchable.includes(normalized);
+    card.hidden = !isVisible;
+
+    if (isVisible) {
+      visibleCount += 1;
+    }
+  });
+
+  updateCharacterSearchStatus(visibleCount);
+}
+
 function isVolumePage() {
   return Boolean(currentComic());
 }
@@ -1189,6 +1257,10 @@ function setupEvents() {
     filterUniverseCards(event.target.value);
   });
 
+  characterSearchInput?.addEventListener("input", (event) => {
+    filterCharacterCards(event.target.value);
+  });
+
   document.addEventListener("click", async (event) => {
     const articleButton = event.target.closest("[data-open-article]");
     const sectionLink = event.target.closest("[data-section]");
@@ -1407,6 +1479,7 @@ async function startAuth() {
 
 normalizeAuthForms();
 renderHomeRecentHqs();
+renderCharacterIndex();
 setupEvents();
 createVolumeActions();
 startAuth();

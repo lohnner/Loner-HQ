@@ -176,6 +176,19 @@ export const acervo = [
     pageCount: 22,
     xpReward: 22,
     fileName: "batman-1-2025.html"
+  },
+  {
+    tipo: "hq",
+    id: "batman-2-2025",
+    title: "Batman #2 (2025)",
+    shortTitle: "Batman #2",
+    universe: "DC Universe",
+    series: "Batman (2025–)",
+    href: "Universos/DC Universe/Batman/batman-2-2025.html",
+    cover: "Universos/DC Universe/Batman/Batman%20(2025%E2%80%93)%20%232.jpg",
+    pageCount: 22,
+    xpReward: 22,
+    fileName: "batman-2-2025.html"
   }
 ];
 

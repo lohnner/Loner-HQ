@@ -924,6 +924,45 @@ img {
   background: #ffffff;
 }
 
+.character-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.character-card {
+  display: grid;
+  gap: 3px;
+  min-height: 74px;
+  padding: 13px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: #ffffff;
+  color: var(--text);
+  text-decoration: none;
+}
+
+.character-card:hover,
+.character-card:focus-visible {
+  border-color: var(--link-hover);
+  color: var(--link-hover);
+  text-decoration: none;
+  box-shadow: var(--shadow);
+}
+
+.character-card strong {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.character-card small {
+  color: var(--muted);
+  font-size: 12px;
+}
+
 .universe-placeholder-panel {
   position: relative;
   display: grid;
