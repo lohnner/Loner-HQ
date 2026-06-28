@@ -107,6 +107,14 @@ export const acervo = [
   },
   {
     tipo: "serie",
+    id: "star-wars-a-batalha-de-jakku-insurgencia-crescente",
+    title: "Insurgência Crescente",
+    year: "2024",
+    universe: "Star Wars",
+    href: "Universos/Star Wars/a-batalha-de-jakku/insurg%C3%AAncia-crescente/insurg%C3%AAncia-crescente.html"
+  },
+  {
+    tipo: "serie",
     id: "daredevil-1964",
     title: "Daredevil",
     year: "1964",
@@ -148,6 +156,19 @@ export const acervo = [
     pageCount: 19,
     xpReward: 19,
     fileName: "star-wars-2-1977.html"
+  },
+  {
+    tipo: "hq",
+    id: "star-wars-a-batalha-de-jakku-insurgencia-crescente-1-2024",
+    title: "A Batalha de Jakku: Insurgência Crescente #1 (2024)",
+    shortTitle: "Insurgência Crescente #1",
+    universe: "Star Wars",
+    series: "Insurgência Crescente",
+    href: "Universos/Star Wars/a-batalha-de-jakku/insurg%C3%AAncia-crescente/a-batalha-de-jakku-insurg%C3%AAncia-crescente-1-2024.html",
+    cover: "Universos/Star Wars/a-batalha-de-jakku/insurg%C3%AAncia-crescente/a-batalha-de-jakku-insurg%C3%AAncia-crescente%231.png",
+    pageCount: 0,
+    xpReward: 0,
+    fileName: "a-batalha-de-jakku-insurgência-crescente-1-2024.html"
   },
   {
     tipo: "hq",

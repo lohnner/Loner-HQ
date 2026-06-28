@@ -46,6 +46,10 @@ function rootPath() {
     return "../../../";
   }
 
+  if (path.includes("/Universos/Star Wars/a-batalha-de-jakku/insurgência-crescente/")) {
+    return "../../../../";
+  }
+
   if (path.includes("/Universos/Star Wars/a-batalha-de-jakku/")) {
     return "../../../";
   }
@@ -286,6 +290,14 @@ function loginOriginWarning() {
   }
 
   return "";
+}
+
+function shouldUseGoogleRedirect() {
+  const coarsePointer = window.matchMedia?.("(pointer: coarse)")?.matches;
+  const narrowScreen = window.matchMedia?.("(max-width: 820px)")?.matches;
+  const mobileAgent = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
+
+  return Boolean(coarsePointer || narrowScreen || mobileAgent);
 }
 
 function pagePath(path, params = {}) {
@@ -1307,12 +1319,23 @@ function setupEvents() {
         const provider = new firebaseServices.GoogleAuthProvider();
         provider.addScope("email");
         provider.addScope("profile");
+
+        if (shouldUseGoogleRedirect()) {
+          setMessage("Redirecionando para o Google...", "success");
+          await firebaseServices.signInWithRedirect(firebaseServices.auth, provider);
+          return;
+        }
+
         setMessage("Abrindo login do Google...", "success");
         await firebaseServices.signInWithPopup(firebaseServices.auth, provider);
       } catch (error) {
         const code = error?.code || "";
 
-        if (code.includes("auth/popup-blocked") || code.includes("auth/operation-not-supported-in-this-environment")) {
+        if (
+          code.includes("auth/popup-blocked") ||
+          code.includes("auth/cancelled-popup-request") ||
+          code.includes("auth/operation-not-supported-in-this-environment")
+        ) {
           try {
             const provider = new firebaseServices.GoogleAuthProvider();
             provider.addScope("email");
