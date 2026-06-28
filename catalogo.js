@@ -163,6 +163,19 @@ export const acervo = [
     pageCount: 23,
     xpReward: 23,
     fileName: "daredevil-2-1964.html"
+  },
+  {
+    tipo: "hq",
+    id: "batman-1-2025",
+    title: "Batman #1 (2025)",
+    shortTitle: "Batman #1",
+    universe: "DC Universe",
+    series: "Batman (2025–)",
+    href: "Universos/DC Universe/Batman/batman-1-2025.html",
+    cover: "Universos/DC Universe/Batman/2025%20Batman%20(2025%E2%80%93)%20%231.jpg",
+    pageCount: 22,
+    xpReward: 22,
+    fileName: "batman-1-2025.html"
   }
 ];
 
