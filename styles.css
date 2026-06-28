@@ -14,6 +14,7 @@
   --danger: #b32424;
   --success: #54595d;
   --shadow: 0 10px 28px rgba(32, 33, 34, 0.08);
+  --cover-ratio: 300 / 460;
 }
 
 * {
@@ -1004,8 +1005,9 @@ img {
 
 .entry-card img {
   width: 92px;
+  aspect-ratio: var(--cover-ratio);
   height: auto;
-  object-fit: contain;
+  object-fit: cover;
   border: 1px solid var(--line);
   background: #ffffff;
 }
@@ -1032,11 +1034,11 @@ img {
 
 .volume-card img {
   width: 100%;
-  aspect-ratio: 65 / 100;
+  aspect-ratio: var(--cover-ratio);
   height: auto;
   border: 1px solid var(--line);
   background: #ffffff;
-  object-fit: contain;
+  object-fit: cover;
   box-shadow: var(--shadow);
 }
 
@@ -1084,9 +1086,10 @@ img {
 
 .infobox img {
   width: calc(100% - 28px);
+  aspect-ratio: var(--cover-ratio);
   height: auto;
   margin: 14px;
-  object-fit: contain;
+  object-fit: cover;
   border: 1px solid var(--line);
   background: #ffffff;
 }
