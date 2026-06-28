@@ -300,6 +300,23 @@ function shouldUseGoogleRedirect() {
   return Boolean(coarsePointer || narrowScreen || mobileAgent);
 }
 
+function createGoogleProvider() {
+  const provider = new firebaseServices.GoogleAuthProvider();
+  provider.addScope("email");
+  provider.addScope("profile");
+  provider.setCustomParameters?.({ prompt: "select_account" });
+  return provider;
+}
+
+function shouldFallbackToRedirect(error) {
+  const code = error?.code || "";
+  const popupBlocked =
+    code.includes("auth/popup-blocked") || code.includes("auth/operation-not-supported-in-this-environment");
+  const popupInterrupted = code.includes("auth/cancelled-popup-request") || code.includes("auth/popup-closed-by-user");
+
+  return popupBlocked || (shouldUseGoogleRedirect() && popupInterrupted);
+}
+
 function pagePath(path, params = {}) {
   const url = new URL(`${rootPath()}${path}`, window.location.href);
   Object.entries(params).forEach(([key, value]) => {
@@ -475,6 +492,7 @@ async function loadFirebase() {
     createUserWithEmailAndPassword: authModule.createUserWithEmailAndPassword,
     signInWithEmailAndPassword: authModule.signInWithEmailAndPassword,
     signInWithRedirect: authModule.signInWithRedirect,
+    browserPopupRedirectResolver: authModule.browserPopupRedirectResolver,
     signOut: authModule.signOut,
     onAuthStateChanged: authModule.onAuthStateChanged,
     collection: firestoreModule.collection,
@@ -1199,6 +1217,52 @@ function openProfile(uid) {
   window.location.assign(pagePath("perfil.html", { uid }));
 }
 
+async function signInWithGoogle() {
+  try {
+    if (!firebaseServices) {
+      await loadFirebase();
+    }
+
+    if (!firebaseServices) {
+      setFirebaseUnavailable();
+      return;
+    }
+
+    const originWarning = loginOriginWarning();
+
+    if (originWarning) {
+      setMessage(originWarning, "error");
+      return;
+    }
+
+    pendingAuthError = "";
+    setMessage("Abrindo login do Google...", "success");
+    await firebaseServices.signInWithPopup(
+      firebaseServices.auth,
+      createGoogleProvider(),
+      firebaseServices.browserPopupRedirectResolver
+    );
+  } catch (error) {
+    if (shouldFallbackToRedirect(error)) {
+      try {
+        setMessage("Redirecionando para o Google...", "success");
+        await firebaseServices.signInWithRedirect(
+          firebaseServices.auth,
+          createGoogleProvider(),
+          firebaseServices.browserPopupRedirectResolver
+        );
+      } catch (redirectError) {
+        pendingAuthError = authErrorMessage(redirectError);
+        setMessage(pendingAuthError, "error");
+      }
+      return;
+    }
+
+    pendingAuthError = authErrorMessage(error);
+    setMessage(pendingAuthError, "error");
+  }
+}
+
 function setupEvents() {
   showRegister?.addEventListener("click", () => {
     loginForm.hidden = true;
@@ -1306,52 +1370,10 @@ function setupEvents() {
       setMessage("Você saiu da conta.");
     }
 
-    if (googleButton && firebaseServices) {
-      try {
-        const originWarning = loginOriginWarning();
-
-        if (originWarning) {
-          setMessage(originWarning, "error");
-          return;
-        }
-
-        pendingAuthError = "";
-        const provider = new firebaseServices.GoogleAuthProvider();
-        provider.addScope("email");
-        provider.addScope("profile");
-
-        if (shouldUseGoogleRedirect()) {
-          setMessage("Redirecionando para o Google...", "success");
-          await firebaseServices.signInWithRedirect(firebaseServices.auth, provider);
-          return;
-        }
-
-        setMessage("Abrindo login do Google...", "success");
-        await firebaseServices.signInWithPopup(firebaseServices.auth, provider);
-      } catch (error) {
-        const code = error?.code || "";
-
-        if (
-          code.includes("auth/popup-blocked") ||
-          code.includes("auth/cancelled-popup-request") ||
-          code.includes("auth/operation-not-supported-in-this-environment")
-        ) {
-          try {
-            const provider = new firebaseServices.GoogleAuthProvider();
-            provider.addScope("email");
-            provider.addScope("profile");
-            setMessage("Redirecionando para o Google...", "success");
-            await firebaseServices.signInWithRedirect(firebaseServices.auth, provider);
-          } catch (redirectError) {
-            pendingAuthError = authErrorMessage(redirectError);
-            setMessage(pendingAuthError, "error");
-          }
-          return;
-        }
-
-        pendingAuthError = authErrorMessage(error);
-        setMessage(pendingAuthError, "error");
-      }
+    if (googleButton) {
+      event.preventDefault();
+      await signInWithGoogle();
+      return;
     }
 
     if (profileButton && currentUser) {
@@ -1463,7 +1485,7 @@ async function startAuth() {
   }
 
   try {
-    await firebaseServices.getRedirectResult(firebaseServices.auth);
+    await firebaseServices.getRedirectResult(firebaseServices.auth, firebaseServices.browserPopupRedirectResolver);
   } catch (error) {
     pendingAuthError = authErrorMessage(error);
     setMessage(pendingAuthError, "error");
