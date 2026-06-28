@@ -8,7 +8,7 @@ const articles = [
     year: "1977",
     tags: ["Marvel Comics", "adaptação", "sci-fi"],
     summary:
-      "Primeira edição da adaptação em quadrinhos de Star Wars publicada pela Marvel Comics. Na Loner HQ, este verbete reúne capa, dados editoriais, personagens centrais e relações com a cronologia da saga."
+      "Primeira edição da adaptação em quadrinhos de Star Wars publicada pela Marvel Comics. Na Loner HQ, este verbete reúne capa, dados editoriais, personagens centrais e relações com a cronologia da série."
   },
   {
     id: "star-wars-2",
@@ -17,7 +17,7 @@ const articles = [
     year: "1977",
     tags: ["Marvel Comics", "adaptação", "sci-fi"],
     summary:
-      "Segunda edição da adaptação Marvel de Star Wars, com a história Six Against the Galaxy. Na Loner HQ, este volume soma 19 páginas e segue o mesmo padrão de catalogação da Saga Principal."
+      "Segunda edição da adaptação Marvel de Star Wars, com a história Six Against the Galaxy. Na Loner HQ, este volume soma 19 páginas e segue o mesmo padrão de catalogação da Série Principal."
   },
   {
     id: "universo-star-wars",
@@ -63,7 +63,7 @@ const comics = {
     title: "Star Wars #1 (1977)",
     shortTitle: "Star Wars #1",
     universe: "Star Wars",
-    saga: "Saga Principal",
+    saga: "Série Principal",
     href: "Universos/Star Wars/Saga Principal/star-wars-1-1977.html",
     cover: "Universos/Star Wars/Saga Principal/Star Wars #1.png",
     pageCount: 20,
@@ -75,7 +75,7 @@ const comics = {
     title: "Star Wars #2 (1977)",
     shortTitle: "Star Wars #2",
     universe: "Star Wars",
-    saga: "Saga Principal",
+    saga: "Série Principal",
     href: "Universos/Star Wars/Saga Principal/star-wars-2-1977.html",
     cover: "Universos/Star Wars/Saga Principal/Star Wars #2.png",
     pageCount: 19,
@@ -235,8 +235,8 @@ function renderSharedSidebar() {
               <dd>2</dd>
             </div>
             <div>
-              <dt>Sagas</dt>
-              <dd>1</dd>
+              <dt>Séries</dt>
+              <dd>2</dd>
             </div>
             <div>
               <dt>Volumes</dt>
