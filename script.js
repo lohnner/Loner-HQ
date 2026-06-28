@@ -17,7 +17,7 @@ const articles = [
     year: "1977",
     tags: ["Marvel Comics", "adaptação", "sci-fi"],
     summary:
-      "Segunda edição da adaptação Marvel de Star Wars, com a história Six Against the Galaxy. Na Loner HQ, este volume soma 19 páginas e concede 19 XP ao ser marcado como lido."
+      "Segunda edição da adaptação Marvel de Star Wars, com a história Six Against the Galaxy. Na Loner HQ, este volume soma 19 páginas e segue o mesmo padrão de catalogação da Saga Principal."
   },
   {
     id: "universo-star-wars",
