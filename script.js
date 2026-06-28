@@ -86,6 +86,8 @@ const comics = {
 
 const defaultAvatarPath = "Avatar/homemaranha.png";
 
+renderSharedSidebar();
+
 const loginForm = document.querySelector("#loginForm");
 const registerForm = document.querySelector("#registerForm");
 const accountPanel = document.querySelector("#accountPanel");
@@ -126,6 +128,119 @@ function rootPath() {
   }
 
   return "";
+}
+
+function sidebarSection() {
+  const hashSection = window.location.hash.replace("#", "");
+  const hashSections = ["personagens", "edicoes", "cronologia"];
+
+  if (hashSections.includes(hashSection)) {
+    return hashSection;
+  }
+
+  const path = decodeURIComponent(window.location.pathname).replace(/\\/g, "/");
+
+  if (path.includes("/Universos/")) {
+    return "universos";
+  }
+
+  if (path.endsWith("/perfil.html")) {
+    return "";
+  }
+
+  return "inicio";
+}
+
+function renderSharedSidebar() {
+  const sidebar = document.querySelector(".sidebar");
+
+  if (!sidebar) {
+    return;
+  }
+
+  const root = rootPath();
+  const activeSection = sidebarSection();
+  const navItems = [
+    { label: "HOME", section: "inicio", href: `${root}index.html` },
+    { label: "Universos", section: "universos", href: `${root}Universos/universos.html` },
+    { label: "Personagens", section: "personagens", href: `${root}index.html#personagens` },
+    { label: "Edições", section: "edicoes", href: `${root}index.html#edicoes` },
+    { label: "Cronologia", section: "cronologia", href: `${root}index.html#cronologia` }
+  ];
+  const navLinksMarkup = navItems
+    .map((item) => {
+      const isActive = item.section === activeSection;
+      return `
+          <a href="${item.href}" class="nav-link${isActive ? " active" : ""}" data-section="${item.section}"${isActive ? ' aria-current="page"' : ""}>${item.label}</a>`;
+    })
+    .join("");
+
+  sidebar.innerHTML = `
+        <a class="brand" href="${root}index.html" aria-label="Loner HQ página inicial">
+          <span class="brand-mark">LH</span>
+          <span>
+            <strong>Loner HQ</strong>
+            <small>Arquivo de quadrinhos</small>
+          </span>
+        </a>
+
+        <section class="auth-panel" aria-labelledby="authTitle">
+          <div class="auth-heading">
+            <h2 id="authTitle">Conta</h2>
+            <span id="authBadge">Visitante</span>
+          </div>
+
+          <form class="auth-form" id="loginForm">
+            <label for="loginUser">E-mail</label>
+            <input id="loginUser" name="usuario" type="email" autocomplete="email" required />
+
+            <label for="loginPassword">Senha</label>
+            <input id="loginPassword" name="senha" type="password" autocomplete="current-password" required />
+
+            <button class="button primary" type="submit">Entrar</button>
+            <button class="button ghost" type="button" id="showRegister">Cadastro</button>
+          </form>
+
+          <form class="auth-form" id="registerForm" hidden>
+            <label for="registerUser">Novo e-mail</label>
+            <input id="registerUser" name="novoUsuario" type="email" autocomplete="email" required />
+
+            <label for="registerPassword">Criar senha</label>
+            <input id="registerPassword" name="novaSenha" type="password" autocomplete="new-password" minlength="6" required />
+
+            <label for="registerConfirm">Confirmar senha</label>
+            <input id="registerConfirm" name="confirmarSenha" type="password" autocomplete="new-password" minlength="6" required />
+
+            <button class="button primary" type="submit">Criar conta</button>
+            <button class="button ghost" type="button" id="showLogin">Voltar</button>
+          </form>
+
+          <div class="account-panel" id="accountPanel" hidden></div>
+
+          <p class="auth-message" id="authMessage" aria-live="polite"></p>
+        </section>
+
+        <nav class="wiki-nav" aria-label="Navegação principal">${navLinksMarkup}
+        </nav>
+
+        <section class="side-list" aria-labelledby="sideStats">
+          <h2 id="sideStats">Acervo</h2>
+          <dl>
+            <div>
+              <dt>Universos</dt>
+              <dd>1</dd>
+            </div>
+            <div>
+              <dt>Sagas</dt>
+              <dd>1</dd>
+            </div>
+            <div>
+              <dt>Volumes</dt>
+              <dd>${Object.keys(comics).length}</dd>
+            </div>
+          </dl>
+        </section>
+  `;
 }
 
 function assetPath(path) {
