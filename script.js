@@ -81,6 +81,18 @@ const comics = {
     pageCount: 19,
     xpReward: 19,
     fileName: "star-wars-2-1977.html"
+  },
+  "daredevil-1-1964": {
+    id: "daredevil-1-1964",
+    title: "Daredevil #1 (1964)",
+    shortTitle: "Daredevil #1",
+    universe: "Marvel",
+    series: "Daredevil (1964)",
+    href: "Universos/Marvel/daredevil-1-1964.html",
+    cover: "Universos/Marvel/1964 - Daredevil%231.jpg",
+    pageCount: 23,
+    xpReward: 23,
+    fileName: "daredevil-1-1964.html"
   }
 };
 

@@ -992,6 +992,11 @@ img {
   box-shadow: var(--shadow);
 }
 
+.volume-card small {
+  color: var(--muted);
+  font-weight: 400;
+}
+
 .data-table {
   width: 100%;
   border-collapse: collapse;
