@@ -15,7 +15,7 @@ export const articles = [
     year: "1977",
     tags: ["Marvel Comics", "adaptação", "sci-fi"],
     summary:
-      "Segunda edição da adaptação Marvel de Star Wars, com a história Six Against the Galaxy. Na Loner HQ, este volume soma 19 páginas e segue o mesmo padrão de catalogação da Série Principal."
+      "Segunda edição da adaptação Marvel de Star Wars, com a história Six Against the Galaxy. Na Loner HQ, esta HQ soma 19 páginas e segue o mesmo padrão de catalogação da Série Principal."
   },
   {
     id: "universo-star-wars",
@@ -55,7 +55,7 @@ export const articles = [
   }
 ];
 
-// Cadastre novos universos, personagens, séries e volumes aqui para atualizar o Acervo automaticamente.
+// Cadastre novos universos, personagens, séries e HQs aqui para atualizar o Acervo automaticamente.
 export const acervo = [
   {
     tipo: "universo",
@@ -113,7 +113,7 @@ export const acervo = [
     href: "Universos/DC Universe/Batman/batman-2025.html"
   },
   {
-    tipo: "volume",
+    tipo: "hq",
     id: "star-wars-1-1977",
     title: "Star Wars #1 (1977)",
     shortTitle: "Star Wars #1",
@@ -126,7 +126,7 @@ export const acervo = [
     fileName: "star-wars-1-1977.html"
   },
   {
-    tipo: "volume",
+    tipo: "hq",
     id: "star-wars-2-1977",
     title: "Star Wars #2 (1977)",
     shortTitle: "Star Wars #2",
@@ -139,7 +139,7 @@ export const acervo = [
     fileName: "star-wars-2-1977.html"
   },
   {
-    tipo: "volume",
+    tipo: "hq",
     id: "daredevil-1-1964",
     title: "Daredevil #1 (1964)",
     shortTitle: "Daredevil #1",
@@ -152,7 +152,7 @@ export const acervo = [
     fileName: "daredevil-1-1964.html"
   },
   {
-    tipo: "volume",
+    tipo: "hq",
     id: "daredevil-2-1964",
     title: "Daredevil #2 (1964)",
     shortTitle: "Daredevil #2",
@@ -166,11 +166,13 @@ export const acervo = [
   }
 ];
 
+const hqsCatalogadas = acervo.filter((item) => item.tipo === "hq");
+
 export const catalogo = {
   universos: acervo.filter((item) => item.tipo === "universo"),
   personagens: acervo.filter((item) => item.tipo === "personagem"),
   series: acervo.filter((item) => item.tipo === "serie"),
-  volumes: acervo.filter((item) => item.tipo === "volume")
+  hqs: hqsCatalogadas
 };
 
-export const comics = Object.fromEntries(catalogo.volumes.map((volume) => [volume.id, volume]));
+export const comics = Object.fromEntries(catalogo.hqs.map((hq) => [hq.id, hq]));

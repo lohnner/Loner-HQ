@@ -182,8 +182,8 @@ function renderSharedSidebar() {
               <dd>${acervoTotal("series")}</dd>
             </div>
             <div>
-              <dt>Volumes</dt>
-              <dd>${acervoTotal("volumes")}</dd>
+              <dt>HQs</dt>
+              <dd>${acervoTotal("hqs")}</dd>
             </div>
           </dl>
         </section>
@@ -738,7 +738,7 @@ function createVolumeActions() {
   volumeActions = document.createElement("div");
   volumeActions.className = "interaction-toolbar";
   volumeActions.id = "volumeActions";
-  volumeActions.setAttribute("aria-label", "Ações do volume");
+  volumeActions.setAttribute("aria-label", "Ações da HQ");
   volumeActions.innerHTML = `
     <button class="button" type="button" data-comic-action="owned">Eu Tenho</button>
     <button class="button" type="button" data-comic-action="read">Eu Li</button>
@@ -792,7 +792,7 @@ async function awardReadXp() {
 
 async function toggleComicAction(action) {
   if (!firebaseServices || !currentUser || !currentProfile?.nick || currentProfile.firestoreBlocked) {
-    setMessage("Entre na conta para salvar este volume.", "error");
+    setMessage("Entre na conta para salvar esta HQ.", "error");
     return;
   }
 
