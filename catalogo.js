@@ -271,6 +271,19 @@ export const acervo = [
   },
   {
     tipo: "hq",
+    id: "star-wars-a-batalha-de-jakku-insurgencia-em-ascensao-3-2024",
+    title: "Star Wars: A Batalha de Jakku — Insurgência em Ascensão #3 (2024)",
+    shortTitle: "Insurgência em Ascensão #3",
+    universe: "Star Wars",
+    series: "Insurgência em Ascensão",
+    href: "Universos/Star Wars/a-batalha-de-jakku/insurgencia-em-ascensao/a-batalha-de-jakku-insurgencia-em-ascensao-3-2024.html",
+    cover: "Universos/Star Wars/a-batalha-de-jakku/insurgencia-em-ascensao/a-batalha-de-jakku-insurgencia-em-ascensao%233.png",
+    pageCount: 23,
+    xpReward: 23,
+    fileName: "a-batalha-de-jakku-insurgencia-em-ascensao-3-2024.html"
+  },
+  {
+    tipo: "hq",
     id: "star-wars-a-batalha-de-jakku-republica-sitiada-1-2024",
     title: "A Batalha de Jakku: República Sitiada #1 (2024)",
     shortTitle: "República Sitiada #1",
