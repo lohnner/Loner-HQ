@@ -108,7 +108,7 @@ export const acervo = [
   {
     tipo: "serie",
     id: "star-wars-a-batalha-de-jakku-insurgencia-crescente",
-    title: "Insurgência Crescente",
+    title: "Insurgência em Ascensão",
     year: "2024",
     universe: "Star Wars",
     href: "Universos/Star Wars/a-batalha-de-jakku/insurg%C3%AAncia-crescente/insurg%C3%AAncia-crescente.html"
@@ -238,15 +238,28 @@ export const acervo = [
   {
     tipo: "hq",
     id: "star-wars-a-batalha-de-jakku-insurgencia-crescente-1-2024",
-    title: "A Batalha de Jakku: Insurgência Crescente #1 (2024)",
-    shortTitle: "Insurgência Crescente #1",
+    title: "Star Wars: A Batalha de Jakku — Insurgência em Ascensão #1 (2024)",
+    shortTitle: "Insurgência em Ascensão #1",
     universe: "Star Wars",
-    series: "Insurgência Crescente",
+    series: "Insurgência em Ascensão",
     href: "Universos/Star Wars/a-batalha-de-jakku/insurg%C3%AAncia-crescente/a-batalha-de-jakku-insurg%C3%AAncia-crescente-1-2024.html",
     cover: "Universos/Star Wars/a-batalha-de-jakku/insurg%C3%AAncia-crescente/a-batalha-de-jakku-insurg%C3%AAncia-crescente%231.png",
     pageCount: 33,
     xpReward: 33,
     fileName: "a-batalha-de-jakku-insurgência-crescente-1-2024.html"
+  },
+  {
+    tipo: "hq",
+    id: "star-wars-a-batalha-de-jakku-republica-sitiada-1-2024",
+    title: "A Batalha de Jakku: República Sitiada #1 (2024)",
+    shortTitle: "República Sitiada #1",
+    universe: "Star Wars",
+    series: "República Sitiada",
+    href: "Universos/Star Wars/a-batalha-de-jakku/insurg%C3%AAncia-crescente/a-batalha-de-jakku-republica-sitiada-1-2024.html",
+    cover: "Universos/Star Wars/a-batalha-de-jakku/insurg%C3%AAncia-crescente/a-batalha-de-jakku-republica-sitiada%232.png",
+    pageCount: 34,
+    xpReward: 34,
+    fileName: "a-batalha-de-jakku-republica-sitiada-1-2024.html"
   }
 ];
 
