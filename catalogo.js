@@ -108,7 +108,7 @@ export const acervo = [
   {
     tipo: "serie",
     id: "star-wars-a-batalha-de-jakku-insurgencia-crescente",
-    title: "Insurgência em Ascensão",
+    title: "Insurreição Sombria",
     year: "2024",
     universe: "Star Wars",
     href: "Universos/Star Wars/a-batalha-de-jakku/insurg%C3%AAncia-crescente/insurg%C3%AAncia-crescente.html"
@@ -238,10 +238,10 @@ export const acervo = [
   {
     tipo: "hq",
     id: "star-wars-a-batalha-de-jakku-insurgencia-crescente-1-2024",
-    title: "Star Wars: A Batalha de Jakku — Insurgência em Ascensão #1 (2024)",
-    shortTitle: "Insurgência em Ascensão #1",
+    title: "Star Wars: A Batalha de Jakku — Insurreição Sombria #1 (2024)",
+    shortTitle: "Insurreição Sombria #1",
     universe: "Star Wars",
-    series: "Insurgência em Ascensão",
+    series: "Insurreição Sombria",
     href: "Universos/Star Wars/a-batalha-de-jakku/insurg%C3%AAncia-crescente/a-batalha-de-jakku-insurg%C3%AAncia-crescente-1-2024.html",
     cover: "Universos/Star Wars/a-batalha-de-jakku/insurg%C3%AAncia-crescente/a-batalha-de-jakku-insurg%C3%AAncia-crescente%231.png",
     pageCount: 33,
