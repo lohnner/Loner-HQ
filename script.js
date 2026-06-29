@@ -46,7 +46,7 @@ function rootPath() {
     return "../../../";
   }
 
-  if (path.includes("/Universos/Star Wars/a-batalha-de-jakku/insurgência-crescente/")) {
+  if (path.includes("/Universos/Star Wars/a-batalha-de-jakku/insurgencia-em-ascensao/")) {
     return "../../../../";
   }
 

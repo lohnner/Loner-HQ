@@ -107,11 +107,11 @@ export const acervo = [
   },
   {
     tipo: "serie",
-    id: "star-wars-a-batalha-de-jakku-insurgencia-crescente",
+    id: "star-wars-a-batalha-de-jakku-insurgencia-em-ascensao",
     title: "Insurgência em Ascensão",
     year: "2024",
     universe: "Star Wars",
-    href: "Universos/Star Wars/a-batalha-de-jakku/insurg%C3%AAncia-crescente/insurg%C3%AAncia-crescente.html"
+    href: "Universos/Star Wars/a-batalha-de-jakku/insurgencia-em-ascensao/insurgencia-em-ascensao.html"
   },
   {
     tipo: "serie",
@@ -245,16 +245,29 @@ export const acervo = [
   },
   {
     tipo: "hq",
-    id: "star-wars-a-batalha-de-jakku-insurgencia-crescente-1-2024",
+    id: "star-wars-a-batalha-de-jakku-insurgencia-em-ascensao-1-2024",
     title: "Star Wars: A Batalha de Jakku — Insurgência em Ascensão #1 (2024)",
     shortTitle: "Insurgência em Ascensão #1",
     universe: "Star Wars",
     series: "Insurgência em Ascensão",
-    href: "Universos/Star Wars/a-batalha-de-jakku/insurg%C3%AAncia-crescente/a-batalha-de-jakku-insurg%C3%AAncia-crescente-1-2024.html",
-    cover: "Universos/Star Wars/a-batalha-de-jakku/insurg%C3%AAncia-crescente/a-batalha-de-jakku-insurg%C3%AAncia-crescente%231.png",
+    href: "Universos/Star Wars/a-batalha-de-jakku/insurgencia-em-ascensao/a-batalha-de-jakku-insurgencia-em-ascensao-1-2024.html",
+    cover: "Universos/Star Wars/a-batalha-de-jakku/insurgencia-em-ascensao/a-batalha-de-jakku-insurgencia-em-ascensao%231.png",
     pageCount: 33,
     xpReward: 33,
-    fileName: "a-batalha-de-jakku-insurgência-crescente-1-2024.html"
+    fileName: "a-batalha-de-jakku-insurgencia-em-ascensao-1-2024.html"
+  },
+  {
+    tipo: "hq",
+    id: "star-wars-a-batalha-de-jakku-insurgencia-em-ascensao-2-2024",
+    title: "Star Wars: A Batalha de Jakku — Insurgência em Ascensão #2 (2024)",
+    shortTitle: "Insurgência em Ascensão #2",
+    universe: "Star Wars",
+    series: "Insurgência em Ascensão",
+    href: "Universos/Star Wars/a-batalha-de-jakku/insurgencia-em-ascensao/a-batalha-de-jakku-insurgencia-em-ascensao-2-2024.html",
+    cover: "Universos/Star Wars/a-batalha-de-jakku/insurgencia-em-ascensao/a-batalha-de-jakku-insurgencia-em-ascensao%232.png",
+    pageCount: 23,
+    xpReward: 23,
+    fileName: "a-batalha-de-jakku-insurgencia-em-ascensao-2-2024.html"
   },
   {
     tipo: "hq",
