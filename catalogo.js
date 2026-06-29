@@ -108,10 +108,18 @@ export const acervo = [
   {
     tipo: "serie",
     id: "star-wars-a-batalha-de-jakku-insurgencia-crescente",
-    title: "Insurreição Sombria",
+    title: "Insurgência em Ascensão",
     year: "2024",
     universe: "Star Wars",
     href: "Universos/Star Wars/a-batalha-de-jakku/insurg%C3%AAncia-crescente/insurg%C3%AAncia-crescente.html"
+  },
+  {
+    tipo: "serie",
+    id: "star-wars-a-batalha-de-jakku-republica-sitiada",
+    title: "República Sitiada",
+    year: "2024",
+    universe: "Star Wars",
+    href: "Universos/Star Wars/a-batalha-de-jakku/rep%C3%BAblica-sitiada/rep%C3%BAblica-sitiada.html"
   },
   {
     tipo: "serie",
@@ -238,10 +246,10 @@ export const acervo = [
   {
     tipo: "hq",
     id: "star-wars-a-batalha-de-jakku-insurgencia-crescente-1-2024",
-    title: "Star Wars: A Batalha de Jakku — Insurreição Sombria #1 (2024)",
-    shortTitle: "Insurreição Sombria #1",
+    title: "Star Wars: A Batalha de Jakku — Insurgência em Ascensão #1 (2024)",
+    shortTitle: "Insurgência em Ascensão #1",
     universe: "Star Wars",
-    series: "Insurreição Sombria",
+    series: "Insurgência em Ascensão",
     href: "Universos/Star Wars/a-batalha-de-jakku/insurg%C3%AAncia-crescente/a-batalha-de-jakku-insurg%C3%AAncia-crescente-1-2024.html",
     cover: "Universos/Star Wars/a-batalha-de-jakku/insurg%C3%AAncia-crescente/a-batalha-de-jakku-insurg%C3%AAncia-crescente%231.png",
     pageCount: 33,
@@ -255,8 +263,8 @@ export const acervo = [
     shortTitle: "República Sitiada #1",
     universe: "Star Wars",
     series: "República Sitiada",
-    href: "Universos/Star Wars/a-batalha-de-jakku/insurg%C3%AAncia-crescente/a-batalha-de-jakku-republica-sitiada-1-2024.html",
-    cover: "Universos/Star Wars/a-batalha-de-jakku/insurg%C3%AAncia-crescente/a-batalha-de-jakku-republica-sitiada%232.png",
+    href: "Universos/Star Wars/a-batalha-de-jakku/rep%C3%BAblica-sitiada/a-batalha-de-jakku-republica-sitiada-1-2024.html",
+    cover: "Universos/Star Wars/a-batalha-de-jakku/rep%C3%BAblica-sitiada/a-batalha-de-jakku-republica-sitiada%232.png",
     pageCount: 34,
     xpReward: 34,
     fileName: "a-batalha-de-jakku-republica-sitiada-1-2024.html"
