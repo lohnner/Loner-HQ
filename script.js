@@ -62,6 +62,10 @@ function rootPath() {
     return "../../";
   }
 
+  if (path.includes("/Universos/Dune/")) {
+    return "../../";
+  }
+
   if (path.includes("/Universos/Marvel/Demolidor/")) {
     return "../../../";
   }

@@ -27,6 +27,15 @@ export const articles = [
       "Conjunto de histórias, personagens, planetas e eras narrativas ligados a Star Wars. O portal organiza edições por linha temporal, editora, fase editorial e mídia de origem."
   },
   {
+    id: "universo-dune",
+    title: "Universo Dune",
+    category: "Universo",
+    year: "1965",
+    tags: ["sci-fi", "Arrakis", "especiaria"],
+    summary:
+      "Saga de ficção científica criada a partir dos romances de Frank Herbert, centrada em Arrakis, na especiaria melange e nos conflitos entre casas, Fremen e ordens políticas e religiosas."
+  },
+  {
     id: "linha-do-tempo",
     title: "Linha do tempo editorial",
     category: "Guia",
@@ -62,6 +71,12 @@ export const acervo = [
     id: "star-wars",
     title: "Star Wars",
     href: "Universos/Star Wars/starwars.html"
+  },
+  {
+    tipo: "universo",
+    id: "dune",
+    title: "Dune",
+    href: "Universos/Dune/dune.html"
   },
   {
     tipo: "universo",
