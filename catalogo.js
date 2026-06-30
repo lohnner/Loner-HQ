@@ -36,6 +36,15 @@ export const articles = [
       "Saga de ficção científica criada a partir dos romances de Frank Herbert, centrada em Arrakis, na especiaria melange e nos conflitos entre casas, Fremen e ordens políticas e religiosas."
   },
   {
+    id: "dune-marvel-1985",
+    title: "Dune (Marvel)",
+    category: "Série",
+    year: "1985",
+    tags: ["Marvel Comics", "Dune", "adaptação"],
+    summary:
+      "Minissérie em três edições publicada pela Marvel Comics em 1985, adaptando Dune para os quadrinhos com texto de Ralph Macchio e arte de Bill Sienkiewicz."
+  },
+  {
     id: "linha-do-tempo",
     title: "Linha do tempo editorial",
     category: "Guia",
@@ -103,6 +112,14 @@ export const acervo = [
     title: "Batman",
     universe: "DC Universe",
     href: "Universos/DC Universe/Batman/batman.html"
+  },
+  {
+    tipo: "serie",
+    id: "dune-marvel-1985",
+    title: "Dune (Marvel)",
+    year: "1985",
+    universe: "Dune",
+    href: "Universos/Dune/dune-marvel-1985/dune-marvel-1985.html"
   },
   {
     tipo: "serie",

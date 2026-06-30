@@ -62,6 +62,10 @@ function rootPath() {
     return "../../";
   }
 
+  if (path.includes("/Universos/Dune/dune-marvel-1985/")) {
+    return "../../../";
+  }
+
   if (path.includes("/Universos/Dune/")) {
     return "../../";
   }
