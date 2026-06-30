@@ -54,6 +54,15 @@ export const articles = [
       "Primeira edição da minissérie Dune publicada pela Marvel Comics em 1985, com adaptação de Ralph Macchio e arte de Bill Sienkiewicz."
   },
   {
+    id: "dune-marvel-1985-2",
+    title: "Dune #2",
+    category: "Edição",
+    year: "1985",
+    tags: ["Marvel Comics", "Dune", "adaptação"],
+    summary:
+      "Segunda edição da minissérie Dune publicada pela Marvel Comics em 1985, continuando a adaptação oficial do filme para os quadrinhos."
+  },
+  {
     id: "linha-do-tempo",
     title: "Linha do tempo editorial",
     category: "Guia",
@@ -361,6 +370,19 @@ export const acervo = [
     pageCount: 36,
     xpReward: 36,
     fileName: "dune-marvel-1985-1-1985.html"
+  },
+  {
+    tipo: "hq",
+    id: "dune-marvel-1985-2",
+    title: "Dune #2 (1985)",
+    shortTitle: "Dune #2",
+    universe: "Dune",
+    series: "Dune",
+    href: "Universos/Dune/dune-marvel-1985/dune-marvel-1985-2-1985.html",
+    cover: "Universos/Dune/dune-marvel-1985/dune-marvel-1985%232.png",
+    pageCount: 36,
+    xpReward: 36,
+    fileName: "dune-marvel-1985-2-1985.html"
   }
 ];
 
