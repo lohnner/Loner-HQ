@@ -45,6 +45,15 @@ export const articles = [
       "Minissérie em três edições publicada pela Marvel Comics em 1985, adaptando Dune para os quadrinhos com texto de Ralph Macchio e arte de Bill Sienkiewicz."
   },
   {
+    id: "dune-marvel-1985-1",
+    title: "Dune #1",
+    category: "Edição",
+    year: "1985",
+    tags: ["Marvel Comics", "Dune", "adaptação"],
+    summary:
+      "Primeira edição da minissérie Dune publicada pela Marvel Comics em 1985, com adaptação de Ralph Macchio e arte de Bill Sienkiewicz."
+  },
+  {
     id: "linha-do-tempo",
     title: "Linha do tempo editorial",
     category: "Guia",
@@ -339,6 +348,19 @@ export const acervo = [
     pageCount: 34,
     xpReward: 34,
     fileName: "a-batalha-de-jakku-republica-sitiada-1-2024.html"
+  },
+  {
+    tipo: "hq",
+    id: "dune-marvel-1985-1",
+    title: "Dune #1 (1985)",
+    shortTitle: "Dune #1",
+    universe: "Dune",
+    series: "Dune (Marvel)",
+    href: "Universos/Dune/dune-marvel-1985/dune-marvel-1985-1-1985.html",
+    cover: "Universos/Dune/dune-marvel-1985/dune-marvel-1985%231.png",
+    pageCount: 36,
+    xpReward: 36,
+    fileName: "dune-marvel-1985-1-1985.html"
   }
 ];
 
