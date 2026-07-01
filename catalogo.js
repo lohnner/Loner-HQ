@@ -369,19 +369,6 @@ export const acervo = [
   },
   {
     tipo: "hq",
-    id: "star-wars-a-batalha-de-jakku-republica-sitiada-2-2024",
-    title: "A Batalha de Jakku: República Sitiada #2 (2024)",
-    shortTitle: "República Sitiada #2",
-    universe: "Star Wars",
-    series: "República Sitiada",
-    href: "Universos/Star Wars/a-batalha-de-jakku/rep%C3%BAblica-sitiada/a-batalha-de-jakku-republica-sitiada-2-2024.html",
-    cover: "Universos/Star Wars/a-batalha-de-jakku/rep%C3%BAblica-sitiada/a-batalha-de-jakku-republica-sitiada%232.png",
-    pageCount: 32,
-    xpReward: 32,
-    fileName: "a-batalha-de-jakku-republica-sitiada-2-2024.html"
-  },
-  {
-    tipo: "hq",
     id: "dune-marvel-1985-1",
     title: "Dune #1 (1985)",
     shortTitle: "Dune #1",
@@ -418,6 +405,19 @@ export const acervo = [
     pageCount: 36,
     xpReward: 36,
     fileName: "dune-marvel-1985-3-1985.html"
+  },
+  {
+    tipo: "hq",
+    id: "star-wars-a-batalha-de-jakku-republica-sitiada-2-2024",
+    title: "A Batalha de Jakku: República Sitiada #2 (2024)",
+    shortTitle: "República Sitiada #2",
+    universe: "Star Wars",
+    series: "República Sitiada",
+    href: "Universos/Star Wars/a-batalha-de-jakku/rep%C3%BAblica-sitiada/a-batalha-de-jakku-republica-sitiada-2-2024.html",
+    cover: "Universos/Star Wars/a-batalha-de-jakku/rep%C3%BAblica-sitiada/a-batalha-de-jakku-republica-sitiada%232.png",
+    pageCount: 32,
+    xpReward: 32,
+    fileName: "a-batalha-de-jakku-republica-sitiada-2-2024.html"
   }
 ];
 
