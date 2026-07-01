@@ -362,10 +362,23 @@ export const acervo = [
     universe: "Star Wars",
     series: "República Sitiada",
     href: "Universos/Star Wars/a-batalha-de-jakku/rep%C3%BAblica-sitiada/a-batalha-de-jakku-republica-sitiada-1-2024.html",
-    cover: "Universos/Star Wars/a-batalha-de-jakku/rep%C3%BAblica-sitiada/a-batalha-de-jakku-republica-sitiada%232.png",
+    cover: "Universos/Star Wars/a-batalha-de-jakku/rep%C3%BAblica-sitiada/a-batalha-de-jakku-republica-sitiada%231.png",
     pageCount: 34,
     xpReward: 34,
     fileName: "a-batalha-de-jakku-republica-sitiada-1-2024.html"
+  },
+  {
+    tipo: "hq",
+    id: "star-wars-a-batalha-de-jakku-republica-sitiada-2-2024",
+    title: "A Batalha de Jakku: República Sitiada #2 (2024)",
+    shortTitle: "República Sitiada #2",
+    universe: "Star Wars",
+    series: "República Sitiada",
+    href: "Universos/Star Wars/a-batalha-de-jakku/rep%C3%BAblica-sitiada/a-batalha-de-jakku-republica-sitiada-2-2024.html",
+    cover: "Universos/Star Wars/a-batalha-de-jakku/rep%C3%BAblica-sitiada/a-batalha-de-jakku-republica-sitiada%232.png",
+    pageCount: 32,
+    xpReward: 32,
+    fileName: "a-batalha-de-jakku-republica-sitiada-2-2024.html"
   },
   {
     tipo: "hq",
