@@ -1,9 +1,11 @@
-import { firebaseConfig, firebaseReady } from "./firebase-config.js?v=authdomain-20260627";
+const runtimeAssetVersion = Date.now().toString();
 
-const { articles, catalogo, comics } = await import(`./catalogo.js?v=${Date.now()}`);
+const { firebaseConfig, firebaseReady } = await import(`./firebase-config.js?v=${runtimeAssetVersion}`);
+const { articles, catalogo, comics } = await import(`./catalogo.js?v=${runtimeAssetVersion}`);
 
 const defaultAvatarPath = "Avatar/homemaranha.png";
 const profileCacheKey = "loner-hq:lastProfile";
+const siteUpdateCheckInterval = 90 * 1000;
 
 renderSharedSidebar();
 
@@ -36,8 +38,11 @@ let readersUnsubscribe = null;
 let volumeActions = null;
 let readersButton = null;
 let pendingAuthError = "";
+let currentSiteFingerprint = "";
+let siteUpdateCheckInFlight = false;
 
 renderCachedProfile();
+startSiteUpdateWatcher();
 
 function rootPath() {
   const path = decodeURIComponent(window.location.pathname).replace(/\\/g, "/");
@@ -232,6 +237,122 @@ function assetPath(path) {
   }
 
   return `${rootPath()}${path}`;
+}
+
+function shouldWatchSiteUpdates() {
+  return window.location.protocol === "http:" || window.location.protocol === "https:";
+}
+
+function cacheBustedUrl(resource) {
+  const url = new URL(resource, window.location.href);
+  url.searchParams.set("lhqProbe", Date.now().toString());
+  return url.toString();
+}
+
+async function fetchVersionSource(resource) {
+  const controller = new AbortController();
+  const timeoutId = window.setTimeout(() => controller.abort(), 7000);
+
+  try {
+    const response = await fetch(cacheBustedUrl(resource), {
+      cache: "no-store",
+      signal: controller.signal
+    });
+
+    if (!response.ok) {
+      return "";
+    }
+
+    return response.text();
+  } catch (error) {
+    return "";
+  } finally {
+    window.clearTimeout(timeoutId);
+  }
+}
+
+function hashText(text) {
+  let hash = 2166136261;
+
+  for (let index = 0; index < text.length; index += 1) {
+    hash ^= text.charCodeAt(index);
+    hash = Math.imul(hash, 16777619);
+  }
+
+  return (hash >>> 0).toString(16).padStart(8, "0");
+}
+
+async function readSiteFingerprint() {
+  const pageUrl = new URL(window.location.href);
+  pageUrl.searchParams.delete("lhqProbe");
+
+  const sources = await Promise.all([
+    fetchVersionSource(pageUrl.toString()),
+    fetchVersionSource(assetPath("catalogo.js")),
+    fetchVersionSource(assetPath("script.js")),
+    fetchVersionSource(assetPath("styles.css"))
+  ]);
+
+  if (sources.some((source) => !source)) {
+    return "";
+  }
+
+  return hashText(sources.join("\n/* loner-hq-version-source */\n"));
+}
+
+function reloadWithDeployVersion(version) {
+  const shortVersion = version.slice(0, 8);
+  const url = new URL(window.location.href);
+
+  if (url.searchParams.get("lhq") === shortVersion) {
+    return;
+  }
+
+  url.searchParams.set("lhq", shortVersion);
+  window.location.replace(url.toString());
+}
+
+async function checkForSiteUpdate() {
+  if (!shouldWatchSiteUpdates() || siteUpdateCheckInFlight) {
+    return;
+  }
+
+  siteUpdateCheckInFlight = true;
+
+  try {
+    const latestFingerprint = await readSiteFingerprint();
+
+    if (!latestFingerprint) {
+      return;
+    }
+
+    if (!currentSiteFingerprint) {
+      currentSiteFingerprint = latestFingerprint;
+      return;
+    }
+
+    if (currentSiteFingerprint !== latestFingerprint) {
+      currentSiteFingerprint = latestFingerprint;
+      reloadWithDeployVersion(latestFingerprint);
+    }
+  } finally {
+    siteUpdateCheckInFlight = false;
+  }
+}
+
+function startSiteUpdateWatcher() {
+  if (!shouldWatchSiteUpdates()) {
+    return;
+  }
+
+  window.setTimeout(checkForSiteUpdate, 3000);
+  window.setInterval(checkForSiteUpdate, siteUpdateCheckInterval);
+  window.addEventListener("focus", checkForSiteUpdate);
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "visible") {
+      checkForSiteUpdate();
+    }
+  });
 }
 
 function renderHomeRecentHqs() {
