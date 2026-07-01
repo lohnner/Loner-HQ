@@ -63,6 +63,15 @@ export const articles = [
       "Segunda edição da minissérie Dune publicada pela Marvel Comics em 1985, continuando a adaptação oficial do filme para os quadrinhos."
   },
   {
+    id: "dune-marvel-1985-3",
+    title: "Dune #3",
+    category: "Edição",
+    year: "1985",
+    tags: ["Marvel Comics", "Dune", "adaptação"],
+    summary:
+      "Terceira e última edição da minissérie Dune publicada pela Marvel Comics em 1985, concluindo a adaptação oficial do filme para os quadrinhos."
+  },
+  {
     id: "linha-do-tempo",
     title: "Linha do tempo editorial",
     category: "Guia",
@@ -383,6 +392,19 @@ export const acervo = [
     pageCount: 36,
     xpReward: 36,
     fileName: "dune-marvel-1985-2-1985.html"
+  },
+  {
+    tipo: "hq",
+    id: "dune-marvel-1985-3",
+    title: "Dune #3 (1985)",
+    shortTitle: "Dune #3",
+    universe: "Dune",
+    series: "Dune",
+    href: "Universos/Dune/dune-marvel-1985/dune-marvel-1985-3-1985.html",
+    cover: "Universos/Dune/dune-marvel-1985/dune-marvel-1985%233.png",
+    pageCount: 36,
+    xpReward: 36,
+    fileName: "dune-marvel-1985-3-1985.html"
   }
 ];
 
