@@ -780,7 +780,7 @@ img {
 
 .recent-hq-card {
   display: grid;
-  grid-template-columns: 78px minmax(0, 1fr);
+  grid-template-columns: 88px minmax(0, 1fr);
   align-items: center;
   gap: 10px;
   min-height: 120px;
@@ -795,10 +795,6 @@ img {
   box-shadow: 0 8px 18px rgba(29, 39, 58, 0.07);
 }
 
-.recent-hq-card:first-child {
-  grid-template-columns: 88px minmax(0, 1fr);
-}
-
 .recent-hq-card:hover,
 .recent-hq-card:focus-visible {
   border-color: rgba(140, 14, 42, 0.34);
@@ -810,10 +806,6 @@ img {
 
 .recent-hq-cover {
   display: block;
-  width: 78px;
-}
-
-.recent-hq-card:first-child .recent-hq-cover {
   width: 88px;
 }
 
