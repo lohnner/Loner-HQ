@@ -780,10 +780,10 @@ img {
 
 .recent-hq-card:first-child {
   grid-template-columns: 88px minmax(0, 1fr);
-  border-color: rgba(140, 14, 42, 0.24);
-  border-left: 4px solid var(--accent);
+  border-color: var(--line-soft);
   background:
-    linear-gradient(135deg, rgba(140, 14, 42, 0.08), rgba(7, 90, 168, 0.04) 48%, #ffffff 100%);
+    linear-gradient(180deg, rgba(255, 255, 255, 0.94) 0%, rgba(248, 250, 253, 0.94) 100%),
+    #ffffff;
 }
 
 .recent-hq-card:hover,
