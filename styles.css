@@ -759,6 +759,23 @@ img {
   margin: -12px -12px 10px;
   padding: 9px 12px;
   background: linear-gradient(90deg, rgba(7, 90, 168, 0.1), rgba(255, 255, 255, 0.92));
+  justify-content: center;
+  position: relative;
+  text-align: center;
+}
+
+.recent-showcase .section-title h2 {
+  color: #101827;
+  font-weight: 900;
+  letter-spacing: 0;
+}
+
+.recent-showcase .section-title span {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-weight: 700;
 }
 
 .recent-hq-card {
@@ -768,11 +785,11 @@ img {
   gap: 10px;
   min-height: 120px;
   padding: 9px;
-  border: 1px solid var(--line-soft);
+  border: 1px solid rgba(140, 14, 42, 0.24);
+  border-left: 4px solid var(--accent);
   border-radius: var(--radius-sm);
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.94) 0%, rgba(248, 250, 253, 0.94) 100%),
-    #ffffff;
+    linear-gradient(135deg, rgba(140, 14, 42, 0.08), rgba(7, 90, 168, 0.04) 48%, #ffffff 100%);
   color: var(--text);
   text-decoration: none;
   box-shadow: 0 8px 18px rgba(29, 39, 58, 0.07);
@@ -780,15 +797,11 @@ img {
 
 .recent-hq-card:first-child {
   grid-template-columns: 88px minmax(0, 1fr);
-  border-color: var(--line-soft);
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.94) 0%, rgba(248, 250, 253, 0.94) 100%),
-    #ffffff;
 }
 
 .recent-hq-card:hover,
 .recent-hq-card:focus-visible {
-  border-color: rgba(7, 90, 168, 0.34);
+  border-color: rgba(140, 14, 42, 0.34);
   color: var(--link-hover);
   text-decoration: none;
   box-shadow: var(--shadow);
@@ -1957,5 +1970,15 @@ img {
 
   .section-title span {
     text-align: left;
+  }
+
+  .recent-showcase .section-title {
+    align-items: center;
+  }
+
+  .recent-showcase .section-title span {
+    position: static;
+    transform: none;
+    text-align: center;
   }
 }
