@@ -526,24 +526,78 @@ function formatNumber(value) {
   return new Intl.NumberFormat("pt-BR").format(Number(value || 0));
 }
 
+function comicSearchKey(value) {
+  return normalizeSearchText(value)
+    .replace(/[^a-z0-9]+/g, " ")
+    .replace(/\b(1964|1977|1985|2024|2025)\b/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function pathFileName(path = "") {
+  const cleanPath = String(path).split("?")[0];
+  let decodedPath = cleanPath;
+
+  try {
+    decodedPath = decodeURIComponent(cleanPath);
+  } catch {}
+
+  return decodedPath.split("/").pop() || "";
+}
+
+function legacyJakkuInsurgencyFallback(item = {}) {
+  const searchable = comicSearchKey(`${item.href || ""} ${item.cover || ""} ${item.title || ""} ${item.shortTitle || ""}`);
+
+  if (!searchable.includes("crescente") || !searchable.includes("batalha de jakku")) {
+    return null;
+  }
+
+  const issue = searchable.match(/\b([1-4])\b/)?.[1];
+
+  if (!issue) {
+    return null;
+  }
+
+  return Object.values(comics).find((comic) => comic.id === `star-wars-a-batalha-de-jakku-insurgencia-em-ascensao-${issue}-2024`) || null;
+}
+
 function catalogComicFallback(item = {}) {
-  return comics[item.comicId] || Object.values(comics).find((comic) => comic.href === item.href) || {};
+  const allComics = Object.values(comics);
+  const fileName = pathFileName(item.href);
+  const candidateKeys = [item.shortTitle, item.title]
+    .map(comicSearchKey)
+    .filter(Boolean);
+
+  return (
+    comics[item.comicId] ||
+    comics[item.id] ||
+    legacyJakkuInsurgencyFallback(item) ||
+    allComics.find((comic) => comic.href === item.href) ||
+    allComics.find((comic) => comic.fileName && comic.fileName === fileName) ||
+    allComics.find((comic) => {
+      const comicKeys = [comic.shortTitle, comic.title].map(comicSearchKey).filter(Boolean);
+      return candidateKeys.some((candidateKey) =>
+        comicKeys.some((comicKey) => comicKey === candidateKey || comicKey.includes(candidateKey) || candidateKey.includes(comicKey))
+      );
+    }) ||
+    {}
+  );
 }
 
 function enrichedComicInteraction(item = {}) {
   const fallback = catalogComicFallback(item);
 
   return {
-    ...fallback,
     ...item,
+    ...fallback,
     title: item.title || fallback.title || item.shortTitle || "HQ",
     shortTitle: item.shortTitle || fallback.shortTitle || item.title || "HQ",
-    href: item.href || fallback.href || "#",
-    cover: item.cover || fallback.cover || "",
-    universe: item.universe || fallback.universe || "",
-    series: item.series || fallback.series || "",
-    pageCount: Number(item.pageCount || fallback.pageCount || 0),
-    xpReward: Number(item.xpReward || fallback.xpReward || fallback.pageCount || 0)
+    href: fallback.href || item.href || "#",
+    cover: fallback.cover || item.cover || "",
+    universe: fallback.universe || item.universe || "",
+    series: fallback.series || item.series || "",
+    pageCount: Number(fallback.pageCount || item.pageCount || 0),
+    xpReward: Number(fallback.xpReward || item.xpReward || fallback.pageCount || 0)
   };
 }
 
