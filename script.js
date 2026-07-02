@@ -6,6 +6,7 @@ const { articles, catalogo, comics } = await import(`./catalogo.js?v=${runtimeAs
 const defaultAvatarPath = "Avatar/homemaranha.png";
 const profileCacheKey = "loner-hq:lastProfile";
 const siteUpdateCheckInterval = 90 * 1000;
+const pageTransitionDelay = 90;
 
 renderSharedSidebar();
 
@@ -266,6 +267,63 @@ function shouldWatchSiteUpdates() {
   return window.location.protocol === "http:" || window.location.protocol === "https:";
 }
 
+function prefersReducedMotion() {
+  return window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
+}
+
+function leavePage(url, options = {}) {
+  if (!url) {
+    return;
+  }
+
+  if (prefersReducedMotion()) {
+    if (options.replace) {
+      window.location.replace(url);
+    } else {
+      window.location.href = url;
+    }
+    return;
+  }
+
+  document.documentElement.classList.add("loner-page-leaving");
+
+  window.setTimeout(() => {
+    if (options.replace) {
+      window.location.replace(url);
+    } else {
+      window.location.href = url;
+    }
+  }, pageTransitionDelay);
+}
+
+function shouldSmoothNavigate(link, event) {
+  if (!link || event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) {
+    return false;
+  }
+
+  if (link.target || link.hasAttribute("download")) {
+    return false;
+  }
+
+  const rawHref = link.getAttribute("href") || "";
+
+  if (!rawHref || rawHref.startsWith("#") || /^(mailto:|tel:|javascript:)/i.test(rawHref)) {
+    return false;
+  }
+
+  const url = new URL(link.href, window.location.href);
+
+  if (url.origin !== window.location.origin) {
+    return false;
+  }
+
+  if (url.pathname === window.location.pathname && url.search === window.location.search && url.hash) {
+    return false;
+  }
+
+  return true;
+}
+
 function cacheBustedUrl(resource) {
   const url = new URL(resource, window.location.href);
   url.searchParams.set("lhqProbe", Date.now().toString());
@@ -332,7 +390,7 @@ function reloadWithDeployVersion(version) {
   }
 
   url.searchParams.set("lhq", shortVersion);
-  window.location.replace(url.toString());
+  leavePage(url.toString(), { replace: true });
 }
 
 async function checkForSiteUpdate() {
@@ -2095,6 +2153,7 @@ function setupEvents() {
   document.addEventListener("click", async (event) => {
     const articleButton = event.target.closest("[data-open-article]");
     const sectionLink = event.target.closest("[data-section]");
+    const navigationLink = event.target.closest("a[href]");
     const smartSuggestionButton = event.target.closest("[data-smart-query]");
     const logoutButton = event.target.closest("#logoutButton");
     const googleButton = event.target.closest("#googleLoginButton");
@@ -2114,6 +2173,12 @@ function setupEvents() {
 
     if (sectionLink) {
       setActiveSection(sectionLink.dataset.section);
+    }
+
+    if (shouldSmoothNavigate(navigationLink, event)) {
+      event.preventDefault();
+      leavePage(navigationLink.href);
+      return;
     }
 
     if (smartSuggestionButton && smartSearchInput) {

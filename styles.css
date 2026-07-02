@@ -457,6 +457,17 @@ img {
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.6) 0, rgba(255, 255, 255, 0) 240px),
     var(--page);
+  transition: opacity 0.14s ease, transform 0.14s ease;
+}
+
+html.loner-page-leaving .content-shell {
+  opacity: 0.72;
+  transform: translateY(4px);
+  pointer-events: none;
+}
+
+html.loner-page-leaving .sidebar {
+  opacity: 0.92;
 }
 
 .topbar {
@@ -2192,5 +2203,18 @@ img {
     position: static;
     transform: none;
     text-align: center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .content-shell,
+  a,
+  button {
+    transition: none;
+  }
+
+  html.loner-page-leaving .content-shell {
+    opacity: 1;
+    transform: none;
   }
 }
