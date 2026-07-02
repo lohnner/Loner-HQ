@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Ranking de Usuários - Loner HQ</title>
+    <link rel="stylesheet" href="styles.css" data-loner-cache-bust />
+    <script data-loner-app="script.js">
+      (() => {
+        const version = Date.now().toString();
+        const stylesheet = document.querySelector("link[data-loner-cache-bust]");
+
+        if (stylesheet) {
+          const href = stylesheet.getAttribute("href");
+          stylesheet.setAttribute("href", href + (href.includes("?") ? "&" : "?") + "v=" + version);
+        }
+
+        const app = document.createElement("script");
+        app.type = "module";
+        app.src = document.currentScript.dataset.lonerApp + "?v=" + version;
+        document.head.append(app);
+      })();
+    </script>
+  </head>
+  <body>
+    <div class="site-shell">
+      <aside class="sidebar" aria-label="Barra lateral"></aside>
+
+      <div class="content-shell">
+        <header class="topbar" aria-hidden="true"></header>
+
+        <main class="wiki-page universe-layout">
+          <article class="article">
+            <nav class="breadcrumbs" aria-label="Caminho">
+              <a href="index.html">Início</a>
+              <span>/</span>
+              <span>Ranking de Usuários</span>
+            </nav>
+
+            <header class="article-header">
+              <h1>Ranking de Usuários</h1>
+              <p class="lead">Classificação dos leitores da Loner HQ por level e XP acumulado.</p>
+            </header>
+
+            <div id="rankingPage" class="ranking-page">
+              <section class="content-band">
+                <h2>Carregando ranking</h2>
+                <p>Buscando usuários cadastrados na Loner HQ.</p>
+              </section>
+            </div>
+          </article>
+        </main>
+
+        <footer class="site-footer">
+          <p>Loner HQ é um projeto local de catalogação de quadrinhos.</p>
+        </footer>
+      </div>
+    </div>
+  </body>
+</html>

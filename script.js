@@ -28,6 +28,7 @@ const articleContent = document.querySelector("#articleContent");
 const homeRecentHqs = document.querySelector("#homeRecentHqs");
 const navLinks = document.querySelectorAll("[data-section]");
 const profilePage = document.querySelector("#profilePage");
+const rankingPage = document.querySelector("#rankingPage");
 
 let firebaseServices = null;
 let currentUser = null;
@@ -104,7 +105,7 @@ function rootPath() {
 
 function sidebarSection() {
   const hashSection = window.location.hash.replace("#", "");
-  const hashSections = ["personagens", "edicoes", "cronologia"];
+  const hashSections = ["personagens", "edicoes", "ranking"];
 
   if (hashSections.includes(hashSection)) {
     return hashSection;
@@ -122,6 +123,10 @@ function sidebarSection() {
 
   if (path.endsWith("/perfil.html")) {
     return "";
+  }
+
+  if (path.endsWith("/ranking.html")) {
+    return "ranking";
   }
 
   return "inicio";
@@ -145,7 +150,7 @@ function renderSharedSidebar() {
     { label: "Universos", section: "universos", href: `${root}Universos/universos.html` },
     { label: "Personagens", section: "personagens", href: `${root}Personagens/personagens.html` },
     { label: "Edições", section: "edicoes", href: `${root}index.html#edicoes` },
-    { label: "Cronologia", section: "cronologia", href: `${root}index.html#cronologia` }
+    { label: "Ranking de Usuários", section: "ranking", href: `${root}ranking.html` }
   ];
   const navLinksMarkup = navItems
     .map((item) => {
@@ -493,6 +498,45 @@ function timestampToMillis(value) {
   return Date.parse(value) || 0;
 }
 
+function formatShortDate(value) {
+  const millis = timestampToMillis(value);
+
+  if (!millis) {
+    return "";
+  }
+
+  return new Intl.DateTimeFormat("pt-BR", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric"
+  }).format(new Date(millis));
+}
+
+function formatNumber(value) {
+  return new Intl.NumberFormat("pt-BR").format(Number(value || 0));
+}
+
+function catalogComicFallback(item = {}) {
+  return comics[item.comicId] || Object.values(comics).find((comic) => comic.href === item.href) || {};
+}
+
+function enrichedComicInteraction(item = {}) {
+  const fallback = catalogComicFallback(item);
+
+  return {
+    ...fallback,
+    ...item,
+    title: item.title || fallback.title || item.shortTitle || "HQ",
+    shortTitle: item.shortTitle || fallback.shortTitle || item.title || "HQ",
+    href: item.href || fallback.href || "#",
+    cover: item.cover || fallback.cover || "",
+    universe: item.universe || fallback.universe || "",
+    series: item.series || fallback.series || "",
+    pageCount: Number(item.pageCount || fallback.pageCount || 0),
+    xpReward: Number(item.xpReward || fallback.xpReward || fallback.pageCount || 0)
+  };
+}
+
 function currentComic() {
   const path = decodeURIComponent(window.location.pathname).replace(/\\/g, "/");
   return Object.values(comics).find((comic) => path.endsWith(`/${comic.fileName}`)) || null;
@@ -592,6 +636,7 @@ function setFirebaseUnavailable() {
   setMessage("Cole a configuração do Web App em firebase-config.js para ativar login e perfis.", "error");
   updateVolumeActionsUi();
   renderProfilePageUnavailable();
+  renderRankingPageUnavailable();
 }
 
 async function loadFirebase() {
@@ -1253,24 +1298,59 @@ function renderProfilePageUnavailable(
   `;
 }
 
-function profileComicList(items, emptyText) {
+function profileStatCards(stats) {
+  return `
+    <div class="profile-stat-grid" aria-label="Resumo do perfil">
+      <div>
+        <strong>${formatNumber(stats.reads)}</strong>
+        <span>Lidas</span>
+      </div>
+      <div>
+        <strong>${formatNumber(stats.favorites)}</strong>
+        <span>Favoritas</span>
+      </div>
+      <div>
+        <strong>${formatNumber(stats.owned)}</strong>
+        <span>Na coleção</span>
+      </div>
+      <div>
+        <strong>${formatNumber(stats.pages)}</strong>
+        <span>Páginas lidas</span>
+      </div>
+    </div>
+  `;
+}
+
+function profileComicList(items, emptyText, dateField = "") {
   if (!items.length) {
     return `<p class="empty-state">${emptyText}</p>`;
   }
 
   return `
-    <ul class="profile-comic-list">
+    <div class="profile-comic-grid">
       ${items
-        .map(
-          (item) => `
-            <li>
-              <a href="${assetPath(item.href)}">${escapeHtml(item.title || item.shortTitle || "HQ")}</a>
-              <span>${escapeHtml(item.universe || "")}</span>
-            </li>
-          `
-        )
+        .map((item) => {
+          const comic = enrichedComicInteraction(item);
+          const date = formatShortDate(dateField ? comic[dateField] : comic.updatedAt);
+          const meta = [comic.series || comic.universe, date].filter(Boolean).join(" - ");
+          const cover = comic.cover ? assetPath(comic.cover) : assetPath("lonerhqlogo.png");
+
+          return `
+            <a class="profile-comic-card" href="${assetPath(comic.href)}">
+              <img
+                src="${cover}"
+                alt="Capa de ${escapeHtml(comic.shortTitle || comic.title)}"
+                loading="lazy"
+              />
+              <span>
+                <strong>${escapeHtml(comic.shortTitle || comic.title)}</strong>
+                <small>${escapeHtml(meta || "HQ")}</small>
+              </span>
+            </a>
+          `;
+        })
         .join("")}
-    </ul>
+    </div>
   `;
 }
 
@@ -1307,16 +1387,22 @@ async function renderProfilePage() {
   const interactionsSnapshot = await firebaseServices.getDocs(
     firebaseServices.collection(firebaseServices.db, "users", uid, "comics")
   );
-  const interactions = interactionsSnapshot.docs.map((item) => item.data());
+  const interactions = interactionsSnapshot.docs.map((item) => enrichedComicInteraction(item.data()));
   const reads = interactions
     .filter((item) => item.read)
     .sort((a, b) => timestampToMillis(b.readAt) - timestampToMillis(a.readAt))
-    .slice(0, 8);
+    .slice(0, 12);
   const favorites = interactions
     .filter((item) => item.favorite)
     .sort((a, b) => timestampToMillis(b.favoriteAt) - timestampToMillis(a.favoriteAt))
-    .slice(0, 8);
+    .slice(0, 12);
   const progress = xpProgress(profile);
+  const stats = {
+    reads: interactions.filter((item) => item.read).length,
+    favorites: interactions.filter((item) => item.favorite).length,
+    owned: interactions.filter((item) => item.owned).length,
+    pages: interactions.filter((item) => item.read).reduce((total, item) => total + Number(item.pageCount || 0), 0)
+  };
 
   profilePage.innerHTML = `
     <section class="profile-page-card">
@@ -1332,18 +1418,131 @@ async function renderProfilePage() {
         </div>
       </div>
 
+      ${profileStatCards(stats)}
+
       <div class="profile-sections">
         <section>
           <h3>Últimas HQs lidas</h3>
-          ${profileComicList(reads, "Ainda não marcou nenhuma leitura.")}
+          ${profileComicList(reads, "Ainda não marcou nenhuma leitura.", "readAt")}
         </section>
         <section>
           <h3>HQ favoritos</h3>
-          ${profileComicList(favorites, "Ainda não favoritou nenhuma HQ.")}
+          ${profileComicList(favorites, "Ainda não favoritou nenhuma HQ.", "favoriteAt")}
         </section>
       </div>
     </section>
   `;
+}
+
+function renderRankingPageUnavailable(
+  title = "Ranking indisponível",
+  text = "Para carregar o ranking, o Firebase precisa estar configurado e as regras públicas de leitura precisam estar publicadas."
+) {
+  if (!rankingPage) {
+    return;
+  }
+
+  rankingPage.innerHTML = `
+    <section class="content-band">
+      <h2>${escapeHtml(title)}</h2>
+      <p>${escapeHtml(text)}</p>
+    </section>
+  `;
+}
+
+function sortedRankingProfiles(profiles) {
+  return profiles
+    .filter((profile) => profile?.uid && profile?.nick)
+    .map((profile) => {
+      const progress = xpProgress(profile);
+      return {
+        ...profile,
+        level: progress.level,
+        xp: progress.xp,
+        progress
+      };
+    })
+    .sort((first, second) => {
+      if (second.level !== first.level) {
+        return second.level - first.level;
+      }
+
+      if (second.xp !== first.xp) {
+        return second.xp - first.xp;
+      }
+
+      return String(first.nick).localeCompare(String(second.nick), "pt-BR", { sensitivity: "base" });
+    });
+}
+
+async function renderRankingPage() {
+  if (!rankingPage || !firebaseServices) {
+    return;
+  }
+
+  try {
+    const snapshot = await firebaseServices.getDocs(firebaseServices.collection(firebaseServices.db, "users"));
+    const ranking = sortedRankingProfiles(snapshot.docs.map((item) => item.data()));
+
+    if (!ranking.length) {
+      rankingPage.innerHTML = `
+        <section class="content-band">
+          <h2>Ranking vazio</h2>
+          <p>Nenhum usuário com nick público apareceu por aqui ainda.</p>
+        </section>
+      `;
+      return;
+    }
+
+    const leader = ranking[0];
+    const totalXp = ranking.reduce((total, profile) => total + Number(profile.xp || 0), 0);
+
+    rankingPage.innerHTML = `
+      <section class="ranking-board" aria-labelledby="rankingTitle">
+        <div class="ranking-header">
+          <div>
+            <h2 id="rankingTitle">Ranking geral</h2>
+            <p>Ordenado por level e XP acumulado nas HQs lidas.</p>
+          </div>
+          <div class="ranking-summary" aria-label="Resumo do ranking">
+            <span><strong>${formatNumber(ranking.length)}</strong> usuários</span>
+            <span><strong>Level ${leader.level}</strong> líder</span>
+            <span><strong>${formatNumber(totalXp)}</strong> XP total</span>
+          </div>
+        </div>
+
+        <div class="ranking-list" role="list">
+          ${ranking
+            .map((profile, index) => {
+              const rank = index + 1;
+              const isCurrentUser = currentUser?.uid === profile.uid;
+
+              return `
+                <a
+                  class="ranking-row${rank <= 3 ? " top-rank" : ""}${isCurrentUser ? " current-user" : ""}"
+                  href="${pagePath("perfil.html", { uid: profile.uid })}"
+                  role="listitem"
+                >
+                  <span class="ranking-position">#${rank}</span>
+                  <img src="${assetPath(profile.avatarPath || defaultAvatarPath)}" alt="Avatar de ${escapeHtml(profile.nick)}" />
+                  <span class="ranking-user">
+                    <strong>${escapeHtml(profile.nick)}${isCurrentUser ? " - você" : ""}</strong>
+                    <small>Level ${profile.level} - ${formatNumber(profile.xp)} XP</small>
+                    <span class="xp-meter" aria-label="Progresso de XP">
+                      <span style="width: ${profile.progress.percent}%"></span>
+                    </span>
+                  </span>
+                </a>
+              `;
+            })
+            .join("")}
+        </div>
+      </section>
+    `;
+  } catch (error) {
+    console.error(error);
+    renderRankingPageUnavailable("Ranking bloqueado", dataErrorMessage(error));
+  }
 }
 
 function openProfile(uid) {
@@ -1610,10 +1809,12 @@ async function startAuth() {
   } catch (error) {
     console.error(error);
     setMessage("Não foi possível carregar o Firebase.", "error");
+    renderRankingPageUnavailable("Ranking indisponível", "Não foi possível carregar o Firebase agora.");
     return;
   }
 
   if (!firebaseServices) {
+    renderRankingPageUnavailable();
     return;
   }
 
@@ -1635,6 +1836,7 @@ async function startAuth() {
       renderSignedOut();
       watchVolumeData();
       renderProfilePage();
+      renderRankingPage();
       updateVolumeActionsUi();
       return;
     }
@@ -1646,6 +1848,7 @@ async function startAuth() {
       renderSignedIn(currentProfile);
       watchVolumeData();
       renderProfilePage();
+      renderRankingPage();
       updateVolumeActionsUi();
     } catch (error) {
       console.error(error);
@@ -1653,6 +1856,7 @@ async function startAuth() {
       renderSignedIn(currentProfile);
       watchVolumeData();
       renderProfilePageUnavailable("Perfil bloqueado", dataErrorMessage(error));
+      renderRankingPageUnavailable("Ranking bloqueado", dataErrorMessage(error));
       updateVolumeActionsUi();
       setMessage(dataErrorMessage(error), "error");
     }
