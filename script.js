@@ -389,7 +389,7 @@ function renderHomeRecentHqs() {
             <strong>${escapeHtml(hq.shortTitle || hq.title)}</strong>
             <small>${escapeHtml(hq.series || hq.universe || "HQ")}</small>
             <span class="recent-hq-meta">
-              <span>${escapeHtml(hq.year || "Ano")}</span>
+              <span>${escapeHtml(comicYear(hq))}</span>
               <span>${formatNumber(hq.pageCount || 0)} páginas</span>
             </span>
           </span>
@@ -529,6 +529,17 @@ function formatShortDate(value) {
 
 function formatNumber(value) {
   return new Intl.NumberFormat("pt-BR").format(Number(value || 0));
+}
+
+function comicYear(hq) {
+  if (hq?.year) {
+    return hq.year;
+  }
+
+  const source = [hq?.title, hq?.fileName, hq?.href].filter(Boolean).join(" ");
+  const match = source.match(/\b(?:19|20)\d{2}\b/);
+
+  return match ? match[0] : "Ano";
 }
 
 function comicSearchKey(value) {

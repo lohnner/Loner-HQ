@@ -741,36 +741,49 @@ img {
 
 .recent-hq-list {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 14px;
+  grid-template-columns: minmax(0, 1.1fr) repeat(2, minmax(0, 0.95fr));
+  gap: 10px;
 }
 
 .recent-showcase {
   grid-column: 1 / -1;
   min-height: 0;
-  padding: 14px;
-  border-color: rgba(7, 90, 168, 0.16);
-  background: linear-gradient(180deg, #ffffff 0%, #f7fbff 100%);
+  padding: 12px;
+  border-color: rgba(7, 90, 168, 0.18);
+  background:
+    linear-gradient(90deg, rgba(140, 14, 42, 0.04), transparent 32%),
+    linear-gradient(180deg, #ffffff 0%, #f7fbff 100%);
 }
 
 .recent-showcase .section-title {
-  margin: -14px -14px 14px;
-  padding: 10px 13px;
-  background: linear-gradient(90deg, rgba(7, 90, 168, 0.1), #ffffff);
+  margin: -12px -12px 10px;
+  padding: 9px 12px;
+  background: linear-gradient(90deg, rgba(7, 90, 168, 0.1), rgba(255, 255, 255, 0.92));
 }
 
 .recent-hq-card {
   display: grid;
-  grid-template-rows: auto minmax(0, 1fr);
-  gap: 11px;
-  min-height: 100%;
-  padding: 10px;
+  grid-template-columns: 78px minmax(0, 1fr);
+  align-items: center;
+  gap: 10px;
+  min-height: 120px;
+  padding: 9px;
   border: 1px solid var(--line-soft);
-  border-radius: var(--radius);
-  background: linear-gradient(180deg, #ffffff 0%, #f7f9fc 100%);
+  border-radius: var(--radius-sm);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.94) 0%, rgba(248, 250, 253, 0.94) 100%),
+    #ffffff;
   color: var(--text);
   text-decoration: none;
-  box-shadow: 0 10px 24px rgba(29, 39, 58, 0.08);
+  box-shadow: 0 8px 18px rgba(29, 39, 58, 0.07);
+}
+
+.recent-hq-card:first-child {
+  grid-template-columns: 88px minmax(0, 1fr);
+  border-color: rgba(140, 14, 42, 0.24);
+  border-left: 4px solid var(--accent);
+  background:
+    linear-gradient(135deg, rgba(140, 14, 42, 0.08), rgba(7, 90, 168, 0.04) 48%, #ffffff 100%);
 }
 
 .recent-hq-card:hover,
@@ -784,7 +797,11 @@ img {
 
 .recent-hq-cover {
   display: block;
-  width: 100%;
+  width: 78px;
+}
+
+.recent-hq-card:first-child .recent-hq-cover {
+  width: 88px;
 }
 
 .recent-hq-cover img {
@@ -823,8 +840,12 @@ img {
 
 .recent-hq-body strong {
   color: var(--text);
-  font-size: 18px;
+  font-size: 15px;
   line-height: 1.2;
+}
+
+.recent-hq-card:first-child .recent-hq-body strong {
+  font-size: 16px;
 }
 
 .recent-hq-body small {
