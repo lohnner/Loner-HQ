@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Pesquisar - Loner HQ</title>
+    <link rel="stylesheet" href="styles.css" data-loner-cache-bust />
+    <script data-loner-app="script.js">
+      (() => {
+        const version = Date.now().toString();
+        const stylesheet = document.querySelector("link[data-loner-cache-bust]");
+
+        if (stylesheet) {
+          const href = stylesheet.getAttribute("href");
+          stylesheet.setAttribute("href", href + (href.includes("?") ? "&" : "?") + "v=" + version);
+        }
+
+        const app = document.createElement("script");
+        app.type = "module";
+        app.src = document.currentScript.dataset.lonerApp + "?v=" + version;
+        document.head.append(app);
+      })();
+    </script>
+  </head>
+  <body>
+    <div class="site-shell">
+      <aside class="sidebar" aria-label="Barra lateral"></aside>
+
+      <div class="content-shell">
+        <header class="topbar" aria-hidden="true"></header>
+
+        <main class="wiki-page universe-layout">
+          <article class="article">
+            <nav class="breadcrumbs" aria-label="Caminho">
+              <a href="index.html">Início</a>
+              <span>/</span>
+              <span>Pesquisar</span>
+            </nav>
+
+            <header class="article-header">
+              <h1>Pesquisar</h1>
+              <p class="lead">
+                Busca inteligente para encontrar HQs, séries, universos, personagens e verbetes mesmo sem acento ou com parte do nome.
+              </p>
+            </header>
+
+            <section class="smart-search-panel" aria-labelledby="smartSearchTitle">
+              <form id="smartSearchForm" class="smart-search-form" role="search">
+                <label id="smartSearchTitle" for="smartSearchInput">Pesquisar no acervo</label>
+                <div class="smart-search-row">
+                  <input
+                    id="smartSearchInput"
+                    type="search"
+                    placeholder="Digite Daredevil 3, republica sitiada, Batman 2025..."
+                    autocomplete="off"
+                    autofocus
+                  />
+                  <button type="submit">Pesquisar</button>
+                </div>
+                <p id="smartSearchStatus" class="smart-search-status" aria-live="polite">
+                  Digite qualquer parte do título, personagem, universo, série, ano ou editora.
+                </p>
+              </form>
+
+              <div class="smart-search-suggestions" aria-label="Sugestões de pesquisa">
+                <button type="button" data-smart-query="Daredevil #3">Daredevil #3</button>
+                <button type="button" data-smart-query="República Sitiada">República Sitiada</button>
+                <button type="button" data-smart-query="Batman 2025">Batman 2025</button>
+                <button type="button" data-smart-query="Dune Marvel">Dune Marvel</button>
+              </div>
+            </section>
+
+            <section class="content-band smart-results-panel" aria-labelledby="smartResultsTitle">
+              <h2 id="smartResultsTitle">Resultados</h2>
+              <div id="smartSearchResults" class="smart-search-results" aria-live="polite"></div>
+            </section>
+          </article>
+        </main>
+
+        <footer class="site-footer">
+          <p>Loner HQ é um projeto local de catalogação de quadrinhos.</p>
+        </footer>
+      </div>
+    </div>
+  </body>
+</html>

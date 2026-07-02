@@ -26,6 +26,10 @@ const characterSearchStatus = document.querySelector("#characterSearchStatus");
 const characterList = document.querySelector("#characterList");
 const articleContent = document.querySelector("#articleContent");
 const homeRecentHqs = document.querySelector("#homeRecentHqs");
+const smartSearchForm = document.querySelector("#smartSearchForm");
+const smartSearchInput = document.querySelector("#smartSearchInput");
+const smartSearchResults = document.querySelector("#smartSearchResults");
+const smartSearchStatus = document.querySelector("#smartSearchStatus");
 const navLinks = document.querySelectorAll("[data-section]");
 const profilePage = document.querySelector("#profilePage");
 const rankingPage = document.querySelector("#rankingPage");
@@ -105,7 +109,7 @@ function rootPath() {
 
 function sidebarSection() {
   const hashSection = window.location.hash.replace("#", "");
-  const hashSections = ["personagens", "edicoes", "ranking"];
+  const hashSections = ["personagens", "ranking"];
 
   if (hashSections.includes(hashSection)) {
     return hashSection;
@@ -129,6 +133,10 @@ function sidebarSection() {
     return "ranking";
   }
 
+  if (path.endsWith("/pesquisar.html")) {
+    return "pesquisar";
+  }
+
   return "inicio";
 }
 
@@ -149,7 +157,7 @@ function renderSharedSidebar() {
     { label: "HOME", section: "inicio", href: `${root}index.html` },
     { label: "Universos", section: "universos", href: `${root}Universos/universos.html` },
     { label: "Personagens", section: "personagens", href: `${root}Personagens/personagens.html` },
-    { label: "Edições", section: "edicoes", href: `${root}index.html#edicoes` },
+    { label: "Pesquisar", section: "pesquisar", href: `${root}pesquisar.html` },
     { label: "Ranking de Usuários", section: "ranking", href: `${root}ranking.html` }
   ];
   const navLinksMarkup = navItems
@@ -1055,6 +1063,326 @@ function renderSearchResults(query) {
     .join("");
 }
 
+const smartSearchStopWords = new Set(["a", "o", "os", "as", "de", "do", "da", "dos", "das", "e", "em", "no", "na"]);
+const smartSearchSynonyms = {
+  demolidor: ["daredevil", "matt", "murdock"],
+  daredevil: ["demolidor", "matt", "murdock"],
+  coruja: ["owl", "owsley", "owlsley"],
+  owl: ["coruja", "owsley", "owlsley"],
+  quadrinho: ["hq", "comic", "edicao"],
+  quadrinhos: ["hq", "comic", "edicao"],
+  comic: ["hq", "quadrinho", "edicao"],
+  comics: ["hq", "quadrinho", "edicao"],
+  edicao: ["hq", "quadrinho", "comic"],
+  edicoes: ["hq", "quadrinho", "comic"],
+  hq: ["quadrinho", "comic", "edicao"],
+  republica: ["republic"],
+  insurgencia: ["insurgency"],
+  ascensao: ["rising"],
+  sitiada: ["siege", "sitiade"],
+  starwars: ["star", "wars"],
+  marvel: ["marvelcomics"],
+  dc: ["dcuniverse"],
+  batman: ["bruce", "wayne"]
+};
+
+function smartSearchNormalize(value) {
+  return normalizeSearchText(value)
+    .replace(/['’]/g, "")
+    .replace(/#/g, " ")
+    .replace(/[^a-z0-9]+/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function smartSearchBaseTokens(value) {
+  const normalized = smartSearchNormalize(value);
+
+  if (!normalized) {
+    return [];
+  }
+
+  return normalized.split(" ").filter((token) => token && !smartSearchStopWords.has(token));
+}
+
+function smartSearchTokens(value, expand = true) {
+  const tokens = new Set(smartSearchBaseTokens(value));
+
+  if (!expand) {
+    return [...tokens];
+  }
+
+  [...tokens].forEach((token) => {
+    smartSearchSynonyms[token]?.forEach((synonym) => tokens.add(synonym));
+
+    if (token.endsWith("s") && token.length > 3) {
+      tokens.add(token.slice(0, -1));
+    }
+  });
+
+  return [...tokens];
+}
+
+function smartSearchKindLabel(tipo) {
+  const labels = {
+    artigo: "Verbete",
+    hq: "HQ",
+    personagem: "Personagem",
+    serie: "Série",
+    universo: "Universo"
+  };
+
+  return labels[tipo] || "Item";
+}
+
+function smartSearchEntry(item, tipo) {
+  const isHq = tipo === "hq";
+  const title = item.shortTitle || item.title;
+  const year = isHq ? comicYear(item) : item.year;
+  const meta = [
+    smartSearchKindLabel(tipo),
+    item.universe,
+    item.series,
+    item.character,
+    year,
+    isHq && item.pageCount ? `${formatNumber(item.pageCount)} páginas` : ""
+  ].filter(Boolean);
+  const searchText = [
+    tipo,
+    smartSearchKindLabel(tipo),
+    item.id,
+    item.title,
+    item.shortTitle,
+    item.universe,
+    item.series,
+    item.character,
+    item.year,
+    item.summary,
+    item.category,
+    ...(item.tags || []),
+    ...(item.keywords || []),
+    item.fileName,
+    isHq ? "hq quadrinho edição comic" : ""
+  ].join(" ");
+
+  return {
+    id: `${tipo}-${item.id}`,
+    tipo,
+    title,
+    subtitle: meta.join(" / "),
+    summary: item.summary || "",
+    href: item.href || "index.html",
+    cover: item.cover || "",
+    primaryTitle: smartSearchNormalize(title),
+    searchTitle: smartSearchNormalize(`${title} ${item.title || ""}`),
+    searchText: smartSearchNormalize(searchText),
+    searchTokens: smartSearchTokens(searchText),
+    year,
+    pageCount: item.pageCount || 0
+  };
+}
+
+function smartSearchEntries() {
+  return [
+    ...catalogo.hqs.map((item) => smartSearchEntry(item, "hq")),
+    ...catalogo.series.map((item) => smartSearchEntry(item, "serie")),
+    ...catalogo.universos.map((item) => smartSearchEntry(item, "universo")),
+    ...catalogo.personagens.map((item) => smartSearchEntry(item, "personagem")),
+    ...articles.map((item) => smartSearchEntry(item, "artigo"))
+  ];
+}
+
+function boundedDistance(first, second, limit = 2) {
+  if (Math.abs(first.length - second.length) > limit) {
+    return limit + 1;
+  }
+
+  const previous = Array.from({ length: second.length + 1 }, (_, index) => index);
+
+  for (let row = 1; row <= first.length; row += 1) {
+    let diagonal = previous[0];
+    previous[0] = row;
+    let rowMin = previous[0];
+
+    for (let column = 1; column <= second.length; column += 1) {
+      const above = previous[column] + 1;
+      const left = previous[column - 1] + 1;
+      const replace = diagonal + (first[row - 1] === second[column - 1] ? 0 : 1);
+      diagonal = previous[column];
+      previous[column] = Math.min(above, left, replace);
+      rowMin = Math.min(rowMin, previous[column]);
+    }
+
+    if (rowMin > limit) {
+      return limit + 1;
+    }
+  }
+
+  return previous[second.length];
+}
+
+function smartSearchTokenScore(queryToken, entryTokens) {
+  let bestScore = 0;
+
+  entryTokens.forEach((entryToken) => {
+    if (entryToken === queryToken) {
+      bestScore = Math.max(bestScore, 24);
+      return;
+    }
+
+    if (entryToken.startsWith(queryToken) || queryToken.startsWith(entryToken)) {
+      bestScore = Math.max(bestScore, queryToken.length >= 2 ? 16 : 0);
+      return;
+    }
+
+    if (entryToken.includes(queryToken) || queryToken.includes(entryToken)) {
+      bestScore = Math.max(bestScore, queryToken.length >= 3 ? 10 : 0);
+      return;
+    }
+
+    if (queryToken.length >= 4 && entryToken.length >= 4 && boundedDistance(queryToken, entryToken, 1) <= 1) {
+      bestScore = Math.max(bestScore, 8);
+    }
+  });
+
+  return bestScore;
+}
+
+function smartSearchScore(entry, query, queryTokens) {
+  let score = 0;
+  let matchedTokens = 0;
+
+  if (entry.primaryTitle === query) {
+    score += 170;
+  } else if (entry.searchTitle === query) {
+    score += 140;
+  } else if (entry.primaryTitle.startsWith(query)) {
+    score += 110;
+  } else if (entry.searchTitle.includes(query)) {
+    score += 90;
+  }
+
+  if (entry.searchText.includes(query)) {
+    score += 46;
+  }
+
+  queryTokens.forEach((token) => {
+    const tokenScore = smartSearchTokenScore(token, entry.searchTokens);
+
+    if (tokenScore) {
+      matchedTokens += 1;
+      score += tokenScore;
+    }
+  });
+
+  if (entry.tipo === "hq") {
+    score += 4;
+  }
+
+  return { ...entry, score, matchedTokens };
+}
+
+function smartResultPlaceholder(entry) {
+  const initials = smartSearchKindLabel(entry.tipo)
+    .split(" ")
+    .map((word) => word[0])
+    .join("")
+    .slice(0, 2);
+
+  return `<span class="smart-result-icon">${escapeHtml(initials)}</span>`;
+}
+
+function renderSmartResultCards(entries) {
+  if (!entries.length) {
+    smartSearchResults.innerHTML = `
+      <div class="smart-empty-result">
+        <strong>Nenhum resultado encontrado</strong>
+        <span>Tente buscar por outro nome, número, universo, personagem ou série.</span>
+      </div>
+    `;
+    return;
+  }
+
+  smartSearchResults.innerHTML = entries
+    .map((entry) => {
+      const media = entry.cover
+        ? `<img src="${imageAssetPath(entry.cover)}" alt="Capa de ${escapeHtml(entry.title)}" />`
+        : smartResultPlaceholder(entry);
+
+      return `
+        <a class="smart-result-card" href="${assetPath(entry.href)}">
+          <span class="smart-result-media">${media}</span>
+          <span class="smart-result-body">
+            <span class="smart-result-type">${escapeHtml(smartSearchKindLabel(entry.tipo))}</span>
+            <strong>${escapeHtml(entry.title)}</strong>
+            <small>${escapeHtml(entry.subtitle || "Loner HQ")}</small>
+            ${entry.summary ? `<span class="smart-result-summary">${escapeHtml(entry.summary)}</span>` : ""}
+          </span>
+        </a>
+      `;
+    })
+    .join("");
+}
+
+function renderSmartSearch(query) {
+  if (!smartSearchResults || !smartSearchStatus) {
+    return;
+  }
+
+  const normalizedQuery = smartSearchNormalize(query);
+  const entries = smartSearchEntries();
+
+  if (!normalizedQuery) {
+    const recentEntries = catalogo.hqs
+      .slice(-6)
+      .reverse()
+      .map((item) => smartSearchEntry(item, "hq"));
+
+    smartSearchStatus.textContent = "Digite qualquer parte do título, personagem, universo, série, ano ou editora.";
+    renderSmartResultCards(recentEntries);
+    return;
+  }
+
+  const queryTokens = smartSearchTokens(normalizedQuery);
+  const requiredMatches = Math.max(1, Math.ceil(queryTokens.length * 0.6));
+  const matches = entries
+    .map((entry) => smartSearchScore(entry, normalizedQuery, queryTokens))
+    .filter((entry) => entry.score > 0 && entry.matchedTokens >= requiredMatches)
+    .sort((first, second) => second.score - first.score || first.title.localeCompare(second.title, "pt-BR"))
+    .slice(0, 18);
+
+  smartSearchStatus.textContent =
+    matches.length === 1 ? "1 resultado encontrado." : `${matches.length} resultados encontrados.`;
+  renderSmartResultCards(matches);
+}
+
+function setupSmartSearchPage() {
+  if (!smartSearchInput || !smartSearchResults) {
+    return;
+  }
+
+  const params = new URLSearchParams(window.location.search);
+  const initialQuery = params.get("q") || "";
+  smartSearchInput.value = initialQuery;
+  renderSmartSearch(initialQuery);
+}
+
+function updateSmartSearchUrl(query) {
+  if (!smartSearchInput) {
+    return;
+  }
+
+  const url = new URL(window.location.href);
+
+  if (query) {
+    url.searchParams.set("q", query);
+  } else {
+    url.searchParams.delete("q");
+  }
+
+  window.history.replaceState({}, "", url);
+}
+
 function filterUniverseCards(query) {
   const cards = Array.from(document.querySelectorAll(".universe-card"));
 
@@ -1745,6 +2073,17 @@ function setupEvents() {
     renderSearchResults(searchInput.value);
   });
 
+  smartSearchInput?.addEventListener("input", (event) => {
+    renderSmartSearch(event.target.value);
+  });
+
+  smartSearchForm?.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const query = smartSearchInput.value.trim();
+    renderSmartSearch(query);
+    updateSmartSearchUrl(query);
+  });
+
   universeSearchInput?.addEventListener("input", (event) => {
     filterUniverseCards(event.target.value);
   });
@@ -1756,6 +2095,7 @@ function setupEvents() {
   document.addEventListener("click", async (event) => {
     const articleButton = event.target.closest("[data-open-article]");
     const sectionLink = event.target.closest("[data-section]");
+    const smartSuggestionButton = event.target.closest("[data-smart-query]");
     const logoutButton = event.target.closest("#logoutButton");
     const googleButton = event.target.closest("#googleLoginButton");
     const profileButton = event.target.closest("#openMyProfile");
@@ -1774,6 +2114,14 @@ function setupEvents() {
 
     if (sectionLink) {
       setActiveSection(sectionLink.dataset.section);
+    }
+
+    if (smartSuggestionButton && smartSearchInput) {
+      const query = smartSuggestionButton.dataset.smartQuery || "";
+      smartSearchInput.value = query;
+      renderSmartSearch(query);
+      updateSmartSearchUrl(query);
+      smartSearchInput.focus();
     }
 
     if (logoutButton && firebaseServices) {
@@ -1946,6 +2294,7 @@ async function startAuth() {
 normalizeAuthForms();
 renderHomeRecentHqs();
 renderCharacterIndex();
+setupSmartSearchPage();
 setupEvents();
 createVolumeActions();
 startAuth();

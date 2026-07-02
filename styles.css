@@ -1027,6 +1027,201 @@ img {
   white-space: nowrap;
 }
 
+.smart-search-panel {
+  display: grid;
+  gap: 12px;
+  margin: 16px 0;
+  padding: 14px;
+  border: 1px solid rgba(7, 90, 168, 0.18);
+  border-radius: var(--radius);
+  background:
+    linear-gradient(90deg, rgba(7, 90, 168, 0.08), rgba(140, 14, 42, 0.04)),
+    #ffffff;
+  box-shadow: var(--shadow-soft);
+}
+
+.smart-search-form {
+  display: grid;
+  gap: 8px;
+}
+
+.smart-search-form label {
+  color: var(--text);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.smart-search-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px;
+}
+
+.smart-search-row input {
+  min-height: 44px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 8px 10px;
+  background: var(--surface);
+  color: var(--text);
+  font-size: 15px;
+}
+
+.smart-search-row input:focus {
+  border-color: var(--link);
+  outline: 0;
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(7, 90, 168, 0.14);
+}
+
+.smart-search-row button {
+  min-width: 122px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: linear-gradient(180deg, #ffffff 0%, #f4f7fb 100%);
+  color: var(--text);
+  font-weight: 800;
+}
+
+.smart-search-row button:hover,
+.smart-search-row button:focus-visible,
+.smart-search-suggestions button:hover,
+.smart-search-suggestions button:focus-visible {
+  border-color: var(--link);
+  background: #eef6ff;
+  color: var(--link-hover);
+}
+
+.smart-search-status {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.smart-search-suggestions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.smart-search-suggestions button {
+  padding: 6px 10px;
+  border: 1px solid var(--line-soft);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.82);
+  color: var(--link);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.smart-search-results {
+  display: grid;
+  gap: 10px;
+}
+
+.smart-result-card {
+  display: grid;
+  grid-template-columns: 78px minmax(0, 1fr);
+  gap: 12px;
+  align-items: center;
+  min-height: 118px;
+  padding: 10px;
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius-sm);
+  background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+  color: var(--text);
+  text-decoration: none;
+  box-shadow: var(--shadow-soft);
+}
+
+.smart-result-card:hover,
+.smart-result-card:focus-visible {
+  border-color: rgba(7, 90, 168, 0.32);
+  color: var(--link-hover);
+  text-decoration: none;
+  transform: translateY(-1px);
+}
+
+.smart-result-media {
+  display: grid;
+  place-items: center;
+  width: 78px;
+}
+
+.smart-result-media img {
+  width: 72px;
+  aspect-ratio: var(--cover-ratio);
+  height: auto;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: #ffffff;
+  object-fit: cover;
+  object-position: top center;
+  box-shadow: var(--shadow-soft);
+}
+
+.smart-result-icon {
+  display: grid;
+  place-items: center;
+  width: 58px;
+  height: 58px;
+  border: 1px solid rgba(7, 90, 168, 0.18);
+  border-radius: 50%;
+  background: #eef6ff;
+  color: var(--link);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.smart-result-body {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+
+.smart-result-type {
+  width: fit-content;
+  max-width: 100%;
+  padding: 2px 7px;
+  border: 1px solid rgba(15, 118, 110, 0.18);
+  border-radius: 999px;
+  background: rgba(15, 118, 110, 0.08);
+  color: #145e58;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.smart-result-body strong {
+  color: var(--text);
+  font-size: 17px;
+  line-height: 1.2;
+}
+
+.smart-result-body small,
+.smart-result-summary,
+.smart-empty-result span {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.smart-result-summary {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.smart-empty-result {
+  display: grid;
+  gap: 4px;
+  padding: 14px;
+  border: 1px dashed var(--line);
+  border-radius: var(--radius-sm);
+  background: #fbfcff;
+}
+
 .universe-card {
   min-height: 0;
   padding: 13px;
@@ -1878,6 +2073,31 @@ img {
 
   .search-row {
     grid-template-columns: 1fr;
+  }
+
+  .smart-search-row {
+    grid-template-columns: 1fr;
+  }
+
+  .smart-search-row button {
+    min-height: 40px;
+  }
+
+  .smart-result-card {
+    grid-template-columns: 66px minmax(0, 1fr);
+    gap: 10px;
+  }
+
+  .smart-result-media {
+    width: 66px;
+  }
+
+  .smart-result-media img {
+    width: 62px;
+  }
+
+  .smart-result-body strong {
+    font-size: 15px;
   }
 
   .search-row input,

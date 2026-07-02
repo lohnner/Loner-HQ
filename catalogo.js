@@ -456,7 +456,8 @@ export const acervo = [
     cover: "Universos/Marvel/Demolidor/1964 - Daredevil%233.jpg",
     pageCount: 22,
     xpReward: 22,
-    fileName: "daredevil-3-1964.html"
+    fileName: "daredevil-3-1964.html",
+    keywords: ["Demolidor", "Matt Murdock", "Coruja", "Leland Owlsley", "Owl"]
   }
 ];
 
