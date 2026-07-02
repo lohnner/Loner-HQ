@@ -444,6 +444,19 @@ export const acervo = [
     pageCount: 23,
     xpReward: 23,
     fileName: "a-batalha-de-jakku-republica-sitiada-4-2024.html"
+  },
+  {
+    tipo: "hq",
+    id: "daredevil-3-1964",
+    title: "Daredevil #3 (1964)",
+    shortTitle: "Daredevil #3",
+    universe: "Marvel",
+    series: "Daredevil (1964)",
+    href: "Universos/Marvel/Demolidor/daredevil-3-1964.html",
+    cover: "Universos/Marvel/Demolidor/1964 - Daredevil%233.jpg",
+    pageCount: 22,
+    xpReward: 22,
+    fileName: "daredevil-3-1964.html"
   }
 ];
 
