@@ -379,14 +379,19 @@ function renderHomeRecentHqs() {
 
   homeRecentHqs.innerHTML = recentHqs
     .map(
-      (hq) => `
+      (hq, index) => `
         <a class="recent-hq-card" href="${assetPath(hq.href)}">
           <span class="recent-hq-cover">
             <img src="${imageAssetPath(hq.cover)}" alt="Capa de ${escapeHtml(hq.shortTitle || hq.title)}" />
           </span>
           <span class="recent-hq-body">
+            <span class="recent-hq-kicker">${index === 0 ? "Mais recente" : escapeHtml(hq.universe || "HQ")}</span>
             <strong>${escapeHtml(hq.shortTitle || hq.title)}</strong>
             <small>${escapeHtml(hq.series || hq.universe || "HQ")}</small>
+            <span class="recent-hq-meta">
+              <span>${escapeHtml(hq.year || "Ano")}</span>
+              <span>${formatNumber(hq.pageCount || 0)} páginas</span>
+            </span>
           </span>
         </a>
       `
