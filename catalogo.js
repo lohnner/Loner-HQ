@@ -206,7 +206,7 @@ export const acervo = [
     universe: "Star Wars",
     series: "Série Principal",
     href: "Universos/Star Wars/Saga Principal/star-wars-1-1977.html",
-    cover: "Universos/Star Wars/Saga Principal/Star Wars #1.png",
+    cover: "Universos/Star Wars/Saga Principal/Star Wars%20%231.png",
     pageCount: 20,
     xpReward: 20,
     fileName: "star-wars-1-1977.html"
@@ -219,7 +219,7 @@ export const acervo = [
     universe: "Star Wars",
     series: "Série Principal",
     href: "Universos/Star Wars/Saga Principal/star-wars-2-1977.html",
-    cover: "Universos/Star Wars/Saga Principal/Star Wars #2.png",
+    cover: "Universos/Star Wars/Saga Principal/Star Wars%20%232.png",
     pageCount: 19,
     xpReward: 19,
     fileName: "star-wars-2-1977.html"

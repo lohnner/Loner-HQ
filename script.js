@@ -244,6 +244,16 @@ function assetPath(path) {
   return `${rootPath()}${path}`;
 }
 
+function imageAssetPath(path) {
+  const resolvedPath = assetPath(path);
+
+  if (/^(data:|https?:)/.test(resolvedPath)) {
+    return resolvedPath;
+  }
+
+  return resolvedPath.replaceAll("#", "%23");
+}
+
 function shouldWatchSiteUpdates() {
   return window.location.protocol === "http:" || window.location.protocol === "https:";
 }
@@ -372,7 +382,7 @@ function renderHomeRecentHqs() {
       (hq) => `
         <a class="recent-hq-card" href="${assetPath(hq.href)}">
           <span class="recent-hq-cover">
-            <img src="${assetPath(hq.cover)}" alt="Capa de ${escapeHtml(hq.shortTitle || hq.title)}" />
+            <img src="${imageAssetPath(hq.cover)}" alt="Capa de ${escapeHtml(hq.shortTitle || hq.title)}" />
           </span>
           <span class="recent-hq-body">
             <strong>${escapeHtml(hq.shortTitle || hq.title)}</strong>
@@ -892,7 +902,7 @@ function renderSignedIn(profile, options = {}) {
   authBadge.style.color = "var(--success)";
   accountPanel.innerHTML = `
     <div class="profile-summary">
-      <img class="profile-avatar" src="${assetPath(profile.avatarPath || defaultAvatarPath)}" alt="Avatar de ${escapeHtml(nick)}" />
+      <img class="profile-avatar" src="${imageAssetPath(profile.avatarPath || defaultAvatarPath)}" alt="Avatar de ${escapeHtml(nick)}" />
       <div class="profile-summary-body">
         <strong>${escapeHtml(nick)}</strong>
         <span>Level ${progress.level}</span>
@@ -1266,7 +1276,7 @@ async function openReadersModal() {
       const profile = xpProgress(reader);
       return `
         <button class="reader-row" type="button" data-profile-uid="${escapeHtml(reader.uid)}">
-          <img src="${assetPath(reader.avatarPath || defaultAvatarPath)}" alt="Avatar de ${escapeHtml(reader.nick || "Usuário")}" />
+          <img src="${imageAssetPath(reader.avatarPath || defaultAvatarPath)}" alt="Avatar de ${escapeHtml(reader.nick || "Usuário")}" />
           <span>
             <strong>${escapeHtml(reader.nick || "Usuário")}</strong>
             <small>Level ${profile.level}</small>
@@ -1333,7 +1343,7 @@ function profileComicList(items, emptyText, dateField = "") {
           const comic = enrichedComicInteraction(item);
           const date = formatShortDate(dateField ? comic[dateField] : comic.updatedAt);
           const meta = [comic.series || comic.universe, date].filter(Boolean).join(" - ");
-          const cover = comic.cover ? assetPath(comic.cover) : assetPath("lonerhqlogo.png");
+          const cover = comic.cover ? imageAssetPath(comic.cover) : imageAssetPath("lonerhqlogo.png");
 
           return `
             <a class="profile-comic-card" href="${assetPath(comic.href)}">
@@ -1407,7 +1417,7 @@ async function renderProfilePage() {
   profilePage.innerHTML = `
     <section class="profile-page-card">
       <div class="profile-hero">
-        <img class="profile-avatar large" src="${assetPath(profile.avatarPath || defaultAvatarPath)}" alt="Avatar de ${escapeHtml(profile.nick)}" />
+        <img class="profile-avatar large" src="${imageAssetPath(profile.avatarPath || defaultAvatarPath)}" alt="Avatar de ${escapeHtml(profile.nick)}" />
         <div>
           <h2>${escapeHtml(profile.nick)}</h2>
           <p>Level ${progress.level}</p>
@@ -1524,7 +1534,7 @@ async function renderRankingPage() {
                   role="listitem"
                 >
                   <span class="ranking-position">#${rank}</span>
-                  <img src="${assetPath(profile.avatarPath || defaultAvatarPath)}" alt="Avatar de ${escapeHtml(profile.nick)}" />
+                  <img src="${imageAssetPath(profile.avatarPath || defaultAvatarPath)}" alt="Avatar de ${escapeHtml(profile.nick)}" />
                   <span class="ranking-user">
                     <strong>${escapeHtml(profile.nick)}${isCurrentUser ? " - você" : ""}</strong>
                     <small>Level ${profile.level} - ${formatNumber(profile.xp)} XP</small>
