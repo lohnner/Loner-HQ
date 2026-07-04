@@ -1805,6 +1805,174 @@ html.loner-page-leaving .sidebar {
   font-weight: 700;
 }
 
+.profile-tabs,
+.achievement-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.profile-tabs {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line-soft);
+}
+
+.profile-tab,
+.achievement-tab {
+  min-height: 36px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 7px 13px;
+  background: var(--surface-2);
+  color: var(--text);
+  font-weight: 700;
+}
+
+.profile-tab.is-active,
+.achievement-tab.is-active {
+  border-color: rgba(244, 63, 94, 0.48);
+  background: rgba(244, 63, 94, 0.16);
+  color: #ffffff;
+  box-shadow: inset 3px 0 0 var(--accent);
+}
+
+.profile-tab-panel {
+  margin-top: 14px;
+}
+
+.profile-tab-panel[hidden],
+.achievement-panel[hidden] {
+  display: none;
+}
+
+.profile-achievements {
+  display: grid;
+  gap: 12px;
+}
+
+.profile-achievements h3 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 21px;
+  font-weight: 700;
+}
+
+.achievement-panel {
+  margin-top: 12px;
+}
+
+.achievement-list {
+  display: grid;
+  gap: 12px;
+}
+
+.achievement-card {
+  display: grid;
+  grid-template-columns: 86px minmax(0, 1fr) minmax(154px, auto);
+  gap: 14px;
+  align-items: center;
+  min-width: 0;
+  padding: 12px;
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.025);
+}
+
+.achievement-card.is-unlocked {
+  border-color: rgba(16, 185, 129, 0.35);
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.12), rgba(255, 255, 255, 0.025));
+}
+
+.achievement-avatar {
+  width: 86px;
+  aspect-ratio: 1;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 8px;
+  background: var(--surface);
+  object-fit: cover;
+  box-shadow: var(--shadow-soft);
+}
+
+.achievement-card.is-locked .achievement-avatar {
+  filter: grayscale(0.8);
+  opacity: 0.72;
+}
+
+.achievement-copy {
+  display: grid;
+  gap: 5px;
+  min-width: 0;
+}
+
+.achievement-kicker,
+.achievement-copy small {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.achievement-copy h4 {
+  margin: 0;
+  color: #ffffff;
+  font-family: var(--font-display);
+  font-size: 18px;
+  line-height: 1.2;
+}
+
+.achievement-copy p {
+  margin: 0;
+  color: var(--text-soft);
+  line-height: 1.45;
+}
+
+.achievement-meter {
+  width: min(100%, 360px);
+  height: 8px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #232b3f;
+}
+
+.achievement-meter span {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--accent), #10b981);
+}
+
+.achievement-reward {
+  display: grid;
+  gap: 7px;
+  justify-items: end;
+  min-width: 0;
+  text-align: right;
+}
+
+.achievement-reward strong {
+  color: var(--text);
+  font-size: 13px;
+  line-height: 1.3;
+}
+
+.achievement-status {
+  display: inline-flex;
+  align-items: center;
+  min-height: 26px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 999px;
+  padding: 3px 9px;
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.achievement-card.is-unlocked .achievement-status {
+  border-color: rgba(16, 185, 129, 0.38);
+  background: rgba(16, 185, 129, 0.14);
+  color: #a7f3d0;
+}
+
 .profile-stat-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -2219,6 +2387,21 @@ html.loner-page-leaving .sidebar {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
+  .achievement-card {
+    grid-template-columns: 74px minmax(0, 1fr);
+    align-items: start;
+  }
+
+  .achievement-avatar {
+    width: 74px;
+  }
+
+  .achievement-reward {
+    grid-column: 1 / -1;
+    justify-items: start;
+    text-align: left;
+  }
+
   .ranking-header {
     grid-template-columns: 1fr;
   }
@@ -2307,6 +2490,25 @@ html.loner-page-leaving .sidebar {
   .profile-actions,
   .profile-hero {
     grid-template-columns: 1fr;
+  }
+
+  .profile-tabs,
+  .achievement-tabs {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .profile-tab,
+  .achievement-tab {
+    width: 100%;
+  }
+
+  .achievement-card {
+    grid-template-columns: 1fr;
+  }
+
+  .achievement-avatar {
+    width: 96px;
   }
 
   .profile-comic-grid {

@@ -4,6 +4,19 @@ const { firebaseConfig, firebaseReady } = await import(`./firebase-config.js?v=$
 const { articles, catalogo, comics } = await import(`./catalogo.js?v=${runtimeAssetVersion}`);
 
 const defaultAvatarPath = "Avatar/homemaranha.png";
+const profileAvatarRewards = [
+  {
+    id: "star-wars-10-hqs",
+    tabId: "star-wars",
+    tabTitle: "Star Wars",
+    universe: "Star Wars",
+    title: "Leia 10 HQs do universo Star Wars",
+    description: "Complete leituras marcadas nas HQs cadastradas do universo Star Wars.",
+    requiredReads: 10,
+    avatarPath: "Avatar/luke-skywalker.png",
+    avatarName: "Luke Skywalker"
+  }
+];
 const profileCacheKey = "loner-hq:lastProfile";
 const siteUpdateCheckInterval = 90 * 1000;
 const pageTransitionDelay = 90;
@@ -772,6 +785,37 @@ function xpProgress(profile = {}) {
     next,
     percent: Math.min(100, Math.max(0, (current / next) * 100))
   };
+}
+
+function normalizeCatalogKey(value) {
+  return String(value || "")
+    .trim()
+    .toLowerCase();
+}
+
+function readCountByUniverse(interactions, universe) {
+  const universeKey = normalizeCatalogKey(universe);
+
+  return interactions.filter((item) => item.read && normalizeCatalogKey(item.universe) === universeKey).length;
+}
+
+function profileAchievementState(interactions, reward) {
+  const current = readCountByUniverse(interactions, reward.universe);
+  const required = Number(reward.requiredReads || 1);
+  const unlocked = current >= required;
+
+  return {
+    current,
+    required,
+    unlocked,
+    percent: Math.min(100, Math.max(0, (current / required) * 100))
+  };
+}
+
+function unlockedProfileAvatarPaths(interactions) {
+  return profileAvatarRewards
+    .filter((reward) => profileAchievementState(interactions, reward).unlocked)
+    .map((reward) => reward.avatarPath);
 }
 
 function setMessage(text, type = "") {
@@ -1811,6 +1855,14 @@ async function getPublicProfile(uid) {
   return snapshot.exists() ? snapshot.data() : null;
 }
 
+async function getUserComicInteractions(uid) {
+  const interactionsSnapshot = await firebaseServices.getDocs(
+    firebaseServices.collection(firebaseServices.db, "users", uid, "comics")
+  );
+
+  return interactionsSnapshot.docs.map((item) => enrichedComicInteraction(item.data()));
+}
+
 function renderProfilePageUnavailable(
   title = "Perfil indisponível",
   text = "Para usar perfis, cole a configuração do Web App em firebase-config.js e publique as regras do Firestore."
@@ -1883,6 +1935,154 @@ function profileComicList(items, emptyText, dateField = "") {
   `;
 }
 
+function profileAchievementGroups() {
+  return profileAvatarRewards.reduce((groups, reward) => {
+    let group = groups.find((item) => item.id === reward.tabId);
+
+    if (!group) {
+      group = {
+        id: reward.tabId,
+        title: reward.tabTitle,
+        rewards: []
+      };
+      groups.push(group);
+    }
+
+    group.rewards.push(reward);
+    return groups;
+  }, []);
+}
+
+function profileAvatarRewardButton(reward, state, profile, isOwnProfile) {
+  if (!isOwnProfile) {
+    return "";
+  }
+
+  if (!state.unlocked) {
+    return '<button class="button ghost" type="button" disabled>Bloqueado</button>';
+  }
+
+  if ((profile.avatarPath || defaultAvatarPath) === reward.avatarPath) {
+    return '<button class="button ghost" type="button" disabled>Em uso</button>';
+  }
+
+  return `
+    <button class="button primary" type="button" data-profile-avatar="${escapeHtml(reward.avatarPath)}">
+      Usar avatar
+    </button>
+  `;
+}
+
+function profileAchievementCard(reward, interactions, profile, isOwnProfile) {
+  const state = profileAchievementState(interactions, reward);
+  const countLabel = `${Math.min(state.current, state.required)} / ${state.required} lidas`;
+  const statusText = state.unlocked ? "Desbloqueada" : countLabel;
+
+  return `
+    <article class="achievement-card ${state.unlocked ? "is-unlocked" : "is-locked"}">
+      <img
+        class="achievement-avatar"
+        src="${imageAssetPath(reward.avatarPath)}"
+        alt="Avatar ${escapeHtml(reward.avatarName)}"
+        loading="lazy"
+      />
+      <div class="achievement-copy">
+        <span class="achievement-kicker">${escapeHtml(reward.tabTitle)}</span>
+        <h4>${escapeHtml(reward.title)}</h4>
+        <p>${escapeHtml(reward.description)}</p>
+        <div class="achievement-meter" aria-label="Progresso da conquista">
+          <span style="width: ${state.percent}%"></span>
+        </div>
+        <small>Progresso: ${escapeHtml(countLabel)}</small>
+      </div>
+      <div class="achievement-reward">
+        <span class="achievement-status">${escapeHtml(statusText)}</span>
+        <strong>Avatar ${escapeHtml(reward.avatarName)}</strong>
+        ${profileAvatarRewardButton(reward, state, profile, isOwnProfile)}
+      </div>
+    </article>
+  `;
+}
+
+function profileAchievementsPanel(interactions, profile, isOwnProfile) {
+  const groups = profileAchievementGroups();
+
+  return `
+    <section class="profile-achievements" aria-labelledby="profileAchievementsTitle">
+      <h3 id="profileAchievementsTitle">Conquistas</h3>
+      <div class="achievement-tabs" role="tablist" aria-label="Universos de conquistas">
+        ${groups
+          .map(
+            (group, index) => `
+              <button
+                class="achievement-tab ${index === 0 ? "is-active" : ""}"
+                type="button"
+                role="tab"
+                aria-selected="${index === 0 ? "true" : "false"}"
+                aria-controls="achievement-panel-${escapeHtml(group.id)}"
+                data-achievement-tab="${escapeHtml(group.id)}"
+              >
+                ${escapeHtml(group.title)}
+              </button>
+            `
+          )
+          .join("")}
+      </div>
+      ${groups
+        .map(
+          (group, index) => `
+            <div
+              class="achievement-panel"
+              id="achievement-panel-${escapeHtml(group.id)}"
+              role="tabpanel"
+              data-achievement-panel="${escapeHtml(group.id)}"
+              ${index === 0 ? "" : "hidden"}
+            >
+              <div class="achievement-list">
+                ${group.rewards
+                  .map((reward) => profileAchievementCard(reward, interactions, profile, isOwnProfile))
+                  .join("")}
+              </div>
+            </div>
+          `
+        )
+        .join("")}
+    </section>
+  `;
+}
+
+function activateProfileTab(tabId) {
+  if (!profilePage) {
+    return;
+  }
+
+  profilePage.querySelectorAll("[data-profile-tab]").forEach((button) => {
+    const active = button.dataset.profileTab === tabId;
+    button.classList.toggle("is-active", active);
+    button.setAttribute("aria-selected", String(active));
+  });
+
+  profilePage.querySelectorAll("[data-profile-panel]").forEach((panel) => {
+    panel.hidden = panel.dataset.profilePanel !== tabId;
+  });
+}
+
+function activateAchievementTab(tabId) {
+  if (!profilePage) {
+    return;
+  }
+
+  profilePage.querySelectorAll("[data-achievement-tab]").forEach((button) => {
+    const active = button.dataset.achievementTab === tabId;
+    button.classList.toggle("is-active", active);
+    button.setAttribute("aria-selected", String(active));
+  });
+
+  profilePage.querySelectorAll("[data-achievement-panel]").forEach((panel) => {
+    panel.hidden = panel.dataset.achievementPanel !== tabId;
+  });
+}
+
 async function renderProfilePage() {
   if (!profilePage || !firebaseServices) {
     return;
@@ -1913,19 +2113,17 @@ async function renderProfilePage() {
     return;
   }
 
-  const interactionsSnapshot = await firebaseServices.getDocs(
-    firebaseServices.collection(firebaseServices.db, "users", uid, "comics")
-  );
-  const interactions = interactionsSnapshot.docs.map((item) => enrichedComicInteraction(item.data()));
+  const interactions = await getUserComicInteractions(uid);
   const reads = interactions
     .filter((item) => item.read)
     .sort((a, b) => timestampToMillis(b.readAt) - timestampToMillis(a.readAt))
-    .slice(0, 12);
+    .slice(0, 6);
   const favorites = interactions
     .filter((item) => item.favorite)
     .sort((a, b) => timestampToMillis(b.favoriteAt) - timestampToMillis(a.favoriteAt))
     .slice(0, 12);
   const progress = xpProgress(profile);
+  const isOwnProfile = currentUser?.uid === uid && !currentProfile?.firestoreBlocked;
   const stats = {
     reads: interactions.filter((item) => item.read).length,
     favorites: interactions.filter((item) => item.favorite).length,
@@ -1949,18 +2147,89 @@ async function renderProfilePage() {
 
       ${profileStatCards(stats)}
 
-      <div class="profile-sections">
-        <section>
-          <h3>Últimas HQs lidas</h3>
-          ${profileComicList(reads, "Ainda não marcou nenhuma leitura.", "readAt")}
-        </section>
-        <section>
-          <h3>HQ favoritos</h3>
-          ${profileComicList(favorites, "Ainda não favoritou nenhuma HQ.", "favoriteAt")}
-        </section>
+      <div class="profile-tabs" role="tablist" aria-label="Áreas do perfil">
+        <button
+          class="profile-tab is-active"
+          type="button"
+          role="tab"
+          aria-selected="true"
+          aria-controls="profile-panel-readings"
+          data-profile-tab="readings"
+        >
+          Leituras
+        </button>
+        <button
+          class="profile-tab"
+          type="button"
+          role="tab"
+          aria-selected="false"
+          aria-controls="profile-panel-achievements"
+          data-profile-tab="achievements"
+        >
+          Conquistas
+        </button>
+      </div>
+
+      <div class="profile-tab-panel" id="profile-panel-readings" role="tabpanel" data-profile-panel="readings">
+        <div class="profile-sections">
+          <section>
+            <h3>Últimas HQs lidas</h3>
+            ${profileComicList(reads, "Ainda não marcou nenhuma leitura.", "readAt")}
+          </section>
+          <section>
+            <h3>HQ favoritos</h3>
+            ${profileComicList(favorites, "Ainda não favoritou nenhuma HQ.", "favoriteAt")}
+          </section>
+        </div>
+      </div>
+
+      <div
+        class="profile-tab-panel"
+        id="profile-panel-achievements"
+        role="tabpanel"
+        data-profile-panel="achievements"
+        hidden
+      >
+        ${profileAchievementsPanel(interactions, profile, isOwnProfile)}
       </div>
     </section>
   `;
+}
+
+async function setProfileAvatar(avatarPath) {
+  if (!firebaseServices || !currentUser || !currentProfile?.nick || currentProfile.firestoreBlocked) {
+    setMessage("Entre na conta para alterar o avatar.", "error");
+    return;
+  }
+
+  const interactions = await getUserComicInteractions(currentUser.uid);
+  const unlockedAvatars = unlockedProfileAvatarPaths(interactions);
+
+  if (avatarPath !== defaultAvatarPath && !unlockedAvatars.includes(avatarPath)) {
+    setMessage("Esse avatar ainda está bloqueado.", "error");
+    renderProfilePage();
+    return;
+  }
+
+  await firebaseServices.setDoc(
+    userRef(currentUser.uid),
+    {
+      uid: currentUser.uid,
+      avatarPath,
+      updatedAt: firebaseServices.serverTimestamp()
+    },
+    { merge: true }
+  );
+
+  currentProfile = {
+    ...currentProfile,
+    avatarPath
+  };
+
+  renderSignedIn(currentProfile);
+  await renderProfilePage();
+  renderRankingPage();
+  setMessage("Avatar atualizado no perfil.", "success");
 }
 
 function renderRankingPageUnavailable(
@@ -2230,6 +2499,9 @@ function setupEvents() {
     const modalClose = event.target.closest("[data-modal-close]");
     const readerButton = event.target.closest("#readersButton");
     const profileUserButton = event.target.closest("[data-profile-uid]");
+    const profileTabButton = event.target.closest("[data-profile-tab]");
+    const achievementTabButton = event.target.closest("[data-achievement-tab]");
+    const profileAvatarButton = event.target.closest("[data-profile-avatar]");
 
     if (articleButton) {
       renderArticle(articleButton.dataset.openArticle);
@@ -2283,6 +2555,18 @@ function setupEvents() {
 
     if (profileUserButton) {
       openProfile(profileUserButton.dataset.profileUid);
+    }
+
+    if (profileTabButton) {
+      activateProfileTab(profileTabButton.dataset.profileTab);
+    }
+
+    if (achievementTabButton) {
+      activateAchievementTab(achievementTabButton.dataset.achievementTab);
+    }
+
+    if (profileAvatarButton) {
+      await setProfileAvatar(profileAvatarButton.dataset.profileAvatar);
     }
 
     if (modalClose) {
