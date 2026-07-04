@@ -18,6 +18,24 @@ export const articles = [
       "Segunda edição da adaptação Marvel de Star Wars, com a história Six Against the Galaxy. Na Loner HQ, esta HQ soma 19 páginas e segue o mesmo padrão de catalogação da Série Principal."
   },
   {
+    id: "star-wars-poe-dameron-2016",
+    title: "Poe Dameron (2016)",
+    category: "Série",
+    year: "2016",
+    tags: ["Marvel Comics", "Star Wars", "Poe Dameron"],
+    summary:
+      "Série da Marvel Comics iniciada em 2016, acompanhando Poe Dameron, BB-8 e o Esquadrão Negro em missões da Resistência antes de Star Wars: O Despertar da Força."
+  },
+  {
+    id: "star-wars-poe-dameron-1-2016",
+    title: "Poe Dameron #1",
+    category: "Edição",
+    year: "2016",
+    tags: ["Marvel Comics", "Star Wars", "Poe Dameron"],
+    summary:
+      "Primeiro volume da série Poe Dameron, lançado pela Marvel Comics em 2016 com roteiro de Charles Soule, arte de Phil Noto e 32 páginas."
+  },
+  {
     id: "universo-star-wars",
     title: "Universo Star Wars",
     category: "Universo",
@@ -155,6 +173,14 @@ export const acervo = [
     year: "1997",
     universe: "Star Wars",
     href: "Universos/Star Wars/Saga Principal/saga-principal.html"
+  },
+  {
+    tipo: "serie",
+    id: "star-wars-poe-dameron-2016",
+    title: "Poe Dameron",
+    year: "2016",
+    universe: "Star Wars",
+    href: "Universos/Star Wars/2016-poedameron/poe-dameron.html"
   },
   {
     tipo: "serie",
@@ -458,6 +484,20 @@ export const acervo = [
     xpReward: 22,
     fileName: "daredevil-3-1964.html",
     keywords: ["Demolidor", "Matt Murdock", "Coruja", "Leland Owlsley", "Owl"]
+  },
+  {
+    tipo: "hq",
+    id: "star-wars-poe-dameron-1-2016",
+    title: "Poe Dameron #1 (2016)",
+    shortTitle: "Poe Dameron #1",
+    universe: "Star Wars",
+    series: "Poe Dameron (2016)",
+    href: "Universos/Star Wars/2016-poedameron/poe-dameron-1-2016.html",
+    cover: "Universos/Star Wars/2016-poedameron/poedameroncapa1.png",
+    pageCount: 32,
+    xpReward: 32,
+    fileName: "poe-dameron-1-2016.html",
+    keywords: ["Poe Dameron", "BB-8", "Leia Organa", "Esquadrão Negro", "Black Squadron"]
   }
 ];
 
