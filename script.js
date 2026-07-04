@@ -7,6 +7,57 @@ const defaultAvatarPath = "Avatar/homemaranha.png";
 const profileCacheKey = "loner-hq:lastProfile";
 const siteUpdateCheckInterval = 90 * 1000;
 const pageTransitionDelay = 90;
+const searchDebounceDelay = 150;
+
+function debounce(fn, delay) {
+  let timeoutId;
+  return (...args) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => fn(...args), delay);
+  };
+}
+
+let modalReturnFocusEl = null;
+
+function trapModalFocus(overlay) {
+  const returnFocusEl = document.activeElement;
+  modalReturnFocusEl = returnFocusEl instanceof HTMLElement ? returnFocusEl : null;
+
+  const focusable = overlay.querySelectorAll(
+    'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+  );
+
+  if (!focusable.length) {
+    return;
+  }
+
+  const first = focusable[0];
+  const last = focusable[focusable.length - 1];
+  first.focus();
+
+  overlay.addEventListener("keydown", (event) => {
+    if (event.key !== "Tab") {
+      return;
+    }
+
+    if (event.shiftKey && document.activeElement === first) {
+      event.preventDefault();
+      last.focus();
+    } else if (!event.shiftKey && document.activeElement === last) {
+      event.preventDefault();
+      first.focus();
+    }
+  });
+}
+
+function closeModal(overlay) {
+  overlay?.remove();
+
+  if (modalReturnFocusEl) {
+    modalReturnFocusEl.focus();
+    modalReturnFocusEl = null;
+  }
+}
 
 renderSharedSidebar();
 
@@ -622,7 +673,9 @@ function pathFileName(path = "") {
 
   try {
     decodedPath = decodeURIComponent(cleanPath);
-  } catch {}
+  } catch (error) {
+    console.warn("Não foi possível decodificar o caminho:", cleanPath, error);
+  }
 
   return decodedPath.split("/").pop() || "";
 }
@@ -896,6 +949,7 @@ function openNickDialog(user, profile) {
       </section>
     `;
     document.body.append(overlay);
+    trapModalFocus(overlay);
 
     const input = overlay.querySelector("#nickInput");
     const message = overlay.querySelector("#nickMessage");
@@ -923,7 +977,7 @@ function openNickDialog(user, profile) {
       };
 
       await firebaseServices.setDoc(userRef(user.uid), updatedProfile, { merge: true });
-      overlay.remove();
+      closeModal(overlay);
       resolve({ ...profile, ...updatedProfile });
     });
   });
@@ -982,13 +1036,17 @@ function writeCachedProfile(profile) {
 
   try {
     localStorage.setItem(profileCacheKey, JSON.stringify(payload));
-  } catch {}
+  } catch (error) {
+    console.warn("Não foi possível salvar o perfil em cache local:", error);
+  }
 }
 
 function clearCachedProfile() {
   try {
     localStorage.removeItem(profileCacheKey);
-  } catch {}
+  } catch (error) {
+    console.warn("Não foi possível limpar o perfil em cache local:", error);
+  }
 }
 
 function renderCachedProfile() {
@@ -1711,6 +1769,7 @@ async function openReadersModal() {
     </section>
   `;
   document.body.append(overlay);
+  trapModalFocus(overlay);
 
   const list = overlay.querySelector("#readerList");
   const snapshot = await firebaseServices.getDocs(
@@ -2122,8 +2181,13 @@ function setupEvents() {
     }
   });
 
+  const debouncedRenderSearchResults = debounce(renderSearchResults, searchDebounceDelay);
+  const debouncedRenderSmartSearch = debounce(renderSmartSearch, searchDebounceDelay);
+  const debouncedFilterUniverseCards = debounce(filterUniverseCards, searchDebounceDelay);
+  const debouncedFilterCharacterCards = debounce(filterCharacterCards, searchDebounceDelay);
+
   searchInput?.addEventListener("input", (event) => {
-    renderSearchResults(event.target.value);
+    debouncedRenderSearchResults(event.target.value);
   });
 
   searchForm?.addEventListener("submit", (event) => {
@@ -2132,7 +2196,7 @@ function setupEvents() {
   });
 
   smartSearchInput?.addEventListener("input", (event) => {
-    renderSmartSearch(event.target.value);
+    debouncedRenderSmartSearch(event.target.value);
   });
 
   smartSearchForm?.addEventListener("submit", (event) => {
@@ -2143,11 +2207,11 @@ function setupEvents() {
   });
 
   universeSearchInput?.addEventListener("input", (event) => {
-    filterUniverseCards(event.target.value);
+    debouncedFilterUniverseCards(event.target.value);
   });
 
   characterSearchInput?.addEventListener("input", (event) => {
-    filterCharacterCards(event.target.value);
+    debouncedFilterCharacterCards(event.target.value);
   });
 
   document.addEventListener("click", async (event) => {
@@ -2218,7 +2282,7 @@ function setupEvents() {
     }
 
     if (modalClose) {
-      modalClose.closest(".modal-backdrop")?.remove();
+      closeModal(modalClose.closest(".modal-backdrop"));
     }
   });
 
@@ -2227,7 +2291,7 @@ function setupEvents() {
       if (searchResults) {
         searchResults.hidden = true;
       }
-      document.querySelectorAll(".modal-backdrop").forEach((modal) => modal.remove());
+      document.querySelectorAll(".modal-backdrop").forEach((modal) => closeModal(modal));
     }
   });
 }
