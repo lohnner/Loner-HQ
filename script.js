@@ -120,6 +120,10 @@ function rootPath() {
     return "../../../";
   }
 
+  if (path.includes("/Universos/Star Wars/2016-poedameron/")) {
+    return "../../../";
+  }
+
   if (path.includes("/Universos/Star Wars/")) {
     return "../../";
   }
