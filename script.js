@@ -149,6 +149,14 @@ function rootPath() {
     return "../../";
   }
 
+  if (path.includes("/Universos/Warhammer 40.000/2020 - Marneus Calgar/")) {
+    return "../../../";
+  }
+
+  if (path.includes("/Universos/Warhammer 40.000/")) {
+    return "../../";
+  }
+
   if (path.includes("/Universos/Marvel/Demolidor/")) {
     return "../../../";
   }

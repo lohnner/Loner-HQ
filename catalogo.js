@@ -54,6 +54,33 @@ export const articles = [
       "Saga de ficção científica criada a partir dos romances de Frank Herbert, centrada em Arrakis, na especiaria melange e nos conflitos entre casas, Fremen e ordens políticas e religiosas."
   },
   {
+    id: "universo-warhammer-40-000",
+    title: "Universo Warhammer 40.000",
+    category: "Universo",
+    year: "1987",
+    tags: ["sci-fi", "grimdark", "Space Marines"],
+    summary:
+      "Universo de ficção científica sombria ambientado no 41º milênio, com o Imperium, Space Marines, xenos, forças do Caos e guerras sem fim."
+  },
+  {
+    id: "warhammer-40-000-marneus-calgar-2020",
+    title: "Marneus Calgar (2020)",
+    category: "Série",
+    year: "2020",
+    tags: ["Marvel Comics", "Warhammer 40.000", "Marneus Calgar"],
+    summary:
+      "Minissérie da Marvel Comics iniciada em 2020, com roteiro de Kieron Gillen e arte de Jacen Burrows, apresentando uma história de origem de Marneus Calgar."
+  },
+  {
+    id: "warhammer-40-000-marneus-calgar-1-2020",
+    title: "Marneus Calgar #1",
+    category: "Edição",
+    year: "2020",
+    tags: ["Marvel Comics", "Warhammer 40.000", "Ultramarines"],
+    summary:
+      "Primeira edição da minissérie Marneus Calgar, publicada pela Marvel Comics em 2020 com roteiro de Kieron Gillen, arte de Jacen Burrows e 27 páginas."
+  },
+  {
     id: "dune-marvel-1985",
     title: "Dune (Marvel)",
     category: "Série",
@@ -134,6 +161,12 @@ export const acervo = [
   },
   {
     tipo: "universo",
+    id: "warhammer-40-000",
+    title: "Warhammer 40.000",
+    href: "Universos/Warhammer 40.000/warhammer40.000.html"
+  },
+  {
+    tipo: "universo",
     id: "marvel",
     title: "Marvel",
     href: "Universos/Marvel/index.html"
@@ -165,6 +198,14 @@ export const acervo = [
     year: "1985",
     universe: "Dune",
     href: "Universos/Dune/dune-marvel-1985/dune-marvel-1985.html"
+  },
+  {
+    tipo: "serie",
+    id: "warhammer-40-000-marneus-calgar-2020",
+    title: "Marneus Calgar",
+    year: "2020",
+    universe: "Warhammer 40.000",
+    href: "Universos/Warhammer 40.000/2020 - Marneus Calgar/marneus-calgar.html"
   },
   {
     tipo: "serie",
@@ -498,6 +539,20 @@ export const acervo = [
     xpReward: 32,
     fileName: "poe-dameron-1-2016.html",
     keywords: ["Poe Dameron", "BB-8", "Leia Organa", "Esquadrão Negro", "Black Squadron"]
+  },
+  {
+    tipo: "hq",
+    id: "warhammer-40-000-marneus-calgar-1-2020",
+    title: "Warhammer 40.000: Marneus Calgar #1 (2020)",
+    shortTitle: "Marneus Calgar #1",
+    universe: "Warhammer 40.000",
+    series: "Marneus Calgar",
+    href: "Universos/Warhammer 40.000/2020 - Marneus Calgar/marneus-calgar-1-2020.html",
+    cover: "Universos/Warhammer 40.000/2020 - Marneus Calgar/marneuscalgar1.png",
+    pageCount: 27,
+    xpReward: 27,
+    fileName: "marneus-calgar-1-2020.html",
+    keywords: ["Warhammer 40.000", "Marneus Calgar", "Ultramarines", "Space Marines", "Imperium"]
   }
 ];
 
