@@ -81,6 +81,15 @@ export const articles = [
       "Primeira edição da minissérie Marneus Calgar, publicada pela Marvel Comics em 2020 com roteiro de Kieron Gillen, arte de Jacen Burrows e 27 páginas."
   },
   {
+    id: "daredevil-4-1964",
+    title: "Daredevil #4",
+    category: "Edição",
+    year: "1964",
+    tags: ["Marvel Comics", "Demolidor", "Homem-Púrpura"],
+    summary:
+      "Quarta edição da série clássica Daredevil, marcando a primeira aparição de Killgrave, o Homem-Púrpura, com roteiro de Stan Lee e arte de Joe Orlando."
+  },
+  {
     id: "dune-marvel-1985",
     title: "Dune (Marvel)",
     category: "Série",
@@ -553,6 +562,20 @@ export const acervo = [
     xpReward: 27,
     fileName: "marneus-calgar-1-2020.html",
     keywords: ["Warhammer 40.000", "Marneus Calgar", "Ultramarines", "Space Marines", "Imperium"]
+  },
+  {
+    tipo: "hq",
+    id: "daredevil-4-1964",
+    title: "Daredevil #4 (1964)",
+    shortTitle: "Daredevil #4",
+    universe: "Marvel",
+    series: "Daredevil (1964)",
+    href: "Universos/Marvel/Demolidor/daredevil-4-1964.html",
+    cover: "Universos/Marvel/Demolidor/1964 - Daredevil%234.jpg",
+    pageCount: 23,
+    xpReward: 23,
+    fileName: "daredevil-4-1964.html",
+    keywords: ["Demolidor", "Matt Murdock", "Homem-Púrpura", "Killgrave", "Purple Man", "Zebediah Killgrave"]
   }
 ];
 
