@@ -694,6 +694,48 @@ html.loner-page-leaving .sidebar {
   margin: 0 0 10px;
 }
 
+.blog-info-card {
+  border-color: rgba(140, 14, 42, 0.22);
+  background:
+    linear-gradient(90deg, rgba(140, 14, 42, 0.04), transparent 42%),
+    linear-gradient(180deg, #ffffff 0%, #fff8fa 100%);
+}
+
+.blog-info-list {
+  display: grid;
+  gap: 0;
+  margin: 0;
+}
+
+.blog-info-list div {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--line-soft);
+}
+
+.blog-info-list div:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+.blog-info-list dt {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.blog-info-list dd {
+  margin: 0;
+  color: var(--accent-strong);
+  font-weight: 800;
+  text-align: right;
+}
+
 .text-link {
   border: 0;
   padding: 0;
