@@ -851,7 +851,7 @@ html.loner-page-leaving .sidebar {
 
 .recent-hq-list {
   display: grid;
-  grid-template-columns: minmax(0, 1.1fr) repeat(2, minmax(0, 0.95fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 12px;
 }
 
@@ -958,10 +958,6 @@ html.loner-page-leaving .sidebar {
   font-size: 15px;
   font-weight: 700;
   line-height: 1.25;
-}
-
-.recent-hq-card:first-child .recent-hq-body strong {
-  font-size: 16px;
 }
 
 .recent-hq-body small {
