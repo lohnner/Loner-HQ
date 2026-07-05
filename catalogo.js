@@ -371,20 +371,6 @@ export const acervo = [
   },
   {
     tipo: "hq",
-    id: "x-men-outback-1-2026",
-    title: "X-Men: Outback #1 (2026)",
-    shortTitle: "X-Men: Outback #1",
-    universe: "Marvel",
-    series: "X-Men: Outback (2026)",
-    href: "Universos/Marvel/X-men/2026 - Outback/2026x-men-outback-1.html",
-    cover: "Universos/Marvel/X-men/2026 - Outback/2026x-men-outback-1.jpg",
-    pageCount: 32,
-    xpReward: 32,
-    fileName: "2026x-men-outback-1.html",
-    keywords: ["X-Men", "Outback", "Storm", "Wolverine", "Rogue", "Colossus", "Dazzler", "Havok", "Psylocke", "Longshot"]
-  },
-  {
-    tipo: "hq",
     id: "batman-1-2025",
     title: "Batman #1 (2025)",
     shortTitle: "Batman #1",
@@ -647,6 +633,20 @@ export const acervo = [
     xpReward: 23,
     fileName: "daredevil-4-1964.html",
     keywords: ["Demolidor", "Matt Murdock", "Homem-Púrpura", "Killgrave", "Purple Man", "Zebediah Killgrave"]
+  },
+  {
+    tipo: "hq",
+    id: "x-men-outback-1-2026",
+    title: "X-Men: Outback #1 (2026)",
+    shortTitle: "X-Men: Outback #1",
+    universe: "Marvel",
+    series: "X-Men: Outback (2026)",
+    href: "Universos/Marvel/X-men/2026 - Outback/2026x-men-outback-1.html",
+    cover: "Universos/Marvel/X-men/2026 - Outback/2026x-men-outback-1.jpg",
+    pageCount: 32,
+    xpReward: 32,
+    fileName: "2026x-men-outback-1.html",
+    keywords: ["X-Men", "Outback", "Storm", "Wolverine", "Rogue", "Colossus", "Dazzler", "Havok", "Psylocke", "Longshot"]
   }
 ];
 
