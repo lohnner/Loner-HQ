@@ -161,6 +161,14 @@ function rootPath() {
     return "../../../";
   }
 
+  if (path.includes("/Universos/Marvel/X-men/2026 - Outback/")) {
+    return "../../../../";
+  }
+
+  if (path.includes("/Universos/Marvel/X-men/")) {
+    return "../../../";
+  }
+
   if (path.includes("/Universos/Marvel/")) {
     return "../../";
   }

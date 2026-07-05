@@ -99,6 +99,24 @@ export const articles = [
       "Quarta edição da série clássica Daredevil, marcando a primeira aparição de Killgrave, o Homem-Púrpura, com roteiro de Stan Lee e arte de Joe Orlando."
   },
   {
+    id: "x-men-outback-2026",
+    title: "X-Men: Outback (2026)",
+    category: "Série",
+    year: "2026",
+    tags: ["Marvel Comics", "X-Men", "Outback"],
+    summary:
+      "Minissérie retro da Marvel Comics iniciada em 2026, revisitando a fase australiana dos X-Men com roteiro de Steve Orlando e arte de Stephen Segovia."
+  },
+  {
+    id: "x-men-outback-1-2026",
+    title: "X-Men: Outback #1",
+    category: "Edição",
+    year: "2026",
+    tags: ["Marvel Comics", "X-Men", "Outback"],
+    summary:
+      "Primeira edição da minissérie X-Men: Outback, publicada em junho de 2026 com roteiro de Steve Orlando, arte de Stephen Segovia e 32 páginas."
+  },
+  {
     id: "dune-marvel-1985",
     title: "Dune (Marvel)",
     category: "Série",
@@ -204,6 +222,13 @@ export const acervo = [
   },
   {
     tipo: "personagem",
+    id: "x-men",
+    title: "X-Men",
+    universe: "Marvel",
+    href: "Universos/Marvel/X-men/x-men.html"
+  },
+  {
+    tipo: "personagem",
     id: "batman",
     title: "Batman",
     universe: "DC Universe",
@@ -276,6 +301,15 @@ export const acervo = [
   },
   {
     tipo: "serie",
+    id: "x-men-outback-2026",
+    title: "X-Men: Outback",
+    year: "2026",
+    universe: "Marvel",
+    character: "X-Men",
+    href: "Universos/Marvel/X-men/2026 - Outback/x-men-outback-2026.html"
+  },
+  {
+    tipo: "serie",
     id: "batman-2025",
     title: "Batman (2025–)",
     year: "2025",
@@ -334,6 +368,20 @@ export const acervo = [
     pageCount: 23,
     xpReward: 23,
     fileName: "daredevil-2-1964.html"
+  },
+  {
+    tipo: "hq",
+    id: "x-men-outback-1-2026",
+    title: "X-Men: Outback #1 (2026)",
+    shortTitle: "X-Men: Outback #1",
+    universe: "Marvel",
+    series: "X-Men: Outback (2026)",
+    href: "Universos/Marvel/X-men/2026 - Outback/2026x-men-outback%231.html",
+    cover: "Universos/Marvel/X-men/2026 - Outback/2026x-men-outback%231.jpg",
+    pageCount: 32,
+    xpReward: 32,
+    fileName: "2026x-men-outback#1.html",
+    keywords: ["X-Men", "Outback", "Storm", "Wolverine", "Rogue", "Colossus", "Dazzler", "Havok", "Psylocke", "Longshot"]
   },
   {
     tipo: "hq",
