@@ -376,11 +376,11 @@ export const acervo = [
     shortTitle: "X-Men: Outback #1",
     universe: "Marvel",
     series: "X-Men: Outback (2026)",
-    href: "Universos/Marvel/X-men/2026 - Outback/2026x-men-outback%231.html",
-    cover: "Universos/Marvel/X-men/2026 - Outback/2026x-men-outback%231.jpg",
+    href: "Universos/Marvel/X-men/2026 - Outback/2026x-men-outback-1.html",
+    cover: "Universos/Marvel/X-men/2026 - Outback/2026x-men-outback-1.jpg",
     pageCount: 32,
     xpReward: 32,
-    fileName: "2026x-men-outback#1.html",
+    fileName: "2026x-men-outback-1.html",
     keywords: ["X-Men", "Outback", "Storm", "Wolverine", "Rogue", "Colossus", "Dazzler", "Havok", "Psylocke", "Longshot"]
   },
   {
