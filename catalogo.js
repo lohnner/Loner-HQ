@@ -45,6 +45,15 @@ export const articles = [
       "Segunda edição da série Poe Dameron, publicada pela Marvel Comics em 2016 com roteiro de Charles Soule, arte de Phil Noto e 22 páginas."
   },
   {
+    id: "star-wars-poe-dameron-3-2016",
+    title: "Poe Dameron #3",
+    category: "Edição",
+    year: "2016",
+    tags: ["Marvel Comics", "Star Wars", "Poe Dameron"],
+    summary:
+      "Terceira edição da série Poe Dameron, publicada pela Marvel Comics em 2016 com roteiro de Charles Soule, arte de Phil Noto e 32 páginas."
+  },
+  {
     id: "universo-star-wars",
     title: "Universo Star Wars",
     category: "Universo",
@@ -605,6 +614,20 @@ export const acervo = [
     xpReward: 22,
     fileName: "poe-dameron-2-2016.html",
     keywords: ["Poe Dameron", "BB-8", "Capitão Terrex", "Esquadrão Negro", "Black Squadron", "Primeira Ordem"]
+  },
+  {
+    tipo: "hq",
+    id: "star-wars-poe-dameron-3-2016",
+    title: "Poe Dameron #3 (2016)",
+    shortTitle: "Poe Dameron #3",
+    universe: "Star Wars",
+    series: "Poe Dameron (2016)",
+    href: "Universos/Star Wars/2016-poedameron/poe-dameron-3-2016.html",
+    cover: "Universos/Star Wars/2016-poedameron/poedameroncapa3.png",
+    pageCount: 32,
+    xpReward: 32,
+    fileName: "poe-dameron-3-2016.html",
+    keywords: ["Poe Dameron", "BB-8", "Agente Terex", "Esquadrão Negro", "Black Squadron", "Primeira Ordem", "Crèche"]
   },
   {
     tipo: "hq",
