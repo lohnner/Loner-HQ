@@ -91,6 +91,20 @@ const characterSearchStatus = document.querySelector("#characterSearchStatus");
 const characterList = document.querySelector("#characterList");
 const articleContent = document.querySelector("#articleContent");
 const homeRecentHqs = document.querySelector("#homeRecentHqs");
+const homeRecentSeries = [
+  {
+    seriesId: "star-wars-poe-dameron-2016",
+    coverComicId: "star-wars-poe-dameron-1-2016"
+  },
+  {
+    seriesId: "x-men-outback-2026",
+    coverComicId: "x-men-outback-1-2026"
+  },
+  {
+    seriesId: "daredevil-1964",
+    coverComicId: "daredevil-1-1964"
+  }
+];
 const smartSearchForm = document.querySelector("#smartSearchForm");
 const smartSearchInput = document.querySelector("#smartSearchInput");
 const smartSearchResults = document.querySelector("#smartSearchResults");
@@ -525,22 +539,37 @@ function renderHomeRecentHqs() {
     return;
   }
 
-  const recentHqs = catalogo.hqs.slice(-3).reverse();
+  const recentSeries = homeRecentSeries
+    .map((item) => {
+      const series = catalogo.series.find((entry) => entry.id === item.seriesId);
+      const coverComic = comics[item.coverComicId];
 
-  homeRecentHqs.innerHTML = recentHqs
+      if (!series || !coverComic) {
+        return null;
+      }
+
+      return {
+        ...series,
+        cover: coverComic.cover,
+        coverTitle: coverComic.shortTitle || coverComic.title
+      };
+    })
+    .filter(Boolean);
+
+  homeRecentHqs.innerHTML = recentSeries
     .map(
-      (hq) => `
-        <a class="recent-hq-card" href="${assetPath(hq.href)}">
+      (series) => `
+        <a class="recent-hq-card" href="${assetPath(series.href)}">
           <span class="recent-hq-cover">
-            <img src="${imageAssetPath(hq.cover)}" alt="Capa de ${escapeHtml(hq.shortTitle || hq.title)}" />
+            <img src="${imageAssetPath(series.cover)}" alt="Capa de ${escapeHtml(series.coverTitle)}" />
           </span>
           <span class="recent-hq-body">
-            <span class="recent-hq-kicker">${escapeHtml(hq.universe || "HQ")}</span>
-            <strong>${escapeHtml(hq.shortTitle || hq.title)}</strong>
-            <small>${escapeHtml(hq.series || hq.universe || "HQ")}</small>
+            <span class="recent-hq-kicker">${escapeHtml(series.universe || "Série")}</span>
+            <strong>${escapeHtml(series.title)}</strong>
+            <small>${escapeHtml(series.character || series.universe || "Série")}</small>
             <span class="recent-hq-meta">
-              <span>${escapeHtml(comicYear(hq))}</span>
-              <span>${formatNumber(hq.pageCount || 0)} páginas</span>
+              <span>${escapeHtml(series.year || "Ano")}</span>
+              <span>Série</span>
             </span>
           </span>
         </a>
