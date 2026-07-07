@@ -108,6 +108,15 @@ export const articles = [
       "Quarta edição da série clássica Daredevil, marcando a primeira aparição de Killgrave, o Homem-Púrpura, com roteiro de Stan Lee e arte de Joe Orlando."
   },
   {
+    id: "daredevil-5-1964",
+    title: "Daredevil #5",
+    category: "Edição",
+    year: "1964",
+    tags: ["Marvel Comics", "Demolidor", "Matador"],
+    summary:
+      "Quinta edição da série clássica Daredevil, apresentando o Matador, com roteiro de Stan Lee, arte de Wally Wood e 22 páginas."
+  },
+  {
     id: "x-men-outback-2026",
     title: "X-Men: Outback (2026)",
     category: "Série",
@@ -656,6 +665,20 @@ export const acervo = [
     xpReward: 23,
     fileName: "daredevil-4-1964.html",
     keywords: ["Demolidor", "Matt Murdock", "Homem-Púrpura", "Killgrave", "Purple Man", "Zebediah Killgrave"]
+  },
+  {
+    tipo: "hq",
+    id: "daredevil-5-1964",
+    title: "Daredevil #5 (1964)",
+    shortTitle: "Daredevil #5",
+    universe: "Marvel",
+    series: "Daredevil (1964)",
+    href: "Universos/Marvel/Demolidor/daredevil-5-1964.html",
+    cover: "Universos/Marvel/Demolidor/1964 - Daredevil%235.jpg",
+    pageCount: 22,
+    xpReward: 22,
+    fileName: "daredevil-5-1964.html",
+    keywords: ["Demolidor", "Matt Murdock", "Matador", "Manuel Eloganto", "Wally Wood", "Foggy Nelson", "Karen Page"]
   },
   {
     tipo: "hq",
