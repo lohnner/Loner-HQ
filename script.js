@@ -194,6 +194,10 @@ function rootPath() {
     return "../../../";
   }
 
+  if (path.includes("/Universos/DC Universe/52/")) {
+    return "../../../";
+  }
+
   if (path.includes("/Universos/DC Universe/")) {
     return "../../";
   }
