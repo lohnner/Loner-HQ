@@ -144,6 +144,15 @@ export const articles = [
       "Oitava edição da série clássica Daredevil, apresentando a primeira aparição de Stilt-Man, com roteiro de Stan Lee, arte de Wally Wood e 20 páginas."
   },
   {
+    id: "daredevil-9-1965",
+    title: "Daredevil #9",
+    category: "Edição",
+    year: "1965",
+    tags: ["Marvel Comics", "Demolidor", "Lichtenbad"],
+    summary:
+      "Nona edição da série clássica Daredevil, levando Matt Murdock ao reino de Lichtenbad, com roteiro de Stan Lee, arte de Wally Wood e Bob Powell e 20 páginas."
+  },
+  {
     id: "x-men-outback-2026",
     title: "X-Men: Outback (2026)",
     category: "Série",
@@ -748,6 +757,20 @@ export const acervo = [
     xpReward: 20,
     fileName: "daredevil-8-1965.html",
     keywords: ["Demolidor", "Matt Murdock", "Stilt-Man", "Wilbur Day", "Carl Kaxton", "Wally Wood", "Foggy Nelson", "Karen Page"]
+  },
+  {
+    tipo: "hq",
+    id: "daredevil-9-1965",
+    title: "Daredevil #9 (1965)",
+    shortTitle: "Daredevil #9",
+    universe: "Marvel",
+    series: "Daredevil (1964)",
+    href: "Universos/Marvel/Demolidor/daredevil-9-1965.html",
+    cover: "Universos/Marvel/Demolidor/1964 - Daredevil%239.jpg",
+    pageCount: 20,
+    xpReward: 20,
+    fileName: "daredevil-9-1965.html",
+    keywords: ["Demolidor", "Matt Murdock", "Klaus Kruger", "Doutor Van Eyck", "Lichtenbad", "Wally Wood", "Bob Powell"]
   },
   {
     tipo: "hq",
