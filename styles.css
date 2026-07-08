@@ -1628,8 +1628,9 @@ html.loner-page-leaving .sidebar {
 
 .volume-gallery {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 190px));
-  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(110px, 124px));
+  justify-content: center;
+  gap: 12px;
   align-items: start;
 }
 
