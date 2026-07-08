@@ -124,8 +124,11 @@ let readersButton = null;
 let pendingAuthError = "";
 let currentSiteFingerprint = "";
 let siteUpdateCheckInFlight = false;
+let pageLeaveTimer = 0;
 
 renderCachedProfile();
+resetPageTransition();
+window.addEventListener("pageshow", resetPageTransition);
 startSiteUpdateWatcher();
 
 function rootPath() {
@@ -369,10 +372,21 @@ function prefersReducedMotion() {
   return window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
 }
 
+function resetPageTransition() {
+  document.documentElement.classList.remove("loner-page-leaving");
+
+  if (pageLeaveTimer) {
+    window.clearTimeout(pageLeaveTimer);
+    pageLeaveTimer = 0;
+  }
+}
+
 function leavePage(url, options = {}) {
   if (!url) {
     return;
   }
+
+  resetPageTransition();
 
   if (prefersReducedMotion()) {
     if (options.replace) {
@@ -385,7 +399,9 @@ function leavePage(url, options = {}) {
 
   document.documentElement.classList.add("loner-page-leaving");
 
-  window.setTimeout(() => {
+  pageLeaveTimer = window.setTimeout(() => {
+    pageLeaveTimer = 0;
+
     if (options.replace) {
       window.location.replace(url);
     } else {
