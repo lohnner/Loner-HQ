@@ -101,8 +101,8 @@ const homeRecentSeries = [
     coverComicId: "x-men-outback-1-2026"
   },
   {
-    seriesId: "daredevil-1964",
-    coverComicId: "daredevil-1-1964"
+    seriesId: "dc-52-2006",
+    coverComicId: "dc-52-1-2006"
   }
 ];
 const smartSearchForm = document.querySelector("#smartSearchForm");
