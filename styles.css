@@ -1628,8 +1628,7 @@ html.loner-page-leaving .sidebar {
 
 .volume-gallery {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(110px, 124px));
-  justify-content: center;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
   gap: 12px;
   align-items: start;
 }
@@ -2333,6 +2332,10 @@ html.loner-page-leaving .sidebar {
 
   .recent-hq-list {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .volume-gallery {
+    grid-template-columns: repeat(auto-fit, minmax(118px, 1fr));
   }
 }
 
