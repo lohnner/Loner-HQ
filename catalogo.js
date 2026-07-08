@@ -117,6 +117,15 @@ export const articles = [
       "Quinta edição da série clássica Daredevil, apresentando o Matador, com roteiro de Stan Lee, arte de Wally Wood e 22 páginas."
   },
   {
+    id: "daredevil-6-1964",
+    title: "Daredevil #6",
+    category: "Edição",
+    year: "1964",
+    tags: ["Marvel Comics", "Demolidor", "Mister Fear"],
+    summary:
+      "Sexta edição da série clássica Daredevil, apresentando Mister Fear e a Fellowship of Fear, com roteiro de Stan Lee, arte de Wally Wood e 21 páginas."
+  },
+  {
     id: "x-men-outback-2026",
     title: "X-Men: Outback (2026)",
     category: "Série",
@@ -679,6 +688,20 @@ export const acervo = [
     xpReward: 22,
     fileName: "daredevil-5-1964.html",
     keywords: ["Demolidor", "Matt Murdock", "Matador", "Manuel Eloganto", "Wally Wood", "Foggy Nelson", "Karen Page"]
+  },
+  {
+    tipo: "hq",
+    id: "daredevil-6-1964",
+    title: "Daredevil #6 (1964)",
+    shortTitle: "Daredevil #6",
+    universe: "Marvel",
+    series: "Daredevil (1964)",
+    href: "Universos/Marvel/Demolidor/daredevil-6-1964.html",
+    cover: "Universos/Marvel/Demolidor/1964 - Daredevil%236.jpg",
+    pageCount: 21,
+    xpReward: 21,
+    fileName: "daredevil-6-1964.html",
+    keywords: ["Demolidor", "Matt Murdock", "Mister Fear", "Zoltan Drago", "Fellowship of Fear", "Ox", "Eel", "Wally Wood"]
   },
   {
     tipo: "hq",
