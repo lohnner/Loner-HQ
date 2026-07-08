@@ -90,6 +90,42 @@ export const articles = [
       "Minissérie da Marvel Comics iniciada em 2020, com roteiro de Kieron Gillen e arte de Jacen Burrows, apresentando uma história de origem de Marneus Calgar."
   },
   {
+    id: "dc-52-2006",
+    title: "2006 - 52",
+    category: "S\u00e9rie",
+    year: "2006",
+    tags: ["DC Comics", "DC Universe", "Infinite Crisis"],
+    summary:
+      "S\u00e9rie semanal da DC Comics publicada em 2006, acompanhando o ano perdido do DC Universe depois de Infinite Crisis."
+  },
+  {
+    id: "dc-52-1-2006",
+    title: "52 #1",
+    category: "Edi\u00e7\u00e3o",
+    year: "2006",
+    tags: ["DC Comics", "52", "Booster Gold"],
+    summary:
+      "Primeira edi\u00e7\u00e3o da s\u00e9rie semanal 52, abrindo o ano sem Superman, Batman e Mulher-Maravilha no centro do DC Universe."
+  },
+  {
+    id: "dc-52-2-2006",
+    title: "52 #2",
+    category: "Edi\u00e7\u00e3o",
+    year: "2006",
+    tags: ["DC Comics", "52", "Ralph Dibny"],
+    summary:
+      "Segunda edi\u00e7\u00e3o da s\u00e9rie semanal 52, com Ralph Dibny, Booster Gold, Renee Montoya e o Quest\u00e3o em novas investiga\u00e7\u00f5es."
+  },
+  {
+    id: "dc-52-3-2006",
+    title: "52 #3",
+    category: "Edi\u00e7\u00e3o",
+    year: "2006",
+    tags: ["DC Comics", "52", "Black Adam"],
+    summary:
+      "Terceira edi\u00e7\u00e3o da s\u00e9rie semanal 52, destacando Black Adam em Kahndaq e o mist\u00e9rio investigado por John Henry Irons."
+  },
+  {
     id: "warhammer-40-000-marneus-calgar-1-2020",
     title: "Marneus Calgar #1",
     category: "Edição",
@@ -372,6 +408,14 @@ export const acervo = [
     href: "Universos/DC Universe/Batman/batman-2025.html"
   },
   {
+    tipo: "serie",
+    id: "dc-52-2006",
+    title: "2006 - 52",
+    year: "2006",
+    universe: "DC Universe",
+    href: "Universos/DC Universe/52/52-2006.html"
+  },
+  {
     tipo: "hq",
     id: "star-wars-1-1977",
     title: "Star Wars #1 (1977)",
@@ -474,6 +518,48 @@ export const acervo = [
     pageCount: 22,
     xpReward: 22,
     fileName: "batman-4-2025.html"
+  },
+  {
+    tipo: "hq",
+    id: "dc-52-1-2006",
+    title: "52 #1 (2006)",
+    shortTitle: "52 #1",
+    universe: "DC Universe",
+    series: "2006 - 52",
+    href: "Universos/DC Universe/52/52-1-2006.html",
+    cover: "Universos/DC Universe/52/2006%20-%2052%20%231.png",
+    pageCount: 24,
+    xpReward: 24,
+    fileName: "52-1-2006.html",
+    keywords: ["DC Comics", "52", "Booster Gold", "Black Adam", "Renee Montoya", "Ralph Dibny"]
+  },
+  {
+    tipo: "hq",
+    id: "dc-52-2-2006",
+    title: "52 #2 (2006)",
+    shortTitle: "52 #2",
+    universe: "DC Universe",
+    series: "2006 - 52",
+    href: "Universos/DC Universe/52/52-2-2006.html",
+    cover: "Universos/DC Universe/52/2006%20-%2052%20%232.png",
+    pageCount: 26,
+    xpReward: 26,
+    fileName: "52-2-2006.html",
+    keywords: ["DC Comics", "52", "Ralph Dibny", "Booster Gold", "Renee Montoya", "Questao"]
+  },
+  {
+    tipo: "hq",
+    id: "dc-52-3-2006",
+    title: "52 #3 (2006)",
+    shortTitle: "52 #3",
+    universe: "DC Universe",
+    series: "2006 - 52",
+    href: "Universos/DC Universe/52/52-3-2006.html",
+    cover: "Universos/DC Universe/52/2006%20-%2052%20%233.png",
+    pageCount: 26,
+    xpReward: 26,
+    fileName: "52-3-2006.html",
+    keywords: ["DC Comics", "52", "Black Adam", "Steel", "John Henry Irons", "Lex Luthor"]
   },
   {
     tipo: "hq",
