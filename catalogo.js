@@ -135,6 +135,15 @@ export const articles = [
       "Sétima edição da série clássica Daredevil, colocando o Demolidor em combate contra o Sub-Mariner, com roteiro de Stan Lee, arte de Wally Wood e 22 páginas."
   },
   {
+    id: "daredevil-8-1965",
+    title: "Daredevil #8",
+    category: "Edição",
+    year: "1965",
+    tags: ["Marvel Comics", "Demolidor", "Stilt-Man"],
+    summary:
+      "Oitava edição da série clássica Daredevil, apresentando a primeira aparição de Stilt-Man, com roteiro de Stan Lee, arte de Wally Wood e 20 páginas."
+  },
+  {
     id: "x-men-outback-2026",
     title: "X-Men: Outback (2026)",
     category: "Série",
@@ -725,6 +734,20 @@ export const acervo = [
     xpReward: 22,
     fileName: "daredevil-7-1965.html",
     keywords: ["Demolidor", "Matt Murdock", "Sub-Mariner", "Namor", "Warlord Krang", "Wally Wood", "uniforme vermelho"]
+  },
+  {
+    tipo: "hq",
+    id: "daredevil-8-1965",
+    title: "Daredevil #8 (1965)",
+    shortTitle: "Daredevil #8",
+    universe: "Marvel",
+    series: "Daredevil (1964)",
+    href: "Universos/Marvel/Demolidor/daredevil-8-1965.html",
+    cover: "Universos/Marvel/Demolidor/1964 - Daredevil%238.jpg",
+    pageCount: 20,
+    xpReward: 20,
+    fileName: "daredevil-8-1965.html",
+    keywords: ["Demolidor", "Matt Murdock", "Stilt-Man", "Wilbur Day", "Carl Kaxton", "Wally Wood", "Foggy Nelson", "Karen Page"]
   },
   {
     tipo: "hq",
